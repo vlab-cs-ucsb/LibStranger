@@ -1,0 +1,16 @@
+ACLOCAL_AMFLAGS = -I m4
+
+lib_LTLIBRARIES = libstranger.la
+libstranger_la_SOURCES = src/arithmetic.c src/auto_core_ops.c src/backward.c \
+		src/function_models.c src/graph.c src/multi_signature_generator.c \
+		src/multi_track.c src/pre_suffix.c src/replace.c \
+		src/test.c src/utility.c src/utility.h src/widening.c src/stranger.h \
+		src/stranger_lib_internal.h
+libstranger_la_LDFLAGS = -version-info 0:1:0
+libstranger_la_LIBADD = $(MONADFALIB) $(MONABDDLIB) $(MONAMEMLIB) $(MLIB)
+libstranger_ladir = $(includedir)/stranger
+libstranger_la_HEADERS = src/stranger.h
+
+MAINTAINERCLEANFILES = configure stamp-h.in makefile makefile.in aclocal.m4 \
+	  config.h.in config.log config.status build-aux/missing configure.lineno \
+	  m4
