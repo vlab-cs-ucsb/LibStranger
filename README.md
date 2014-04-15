@@ -56,7 +56,8 @@ LibStranger you may need to include stranger\_lib\_internal.h and/or MONA header
 
 Test & Usage
 ============
-You can run the testprogram to test stranger library. Here is how to compile and
+You can compile & run the simple test program [test_stranger.c](testprogram/test_stranger.c) 
+that comes with LibStranger to test stranger library. Here is how to compile and 
 run this program:
 ```bash
 $> cd testprogram
@@ -73,5 +74,5 @@ the mona file DFA/makebasic.c.
 
 Read documentation in [stranger.h](src/stranger.h) to get an idea of LibStranger 
 library interface and the different functions that can be called. You can look at 
-[test_stranger.c](testprogram/test_stranger.c) for examples on how to use LibStranger to analyze C and PHP 
-programs.
+[test_stranger.c](testprogram/test_stranger.c) for examples on how to use LibStranger 
+to analyze C and PHP programs.
