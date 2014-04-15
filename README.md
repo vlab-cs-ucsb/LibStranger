@@ -56,4 +56,22 @@ LibStranger you may need to include stranger\_lib\_internal.h and/or MONA header
 
 Test & Usage
 ============
-Read documentation in [stranger.h](stranger.h) to get an idea of LibStranger library interface and the different functions that can be called. You can look at [test.c](test.c) for examples on how to use LibStranger to analyze C and PHP programs.
+You can run the testprogram to test stranger library. Here is how to compile and
+run this program:
+```bash
+$> cd testprogram
+$> gcc test_stranger.c -o test_stranger -l monabdd -l monadfa -l monamem -l stranger
+$> sudo ldconfig
+$> ./test_stranger
+```
+If you get a MONA invariant violation error message in make_basic.c then edit 
+the mona file DFA/makebasic.c.
+```c
+#define MAX_EXCEPTION 50   /* change this to 2000. You can use a number as large number as you want */
+#define MAX_VARIABLES 10   /* change this to 20. You can use 30 if you want. */
+```
+
+Read documentation in [stranger.h](stranger.h) to get an idea of LibStranger 
+library interface and the different functions that can be called. You can look at 
+[test.c](test.c) for examples on how to use LibStranger to analyze C and PHP 
+programs.
