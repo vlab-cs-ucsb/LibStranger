@@ -73,5 +73,5 @@ the mona file DFA/makebasic.c.
 
 Read documentation in [stranger.h](stranger.h) to get an idea of LibStranger 
 library interface and the different functions that can be called. You can look at 
-[test.c](test.c) for examples on how to use LibStranger to analyze C and PHP 
+[test_program.c](testprogram/test_program.c) for examples on how to use LibStranger to analyze C and PHP 
 programs.
