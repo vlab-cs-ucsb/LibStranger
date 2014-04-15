@@ -33,7 +33,9 @@ $> sudo cp BDD/bdd_dump.h /usr/local/include/mona
 
 After that, run 
 ```bash
-autoget.sh 
+$> 
+$> chmod u+x autogen.sh
+$> ./autogen.sh 
 ```
 to create the GNU autotools files.
 Then run
