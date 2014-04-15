@@ -71,7 +71,7 @@ the mona file DFA/makebasic.c.
 #define MAX_VARIABLES 10   /* change this to 20. You can use 30 if you want. */
 ```
 
-Read documentation in [stranger.h](stranger.h) to get an idea of LibStranger 
+Read documentation in [stranger.h](src/stranger.h) to get an idea of LibStranger 
 library interface and the different functions that can be called. You can look at 
-[test_program.c](testprogram/test_program.c) for examples on how to use LibStranger to analyze C and PHP 
+[test_stranger.c](testprogram/test_stranger.c) for examples on how to use LibStranger to analyze C and PHP 
 programs.
