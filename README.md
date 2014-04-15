@@ -31,20 +31,28 @@ $> sudo cp BDD/bdd_external.h /usr/local/include/mona
 $> sudo cp BDD/bdd_dump.h /usr/local/include/mona
 ```
 
-After that, run 
+After that, clone LibStranger to your machine (or download the automatic zip file provided 
+by github) 
 ```bash
-$> 
+$> mkdir LibStranger
+$> cd LibStranger
+$> git clone git@github.com:vlab-cs-ucsb/LibStranger.git .
 $> chmod u+x autogen.sh
 $> ./autogen.sh 
 ```
-to create the GNU autotools files.
-Then run
+The last step will create the GNU autotools files (i.e., configure script and makefiles) 
+from the two manually written files, configure.ac and makefile.am.
+
+Then we use the normal autotools installation system:
 ```bash
-./configure
-make
-make install
+$> ./configure
+$> make
+$> sudo make install
 ```
-The output of the compilation will be a dynamic library called libstranger.so (or libstranger.dylib on Mac OS X). You need to include stranger.h in your program and link your program against LibStranger and MONA. If you need to get more involved with LibStranger you may need to include stranger\_lib\_internal.h and/or MONA header files.
+The output of the compilation will be a dynamic library called libstranger.so (or 
+libstranger.dylib on Mac OS X). You need to include stranger.h in your program and link 
+your program against LibStranger and MONA. If you need to get more involved with 
+LibStranger you may need to include stranger\_lib\_internal.h and/or MONA header files.
 
 Test & Usage
 ============
