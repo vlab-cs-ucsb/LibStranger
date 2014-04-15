@@ -1,11 +1,15 @@
 LibStranger
 ========
-LibStranger is an Automata-Based Symbolic String Analysis Library. You can use LibStranger 
-to solve string constraints and/or compute pre and post-images of string manipulation 
-operations such as concatenation and replacement. It can handle complex regular-expression 
-based replace operations such as PHP's preg_replace and approximate these operations in 
-the presence of unbounded loops with high precision and smooth performance. It can also be
-used to do automatic repair for such bugs. LibStranger stands for STRing AutomatoN GEneratoR 
+LibStranger is an Automata-Based Symbolic String Analysis Library. You
+can use LibStranger to solve string constraints and/or compute pre and
+post-images of string manipulation operations such as concatenation and
+replacement. It can handle complex regular-expression based replace
+operations such as PHP's preg_replace and approximate these operations
+in the presence of unbounded loops with high precision and smooth
+performance. In addition, LibStranger provides fast and precise modeling
+for common string functions such as trim, substring, toUpperCase and
+toLowerCase and complex sanitization functions such as PHP's addslashes
+and htmlspecialchars. LibStranger stands for STRing AutomatoN GEneratoR
 Library.
 
 Installation
