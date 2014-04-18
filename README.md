@@ -94,6 +94,9 @@ libmonadfa.so        libmonamem.la
 libmonadfa.so.1      libmonamem.so
 $> ls /usr/local/include/stranger
 stranger.h
+$> sudo ldconfig
+# following is optional, see next paragraph
+$> sudo cp src/stranger_lib_internal.h /usr/local/include/stranger/
 ```
 The output of the compilation will be a dynamic library called libstranger.so (or 
 libstranger.dylib on Mac OS X). The library will be installed by default under
