@@ -3297,9 +3297,9 @@ int dfaPrintBDD(DFA *a, char *filename, int var)
         file = stdout;
         fprintf(file, "\n\n\n");
     }
-    fprintf(file, "*****************************************************\n");
-    fprintf(file, "*                  MONA DFA BDD                     *\n");
-    fprintf(file, "*****************************************************\n");
+    //fprintf(file, "*****************************************************\n");
+    //fprintf(file, "*                  MONA DFA BDD                     *\n");
+    //fprintf(file, "*****************************************************\n");
     
     /* remove all marks in a->bddm */
     bdd_prepare_apply1(a->bddm);
@@ -3317,15 +3317,11 @@ int dfaPrintBDD(DFA *a, char *filename, int var)
     }
     
     /* write to file */
-    fprintf(file,
-            "number of variables: %u\n", var);
+    //fprintf(file,            "number of variables: %u\n", var);
     
-    fprintf(file,
-            "states: %u\n"
-            "bdd nodes: %u\n",
-            a->ns, table->noelems);
+    //fprintf(file,            "states: %u\n"            "bdd nodes: %u\n",            a->ns, table->noelems);    
     
-    fprintf(file,
+	fprintf(file,
             "digraph MONA_DFA_BDD {\n"
             "  center = true;\n"
             "  size = \"100.5,70.5\"\n"
