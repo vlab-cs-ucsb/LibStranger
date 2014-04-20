@@ -110,17 +110,16 @@ Test & Usage
 ============
 You can compile & run the simple test program [test_stranger.c](testprogram/test_stranger.c) 
 that comes with LibStranger to test stranger library. Here is how to compile and 
-run this program (see next if you get **buffer overflow**):
+run this program (see next to fix **invariant violation**):
 ```bash
 $> cd testprogram
 $> gcc test_stranger.c -o test_stranger -l monabdd -l monadfa -l monamem -l stranger
 $> sudo ldconfig
 $> ./test_stranger
 ```
-You may get a MONA invariant violation error message in make\_basic.c or sometimes  
-a buffer overflow as is the case with provided [test_stranger.c](testprogram/test_stranger.c).
+You may get a MONA invariant violation error message in make\_basic.c with provided [test_stranger.c](testprogram/test_stranger.c).
 This is the result of not having enough number of BDD variables. To fix this edit 
-the following two lines (27, 28) in mona source file DFA/makebasic.c:
+the following two lines (27, 28) in mona source file DFA/makebasic.c and recompile mona:
 ```c
 // These two constants are used to allocate some static buffers. 
 // So they affect memory performance.
