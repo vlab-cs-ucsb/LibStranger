@@ -19,7 +19,7 @@ AC_CONFIG_MACRO_DIR([m4])
 
 # Initialize Automake. Turn on all Automake warnings and report them as errors. 
 # This is a foreign package (no need for INSTALL NEWS ...etc)
-AM_INIT_AUTOMAKE([subdir-objects foreign -Wall -Werror])
+AM_INIT_AUTOMAKE([subdir-objects foreign -Wall])
 
 # Initialize libtool. Declare this project as a libtool library not an executable program
 LT_INIT
