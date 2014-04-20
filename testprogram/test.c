@@ -20,8 +20,8 @@
  * Authors: Muath Alkhalaf, Fang Yu
  */
 
-#include"stranger.h"
-#include "stranger_lib_internal.h"
+#include <stranger/stranger.h>
+#include <stranger/stranger_lib_internal.h>
 /*********************************************
 
  TEST FUNCTION
@@ -621,7 +621,6 @@ void dfa_test_basic(int var, int *indices) {
 	char *c2 = "k";
 	char *c3 = "ddd";
 
-
 	printf("\n\nSTART TESTING...............\n");
 	printf("\n 1. ac\n");
 
@@ -795,7 +794,6 @@ void dfa_test_strlen() {
 
 	//++ptr
 
-
 	atmp = dfaCopy(a[0]);
 	stmp = dfaCopy(ptr[0]);
 	itr = 0;
@@ -836,8 +834,9 @@ void dfa_test_strlen() {
 			constant = -1;
 			reset_coeffs(coeffs2, var);
 			coeffs2[4] = 1;
-			a[1] = dfaMinimize(dfa_forward_image_two_stmt(atmp, 0, -1, coeffs,
-					constant, 4, -1, coeffs2, 1, map, indices, var));
+			a[1] = dfaMinimize(
+					dfa_forward_image_two_stmt(atmp, 0, -1, coeffs, constant, 4,
+							-1, coeffs2, 1, map, indices, var));
 			printf("DFA Post %d:\n", itr);
 			dfaPrintVerbose(a[1]);
 
@@ -865,10 +864,8 @@ void dfa_test_strlen() {
 
 			// alternative for forward_image
 
-
 			//alternative for widening
 			//atmp = dfaProduct(a[1], atmp, dfaOR);
-
 			a[1] = dfaMinimize(dfaProduct(a[1], atmp, dfaOR));
 			printf("DFA OR %d:\n", itr);
 			dfaPrintVerbose(a[1]);
@@ -903,8 +900,8 @@ void dfa_test_strlen() {
 		}
 	}
 
-	ptr[2] = dfaMinimize(dfaProduct(ptr[0], dfaASCIIOnlyNullString(svar,
-			sindices), dfaAND));
+	ptr[2] = dfaMinimize(
+			dfaProduct(ptr[0], dfaASCIIOnlyNullString(svar, sindices), dfaAND));
 	dfaPrintVerbose(ptr[2]);
 
 	uL = dfa_string_to_unaryDFA(ptr[2], svar, sindices);
@@ -983,10 +980,9 @@ void dfa_test_strrchr(int n) {
 
 	//while(*s!='\0')
 	stmpb = dfaASCIINotNullString(svar, sindices);
-	stmpc
-			= dfa_concat_extrabit(dfa_construct_string("c", svar, sindices),
-					dfaAllStringASCIIExceptReserveWords(svar, sindices), svar,
-					sindices);
+	stmpc = dfa_concat_extrabit(dfa_construct_string("c", svar, sindices),
+			dfaAllStringASCIIExceptReserveWords(svar, sindices), svar,
+			sindices);
 
 	assert = dfaMinimize(dfaProduct(rlt, stmpc, dfaOR));
 	//arbitrary input
@@ -1065,7 +1061,6 @@ void dfa_test_samba() {
 	DFA* winsreq = NULL; //string automaton
 	DFA* a; //an arithmetic automaton
 
-
 	//arithmetic automaton
 	int* indices;
 	int* map;
@@ -1077,7 +1072,6 @@ void dfa_test_samba() {
 	//string automaton
 	int svar = NUM_ASCII_TRACKS;
 	int* sindices = allocateAscIIIndexWithExtraBit(NUM_ASCII_TRACKS);
-
 
 	//semiliner
 	DFA* uL = NULL;
@@ -1174,7 +1168,6 @@ void dfa_test_samba_ok() {
 	DFA* winsreq = NULL; //string automaton
 	DFA* a; //an arithmetic automaton
 
-
 	//arithmetic automaton
 	int* indices;
 	int* map;
@@ -1186,7 +1179,6 @@ void dfa_test_samba_ok() {
 	//string automaton
 	int svar = NUM_ASCII_TRACKS;
 	int* sindices = allocateAscIIIndexWithExtraBit(NUM_ASCII_TRACKS);
-
 
 	//semiliner
 	DFA* uL = NULL;
@@ -1345,13 +1337,11 @@ DFA* construct_limit(DFA* M, int svar, int* sindices) {
 	int var = 2; //0: attack.length, 2: limit
 	DFA* a; //an arithmetic automaton
 
-
 	//arithmetic automaton
 	int* indices;
 	int* map;
 	int* coeffs;
 	int constant = 0;
-
 
 	//semiliner
 
@@ -1389,7 +1379,6 @@ void dfa_test_myez() {
 	int* coeffs;
 	int constant = 0;
 
-
 	//string automaton
 	int svar = NUM_ASCII_TRACKS;
 	int* sindices = allocateAscIIIndexWithExtraBit(NUM_ASCII_TRACKS);
@@ -1408,11 +1397,12 @@ void dfa_test_myez() {
 	dfa_init_indices_map_coeffs(indices, map, coeffs, var);
 
 	//attack strings
-	attack = dfa_concat_extrabit(dfaAllStringASCIIExceptReserveWords(svar,
-			sindices), dfa_construct_string("<script ", svar, sindices), svar,
+	attack = dfa_concat_extrabit(
+			dfaAllStringASCIIExceptReserveWords(svar, sindices),
+			dfa_construct_string("<script ", svar, sindices), svar, sindices);
+	attack = dfa_concat_extrabit(attack,
+			dfaAllStringASCIIExceptReserveWords(svar, sindices), svar,
 			sindices);
-	attack = dfa_concat_extrabit(attack, dfaAllStringASCIIExceptReserveWords(
-			svar, sindices), svar, sindices);
 
 	//string analysis
 	M[0] = dfaAllStringASCIIExceptReserveWords(svar, sindices); //$www
@@ -1426,11 +1416,11 @@ void dfa_test_myez() {
 	dfaFree(M[0]);
 	M[0] = dfa_construct_string("<td>", svar, sindices);
 	M[0] = dfa_concat_extrabit(M[0], M[1], svar, sindices);
-	M[0] = dfa_concat_extrabit(M[0],
-			dfa_construct_string(": ", svar, sindices), svar, sindices);
+	M[0] = dfa_concat_extrabit(M[0], dfa_construct_string(": ", svar, sindices),
+			svar, sindices);
 	M[0] = dfa_concat_extrabit(M[0], M[3], svar, sindices);
-	M[0] = dfa_concat_extrabit(M[0], dfa_construct_string("</td>", svar,
-			sindices), svar, sindices);
+	M[0] = dfa_concat_extrabit(M[0],
+			dfa_construct_string("</td>", svar, sindices), svar, sindices);
 
 	//dfaPrintVitals(M[0]);
 
@@ -1494,7 +1484,6 @@ void dfa_test_gxine() {
 	DFA* sunpath = NULL; //string automaton
 	DFA* a; //an arithmetic automaton
 
-
 	//arithmetic automaton
 	int* indices;
 	int* map;
@@ -1506,7 +1495,6 @@ void dfa_test_gxine() {
 	//string automaton
 	int svar = NUM_ASCII_TRACKS;
 	int* sindices = allocateAscIIIndexWithExtraBit(NUM_ASCII_TRACKS);
-
 
 	//semiliner
 	DFA* uL = NULL;
@@ -1600,7 +1588,6 @@ void dfa_test_gxine_ok() {
 	DFA* sunpath = NULL; //string automaton
 	DFA* a; //an arithmetic automaton
 
-
 	//arithmetic automaton
 	int* indices;
 	int* map;
@@ -1612,7 +1599,6 @@ void dfa_test_gxine_ok() {
 	//string automaton
 	int svar = NUM_ASCII_TRACKS;
 	int* sindices = allocateAscIIIndexWithExtraBit(NUM_ASCII_TRACKS);
-
 
 	//semiliner
 	DFA* uL = NULL;
@@ -1692,14 +1678,13 @@ void dfa_test_gxine_ok() {
 
 }
 
-
-void dfa_test_replace(int var, int* indices){
+void dfa_test_replace(int var, int* indices) {
 	printf("Running dfa_test_replace.\n");
 	DFA* m[50];
 //	1 = makeString(<SCRIPT)
-	m[0] = dfa_construct_string("<SCRIPT", var, indices);//1
+	m[0] = dfa_construct_string("<SCRIPT", var, indices); //1
 //	2 = makeDot()
-	m[1] = dfaDot(var, indices);//2
+	m[1] = dfaDot(var, indices); //2
 //	3 = kleensStar(2) -- start
 //	2 = closure(2)
 //	3 = unionWithEmptyString(2) -- start
@@ -1709,7 +1694,7 @@ void dfa_test_replace(int var, int* indices){
 //	3 = kleensStar(2) -- end
 	m[2] = dfa_closure_extrabit(m[1], var, indices);
 	m[3] = dfaASCIIOnlyNullString(var, indices);
-	m[4] = dfa_union_with_emptycheck(m[2], m[3], var, indices);//3
+	m[4] = dfa_union_with_emptycheck(m[2], m[3], var, indices); //3
 //	4 = makeOptional(3) -- start
 //	4 = unionWithEmptyString(3) -- start
 //	-100 = makeEmptyString()
@@ -1717,13 +1702,13 @@ void dfa_test_replace(int var, int* indices){
 //	4 = unionWithEmptyString(3) -- end
 //	4 = makeOptional(3) -- end
 	m[5] = dfaASCIIOnlyNullString(var, indices);
-	m[6] = dfa_union_with_emptycheck(m[5], m[4], var, indices);//4
+	m[6] = dfa_union_with_emptycheck(m[5], m[4], var, indices); //4
 //	5 = makeChar(>) -- start
 //	5 = makeString(>)
 //	5 = makeChar(>) -- end
-	m[7] = dfa_construct_string(">", var, indices);//5
+	m[7] = dfa_construct_string(">", var, indices); //5
 //	6 = makeDot()
-	m[8] = dfaDot(var, indices);//6
+	m[8] = dfaDot(var, indices); //6
 //	7 = kleensStar(6) -- start
 //	6 = closure(6)
 //	7 = unionWithEmptyString(6) -- start
@@ -1733,7 +1718,7 @@ void dfa_test_replace(int var, int* indices){
 //	7 = kleensStar(6) -- end
 	m[9] = dfa_closure_extrabit(m[8], var, indices);
 	m[10] = dfaASCIIOnlyNullString(var, indices);
-	m[11] = dfa_union_with_emptycheck(m[10], m[9], var, indices);//7
+	m[11] = dfa_union_with_emptycheck(m[10], m[9], var, indices); //7
 //	8 = makeOptional(7) -- start
 //	8 = unionWithEmptyString(7) -- start
 //	-100 = makeEmptyString()
@@ -1741,11 +1726,11 @@ void dfa_test_replace(int var, int* indices){
 //	8 = unionWithEmptyString(7) -- end
 //	8 = makeOptional(7) -- end
 	m[12] = dfaASCIIOnlyNullString(var, indices);
-	m[13] = dfa_union_with_emptycheck(m[12], m[11], var, indices);//8
+	m[13] = dfa_union_with_emptycheck(m[12], m[11], var, indices); //8
 //	9 = makeString(</SCRIPT)
-	m[14] = dfa_construct_string("</SCRIPT", var, indices);//9
+	m[14] = dfa_construct_string("</SCRIPT", var, indices); //9
 //	10 = makeDot()
-	m[15] = dfaDot(var, indices);//10
+	m[15] = dfaDot(var, indices); //10
 //	11 = kleensStar(10) -- start
 //	10 = closure(10)
 //	11 = unionWithEmptyString(10) -- start
@@ -1755,7 +1740,7 @@ void dfa_test_replace(int var, int* indices){
 //	11 = kleensStar(10) -- end
 	m[16] = dfa_closure_extrabit(m[15], var, indices);
 	m[17] = dfaASCIIOnlyNullString(var, indices);
-	m[18] = dfa_union_with_emptycheck(m[17], m[17], var, indices);//11
+	m[18] = dfa_union_with_emptycheck(m[17], m[17], var, indices); //11
 //	12 = makeOptional(11) -- start
 //	12 = unionWithEmptyString(11) -- start
 //	-100 = makeEmptyString()
@@ -1763,26 +1748,26 @@ void dfa_test_replace(int var, int* indices){
 //	12 = unionWithEmptyString(11) -- end
 //	12 = makeOptional(11) -- end
 	m[19] = dfaASCIIOnlyNullString(var, indices);
-	m[20] = dfa_union_with_emptycheck(m[19], m[18], var, indices);//12
+	m[20] = dfa_union_with_emptycheck(m[19], m[18], var, indices); //12
 //	13 = makeChar(>) -- start
 //	13 = makeString(>)
 //	13 = makeChar(>) -- end
-	m[21] = dfa_construct_string(">", var, indices);//13
+	m[21] = dfa_construct_string(">", var, indices); //13
 //	14 = concatenate(12, 13)
-	m[22] = dfa_concat_extrabit(m[20], m[21], var, indices);//14
+	m[22] = dfa_concat_extrabit(m[20], m[21], var, indices); //14
 //	15 = concatenate(9, 14)
-	m[23] = dfa_concat_extrabit(m[14], m[22], var, indices);//15
+	m[23] = dfa_concat_extrabit(m[14], m[22], var, indices); //15
 //	16 = concatenate(8, 15)
-	m[24] = dfa_concat_extrabit(m[13], m[23], var, indices);//16
+	m[24] = dfa_concat_extrabit(m[13], m[23], var, indices); //16
 //	17 = concatenate(5, 16)
-	m[25] = dfa_concat_extrabit(m[7], m[24], var, indices);//17
+	m[25] = dfa_concat_extrabit(m[7], m[24], var, indices); //17
 //	18 = concatenate(4, 17)
-	m[26] = dfa_concat_extrabit(m[6], m[25], var, indices);//18
+	m[26] = dfa_concat_extrabit(m[6], m[25], var, indices); //18
 //	19 = concatenate(1, 18)
-	m[27] = dfa_concat_extrabit(m[0], m[26], var, indices);//19, 44
+	m[27] = dfa_concat_extrabit(m[0], m[26], var, indices); //19, 44
 
 	char replace_string[] = "SCRIPT BLOCKED";
-	m[28] = dfaAllStringASCIIExceptReserveWords(var, indices);//47
+	m[28] = dfaAllStringASCIIExceptReserveWords(var, indices); //47
 //	calling reg_replace with the following order (47, 44, SCRIPT BLOCKED)
 	m[29] = dfa_replace_extrabit(m[29], m[27], replace_string, var, indices);
 	int i = 0;
@@ -1908,8 +1893,8 @@ void dfa_test_vul1(int var, int *indices) {
 	tmpM = dfa_concat_extrabit(
 			dfaAllStringASCIIExceptReserveWords(var, indices),
 			dfa_construct_string("<script ", var, indices), var, indices);
-	tmpM = dfa_concat_extrabit(tmpM, dfaAllStringASCIIExceptReserveWords(var,
-			indices), var, indices);
+	tmpM = dfa_concat_extrabit(tmpM,
+			dfaAllStringASCIIExceptReserveWords(var, indices), var, indices);
 
 	printf("\n\nSTART Test Vul1 !\n");
 	M[0] = dfaAllStringASCIIExceptReserveWords(var, indices); //$www
@@ -1979,8 +1964,8 @@ void dfa_test_vul1_saint(int var, int *indices) {
 	tmpM = dfa_concat_extrabit(
 			dfaAllStringASCIIExceptReserveWords(var, indices),
 			dfa_construct_string("<script ", var, indices), var, indices);
-	tmpM = dfa_concat_extrabit(tmpM, dfaAllStringASCIIExceptReserveWords(var,
-			indices), var, indices);
+	tmpM = dfa_concat_extrabit(tmpM,
+			dfaAllStringASCIIExceptReserveWords(var, indices), var, indices);
 
 	printf("\n\nSTART Test Vul1 Saint!\n");
 	M[0] = dfaAllStringASCIIExceptReserveWords(var, indices); //$www
@@ -2052,9 +2037,7 @@ void dfa_test_vul1_saint(int var, int *indices) {
 //`.\Sigma*.`='.\Sigma-{'}*.'
 DFA *dfaSpecial4(int var, int *indices) {
 
-
 	char a = '`';
-
 
 	dfaSetup(7, var, indices);
 	//state 0
@@ -2104,7 +2087,6 @@ DFA *dfaSpecial4_1(int var, int *indices) {
 
 	char a = '`';
 
-
 	dfaSetup(6, var, indices);
 	//state 0
 	dfaAllocExceptions(1);
@@ -2147,7 +2129,6 @@ DFA *dfaSpecial4_1(int var, int *indices) {
 DFA *dfaSpecial5(int var, int *indices) {
 
 	char a = '`';
-
 
 	dfaSetup(9, var, indices);
 	//state 0
@@ -2193,7 +2174,6 @@ DFA *dfaSpecial5(int var, int *indices) {
 	dfaStoreException(7, bintostr((unsigned long) a, var));
 	dfaStoreState(8); //sink states
 
-
 	//state 7
 	dfaAllocExceptions(0);
 	dfaStoreState(8); //sink states
@@ -2220,7 +2200,6 @@ DFA *dfaChar(char a, int var, int* indices) {
 	dfaAllocExceptions(0);
 	dfaStoreState(2); //sink states
 
-
 	return dfaMinimize(dfaBuild("0+-"));
 }
 
@@ -2229,7 +2208,6 @@ DFA *dfaChar(char a, int var, int* indices) {
 DFA *dfaSpecial6(int var, int *indices) {
 
 	char a = '`';
-
 
 	dfaSetup(9, var, indices);
 	//state 0
@@ -2275,7 +2253,6 @@ DFA *dfaSpecial6(int var, int *indices) {
 	a = ';';
 	dfaStoreException(7, bintostr((unsigned long) a, var));
 	dfaStoreState(8); //sink states
-
 
 	//state 7
 	dfaAllocExceptions(2);
@@ -2360,7 +2337,6 @@ void dfa_test_vul2(int var, int *indices) {
 
 	//		printf("Widen:\n", j);
 	//		dfaPrintVerbose(M[6]);
-
 
 	M[7] = dfa_construct_string("UPDATE `pblguestbook_config` SET ", var,
 			indices);
@@ -2521,99 +2497,97 @@ void dfa_test_vul2(int var, int *indices) {
 //	dfaFree(M[1]);
 //	dfaFree(M[2]);
 //}
-
-void dfa_test_vul2_saint(int var, int *indices){
+void dfa_test_vul2_saint(int var, int *indices) {
 
 #ifdef _COMPOSITE_ANALYSIS
-  DFA* _a; //limit constraint
+	DFA* _a; //limit constraint
 #endif
-  int i=-1;
-  int j=0;
-  DFA *M[9];
-  //	DFA *tmpM;
-  printf("\n\nSTART Test Vul2 Saint !\n");
-  //	printf("\n\nSTART Test Vul2Saint!\n");
-  //	printf("Only Null String\n");
-  M[0] = dfaASCIIOnlyNullString(var, indices); //$result
-  //	dfaPrintVerbose(M[0]);
-  //	printf("`.Sigma*.'='.Sigma*.'\n");
-  M[1] = dfaSpecial4(var, indices); //`.\Sigma*.'='.\Sigma*.'
-  //	dfaPrintVerbose(M[1]);
-  //	printf("`.Sigma*.'='.Sigma*.', \n");
-  M[2] = dfaSpecial5(var, indices); //`.\Sigma*.'='.\Sigma*."', "
-  //	dfaPrintVerbose(M[2]);
-  //	printf("`Concat 1: .Sigma*.'='.Sigma*\n");
-  M[3] = dfa_concat_extrabit(M[0], M[1], var, indices);
-  //	dfaPrintVerbose(M[3]);
-  //	printf("`Concat 2: .Sigma*.'='.Sigma*`, \n");
-  M[4] = dfa_concat_extrabit(M[0], M[2], var, indices);
-  //	dfaPrintVerbose(M[4]);
-  //	printf("Union Branch\n");
-  M[5] = dfaMinimize(dfaProduct(M[3], M[4], dfaOR));
-  //	dfaPrintVerbose(M[5]);
-  //	printf("Union Iter 0 and Iter 1\n");
-  M[6] = dfaMinimize(dfaProduct(M[0], M[5], dfaOR));
+	int i = -1;
+	int j = 0;
+	DFA *M[9];
+	//	DFA *tmpM;
+	printf("\n\nSTART Test Vul2 Saint !\n");
+	//	printf("\n\nSTART Test Vul2Saint!\n");
+	//	printf("Only Null String\n");
+	M[0] = dfaASCIIOnlyNullString(var, indices); //$result
+	//	dfaPrintVerbose(M[0]);
+	//	printf("`.Sigma*.'='.Sigma*.'\n");
+	M[1] = dfaSpecial4(var, indices); //`.\Sigma*.'='.\Sigma*.'
+	//	dfaPrintVerbose(M[1]);
+	//	printf("`.Sigma*.'='.Sigma*.', \n");
+	M[2] = dfaSpecial5(var, indices); //`.\Sigma*.'='.\Sigma*."', "
+	//	dfaPrintVerbose(M[2]);
+	//	printf("`Concat 1: .Sigma*.'='.Sigma*\n");
+	M[3] = dfa_concat_extrabit(M[0], M[1], var, indices);
+	//	dfaPrintVerbose(M[3]);
+	//	printf("`Concat 2: .Sigma*.'='.Sigma*`, \n");
+	M[4] = dfa_concat_extrabit(M[0], M[2], var, indices);
+	//	dfaPrintVerbose(M[4]);
+	//	printf("Union Branch\n");
+	M[5] = dfaMinimize(dfaProduct(M[3], M[4], dfaOR));
+	//	dfaPrintVerbose(M[5]);
+	//	printf("Union Iter 0 and Iter 1\n");
+	M[6] = dfaMinimize(dfaProduct(M[0], M[5], dfaOR));
 
-  dfaFree(M[0]);
-  dfaFree(M[3]);
-  dfaFree(M[4]);
-  dfaFree(M[5]);
+	dfaFree(M[0]);
+	dfaFree(M[3]);
+	dfaFree(M[4]);
+	dfaFree(M[5]);
 
-  while(i<1 && j<20){
-    j++;
-    printf("Loop Iteration %d\n", j);
-    M[0] = M[6]; //the ith step
-    M[3] = dfa_concat_extrabit(M[0], M[1], var, indices);
-    M[4] = dfa_concat_extrabit(M[0], M[2], var, indices);
-    M[5] = dfaMinimize(dfaProduct(M[3], M[4], dfaOR));
-    M[6] = dfaMinimize(dfaProduct(M[0], M[5], dfaOR)); //the i+1
+	while (i < 1 && j < 20) {
+		j++;
+		printf("Loop Iteration %d\n", j);
+		M[0] = M[6]; //the ith step
+		M[3] = dfa_concat_extrabit(M[0], M[1], var, indices);
+		M[4] = dfa_concat_extrabit(M[0], M[2], var, indices);
+		M[5] = dfaMinimize(dfaProduct(M[3], M[4], dfaOR));
+		M[6] = dfaMinimize(dfaProduct(M[0], M[5], dfaOR)); //the i+1
 //    printf("\n\nBefore Widening:%d\n", j);
 //    dfaPrintVerbose(M[0]);
 //    dfaPrintVerbose(M[6]);
 
-
-    i = check_inclusion(M[6], M[0], var, indices);
-    //		Use widening
+		i = check_inclusion(M[6], M[0], var, indices);
+		//		Use widening
 //    M[6]=dfaWiden(M[0], M[6]);
 //    printf("\n\nAfter Widening:%d\n", j);
 //    dfaPrintVerbose(M[6]);
-    dfaFree(M[0]);
-    dfaFree(M[3]);
-    dfaFree(M[4]);
-    dfaFree(M[5]);
-  }
+		dfaFree(M[0]);
+		dfaFree(M[3]);
+		dfaFree(M[4]);
+		dfaFree(M[5]);
+	}
 
-  dfaFree(M[1]);
-  dfaFree(M[2]);
+	dfaFree(M[1]);
+	dfaFree(M[2]);
 
-  M[7] = dfa_construct_string("UPDATE `pblguestbook_config` SET ", var, indices);
-  M[8] = dfa_concat_extrabit(M[7], M[6], var, indices);
-  //dfaPrintVerbose(M[8]);
-  //Attack string
-  M[1]= dfaSpecial6(var, indices);
-  M[2] = dfa_concat_extrabit(M[7], M[1], var, indices);
+	M[7] = dfa_construct_string("UPDATE `pblguestbook_config` SET ", var,
+			indices);
+	M[8] = dfa_concat_extrabit(M[7], M[6], var, indices);
+	//dfaPrintVerbose(M[8]);
+	//Attack string
+	M[1] = dfaSpecial6(var, indices);
+	M[2] = dfa_concat_extrabit(M[7], M[1], var, indices);
 
-  dfaPrintVitals(M[6]);
-  i = check_intersection(M[8], M[2], var, indices);
-  if(i==0) printf("Result: Secure!\n");
-  else if (i==1) printf("Result: Vulnerable!\n");
-  else printf("Result: error in dfa_test_vul1_saint() !\n");
+	dfaPrintVitals(M[6]);
+	i = check_intersection(M[8], M[2], var, indices);
+	if (i == 0)
+		printf("Result: Secure!\n");
+	else if (i == 1)
+		printf("Result: Vulnerable!\n");
+	else
+		printf("Result: error in dfa_test_vul1_saint() !\n");
 
 #ifdef _COMPOSITE_ANALYSIS
-  _a = construct_limit(M[8], var, indices); //limit constraint
+	_a = construct_limit(M[8], var, indices); //limit constraint
 #endif
 
-  printf("Memory Allocated: %d\n", mem_allocated());
+	printf("Memory Allocated: %d\n", mem_allocated());
 
-
-
-  for(j=6; j<9; j++)
-    dfaFree(M[j]);
-  dfaFree(M[1]);
-  dfaFree(M[2]);
+	for (j = 6; j < 9; j++)
+		dfaFree(M[j]);
+	dfaFree(M[1]);
+	dfaFree(M[2]);
 }
-
-
 
 /***********************************************************************************************
  //Vuln03
@@ -2684,12 +2658,12 @@ void dfa_test_vul3(int var, int *indices) {
 	tmpM = dfa_concat_extrabit(
 			dfaAllStringASCIIExceptReserveWords(var, indices),
 			dfa_construct_string("<script ", var, indices), var, indices);
-	tmpM = dfa_concat_extrabit(tmpM, dfaAllStringASCIIExceptReserveWords(var,
-			indices), var, indices);
+	tmpM = dfa_concat_extrabit(tmpM,
+			dfaAllStringASCIIExceptReserveWords(var, indices), var, indices);
 	tmpM = dfa_concat_extrabit(tmpM, dfa_construct_string(">", var, indices),
 			var, indices);
-	tmpM = dfa_concat_extrabit(tmpM, dfaAllStringASCIIExceptReserveWords(var,
-			indices), var, indices);
+	tmpM = dfa_concat_extrabit(tmpM,
+			dfaAllStringASCIIExceptReserveWords(var, indices), var, indices);
 
 	M[3] = dfa_construct_string("blue", var, indices);
 	M[0] = dfa_construct_string("http://localhost/delbut.png", var, indices);
@@ -2703,27 +2677,30 @@ void dfa_test_vul3(int var, int *indices) {
 
 	M[12] = dfa_construct_string("&nbsp;<IMG SRC=", var, indices);
 	M[12] = dfa_concat_extrabit(M[12], M[2], var, indices);
-	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string(" BORDER=0 ALT=\"",
-			var, indices), var, indices);
+	M[12] = dfa_concat_extrabit(M[12],
+			dfa_construct_string(" BORDER=0 ALT=\"", var, indices), var,
+			indices);
 	M[12] = dfa_concat_extrabit(M[12], M[7], var, indices);
-	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string("\">&nbsp;", var,
-			indices), var, indices);
+	M[12] = dfa_concat_extrabit(M[12],
+			dfa_construct_string("\">&nbsp;", var, indices), var, indices);
 	M[8] = M[12];
 	//	dfaPrintVerbose(M[8]);
 
 	M[12] = dfa_construct_string("&nbsp;<A STYLE=COLOR:", var, indices);
 	M[12] = dfa_concat_extrabit(M[12], M[3], var, indices);
-	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string("; HREF=", var,
-			indices), var, indices);
+	M[12] = dfa_concat_extrabit(M[12],
+			dfa_construct_string("; HREF=", var, indices), var, indices);
 	M[12] = dfa_concat_extrabit(M[12], M[13], var, indices);
-	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string(
-			"?action=delete&id=", var, indices), var, indices);
+	M[12] = dfa_concat_extrabit(M[12],
+			dfa_construct_string("?action=delete&id=", var, indices), var,
+			indices);
 	M[12] = dfa_concat_extrabit(M[12], M[11], var, indices);
-	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string("><IMG SRC=", var,
-			indices), var, indices);
+	M[12] = dfa_concat_extrabit(M[12],
+			dfa_construct_string("><IMG SRC=", var, indices), var, indices);
 	M[12] = dfa_concat_extrabit(M[12], M[0], var, indices);
-	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string(" BORDER=0 ALT=\"",
-			var, indices), var, indices);
+	M[12] = dfa_concat_extrabit(M[12],
+			dfa_construct_string(" BORDER=0 ALT=\"", var, indices), var,
+			indices);
 	M[5] = M[12];
 
 	M[12] = dfa_construct_string("<script", var, indices);
@@ -2731,8 +2708,8 @@ void dfa_test_vul3(int var, int *indices) {
 	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string(">", var, indices),
 			var, indices);
 	M[12] = dfa_concat_extrabit(M[12], M[11], var, indices);
-	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string("</script", var,
-			indices), var, indices);
+	M[12] = dfa_concat_extrabit(M[12],
+			dfa_construct_string("</script", var, indices), var, indices);
 	M[12] = dfa_concat_extrabit(M[12], M[11], var, indices);
 	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string(">", var, indices),
 			var, indices);
@@ -2740,18 +2717,20 @@ void dfa_test_vul3(int var, int *indices) {
 
 	M[12] = dfa_construct_string("&nbsp;<A STYLE=COLOR:", var, indices);
 	M[12] = dfa_concat_extrabit(M[12], M[3], var, indices);
-	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string("; HREF=\"mailto:",
-			var, indices), var, indices);
+	M[12] = dfa_concat_extrabit(M[12],
+			dfa_construct_string("; HREF=\"mailto:", var, indices), var,
+			indices);
 	M[12] = dfa_concat_extrabit(M[12], M[11], var, indices);
-	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string("\"><IMG SRC=",
-			var, indices), var, indices);
+	M[12] = dfa_concat_extrabit(M[12],
+			dfa_construct_string("\"><IMG SRC=", var, indices), var, indices);
 	M[12] = dfa_concat_extrabit(M[12], M[1], var, indices);
-	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string(" BORDER=0 ALT=\"",
-			var, indices), var, indices);
+	M[12] = dfa_concat_extrabit(M[12],
+			dfa_construct_string(" BORDER=0 ALT=\"", var, indices), var,
+			indices);
 	M[6] = M[12];
 	M[6] = dfa_concat_extrabit(M[6], M[9], var, indices);
-	M[6] = dfa_concat_extrabit(M[6], dfa_construct_string("\"></A>&nbsp;", var,
-			indices), var, indices);
+	M[6] = dfa_concat_extrabit(M[6],
+			dfa_construct_string("\"></A>&nbsp;", var, indices), var, indices);
 
 	M[12] = dfa_construct_string(
 			"</TD><TD STYLE=TEXT-ALIGN:right;><FONT SIZE=1>", var, indices);
@@ -2759,8 +2738,9 @@ void dfa_test_vul3(int var, int *indices) {
 	M[12] = dfa_concat_extrabit(M[12], M[8], var, indices);
 	M[12] = dfa_concat_extrabit(M[12], M[5], var, indices);
 
-	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string(
-			"</FONT></TD></TR>", var, indices), var, indices);
+	M[12] = dfa_concat_extrabit(M[12],
+			dfa_construct_string("</FONT></TD></TR>", var, indices), var,
+			indices);
 	M[10] = M[12];
 	M[12] = tmpM;
 
@@ -2854,12 +2834,12 @@ void dfa_test_vul3_saint_fail(int var, int *indices) {
 	tmpM = dfa_concat_extrabit(
 			dfaAllStringASCIIExceptReserveWords(var, indices),
 			dfa_construct_string("<script ", var, indices), var, indices);
-	tmpM = dfa_concat_extrabit(tmpM, dfaAllStringASCIIExceptReserveWords(var,
-			indices), var, indices);
+	tmpM = dfa_concat_extrabit(tmpM,
+			dfaAllStringASCIIExceptReserveWords(var, indices), var, indices);
 	tmpM = dfa_concat_extrabit(tmpM, dfa_construct_string(">", var, indices),
 			var, indices);
-	tmpM = dfa_concat_extrabit(tmpM, dfaAllStringASCIIExceptReserveWords(var,
-			indices), var, indices);
+	tmpM = dfa_concat_extrabit(tmpM,
+			dfaAllStringASCIIExceptReserveWords(var, indices), var, indices);
 
 	M[3] = dfa_construct_string("blue", var, indices);
 	M[0] = dfa_construct_string("http://localhost/delbut.png", var, indices);
@@ -2873,27 +2853,30 @@ void dfa_test_vul3_saint_fail(int var, int *indices) {
 
 	M[12] = dfa_construct_string("&nbsp;<IMG SRC=", var, indices);
 	M[12] = dfa_concat_extrabit(M[12], M[2], var, indices);
-	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string(" BORDER=0 ALT=\"",
-			var, indices), var, indices);
+	M[12] = dfa_concat_extrabit(M[12],
+			dfa_construct_string(" BORDER=0 ALT=\"", var, indices), var,
+			indices);
 	M[12] = dfa_concat_extrabit(M[12], M[7], var, indices);
-	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string("\">&nbsp;", var,
-			indices), var, indices);
+	M[12] = dfa_concat_extrabit(M[12],
+			dfa_construct_string("\">&nbsp;", var, indices), var, indices);
 	M[8] = M[12];
 	//	dfaPrintVerbose(M[8]);
 
 	M[12] = dfa_construct_string("&nbsp;<A STYLE=COLOR:", var, indices);
 	M[12] = dfa_concat_extrabit(M[12], M[3], var, indices);
-	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string("; HREF=", var,
-			indices), var, indices);
+	M[12] = dfa_concat_extrabit(M[12],
+			dfa_construct_string("; HREF=", var, indices), var, indices);
 	M[12] = dfa_concat_extrabit(M[12], M[13], var, indices);
-	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string(
-			"?action=delete&id=", var, indices), var, indices);
+	M[12] = dfa_concat_extrabit(M[12],
+			dfa_construct_string("?action=delete&id=", var, indices), var,
+			indices);
 	M[12] = dfa_concat_extrabit(M[12], M[11], var, indices);
-	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string("><IMG SRC=", var,
-			indices), var, indices);
+	M[12] = dfa_concat_extrabit(M[12],
+			dfa_construct_string("><IMG SRC=", var, indices), var, indices);
 	M[12] = dfa_concat_extrabit(M[12], M[0], var, indices);
-	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string(" BORDER=0 ALT=\"",
-			var, indices), var, indices);
+	M[12] = dfa_concat_extrabit(M[12],
+			dfa_construct_string(" BORDER=0 ALT=\"", var, indices), var,
+			indices);
 	M[5] = M[12];
 
 	M[12] = dfa_construct_string("<script", var, indices);
@@ -2908,18 +2891,20 @@ void dfa_test_vul3_saint_fail(int var, int *indices) {
 
 	M[12] = dfa_construct_string("&nbsp;<A STYLE=COLOR:", var, indices);
 	M[12] = dfa_concat_extrabit(M[12], M[3], var, indices);
-	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string("; HREF=\"mailto:",
-			var, indices), var, indices);
+	M[12] = dfa_concat_extrabit(M[12],
+			dfa_construct_string("; HREF=\"mailto:", var, indices), var,
+			indices);
 	M[12] = dfa_concat_extrabit(M[12], M[11], var, indices);
-	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string("\"><IMG SRC=",
-			var, indices), var, indices);
+	M[12] = dfa_concat_extrabit(M[12],
+			dfa_construct_string("\"><IMG SRC=", var, indices), var, indices);
 	M[12] = dfa_concat_extrabit(M[12], M[1], var, indices);
-	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string(" BORDER=0 ALT=\"",
-			var, indices), var, indices);
+	M[12] = dfa_concat_extrabit(M[12],
+			dfa_construct_string(" BORDER=0 ALT=\"", var, indices), var,
+			indices);
 	M[6] = M[12];
 	M[6] = dfa_concat_extrabit(M[6], M[9], var, indices);
-	M[6] = dfa_concat_extrabit(M[6], dfa_construct_string("\"></A>&nbsp;", var,
-			indices), var, indices);
+	M[6] = dfa_concat_extrabit(M[6],
+			dfa_construct_string("\"></A>&nbsp;", var, indices), var, indices);
 
 	M[12] = dfa_construct_string(
 			"</TD><TD STYLE=TEXT-ALIGN:right;><FONT SIZE=1>", var, indices);
@@ -2929,8 +2914,9 @@ void dfa_test_vul3_saint_fail(int var, int *indices) {
 	M[12] = dfa_concat_extrabit(M[12], M[5], var, indices);
 	i = check_intersection(M[5], tmpM, var, indices);
 
-	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string(
-			"</FONT></TD></TR>", var, indices), var, indices);
+	M[12] = dfa_concat_extrabit(M[12],
+			dfa_construct_string("</FONT></TD></TR>", var, indices), var,
+			indices);
 	M[10] = M[12];
 	M[12] = tmpM;
 
@@ -3025,12 +3011,12 @@ void dfa_test_vul3_saint(int var, int *indices) {
 	tmpM = dfa_concat_extrabit(
 			dfaAllStringASCIIExceptReserveWords(var, indices),
 			dfa_construct_string("<script ", var, indices), var, indices);
-	tmpM = dfa_concat_extrabit(tmpM, dfaAllStringASCIIExceptReserveWords(var,
-			indices), var, indices);
+	tmpM = dfa_concat_extrabit(tmpM,
+			dfaAllStringASCIIExceptReserveWords(var, indices), var, indices);
 	tmpM = dfa_concat_extrabit(tmpM, dfa_construct_string(">", var, indices),
 			var, indices);
-	tmpM = dfa_concat_extrabit(tmpM, dfaAllStringASCIIExceptReserveWords(var,
-			indices), var, indices);
+	tmpM = dfa_concat_extrabit(tmpM,
+			dfaAllStringASCIIExceptReserveWords(var, indices), var, indices);
 
 	M[3] = dfa_construct_string("blue", var, indices);
 	M[0] = dfa_construct_string("http://localhost/delbut.png", var, indices);
@@ -3044,11 +3030,12 @@ void dfa_test_vul3_saint(int var, int *indices) {
 
 	M[12] = dfa_construct_string("&nbsp;<IMG SRC=", var, indices);
 	M[12] = dfa_concat_extrabit(M[12], M[2], var, indices);
-	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string(" BORDER=0 ALT=\"",
-			var, indices), var, indices);
+	M[12] = dfa_concat_extrabit(M[12],
+			dfa_construct_string(" BORDER=0 ALT=\"", var, indices), var,
+			indices);
 	M[12] = dfa_concat_extrabit(M[12], M[7], var, indices);
-	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string("\">&nbsp;", var,
-			indices), var, indices);
+	M[12] = dfa_concat_extrabit(M[12],
+			dfa_construct_string("\">&nbsp;", var, indices), var, indices);
 	M[8] = M[12];
 	//	dfaPrintVerbose(M[8]);
 
@@ -3063,33 +3050,37 @@ void dfa_test_vul3_saint(int var, int *indices) {
 
 	M[12] = dfa_construct_string("&nbsp;<A STYLE=COLOR:", var, indices);
 	M[12] = dfa_concat_extrabit(M[12], M[3], var, indices);
-	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string("; HREF=", var,
-			indices), var, indices);
+	M[12] = dfa_concat_extrabit(M[12],
+			dfa_construct_string("; HREF=", var, indices), var, indices);
 	M[12] = dfa_concat_extrabit(M[12], M[13], var, indices);
-	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string(
-			"?action=delete&id=", var, indices), var, indices);
+	M[12] = dfa_concat_extrabit(M[12],
+			dfa_construct_string("?action=delete&id=", var, indices), var,
+			indices);
 	M[12] = dfa_concat_extrabit(M[12], M[11], var, indices);
-	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string("><IMG SRC=", var,
-			indices), var, indices); //this may raise an attacking string "<script ><"
+	M[12] = dfa_concat_extrabit(M[12],
+			dfa_construct_string("><IMG SRC=", var, indices), var, indices); //this may raise an attacking string "<script ><"
 	M[12] = dfa_concat_extrabit(M[12], M[0], var, indices);
-	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string(" BORDER=0 ALT=\"",
-			var, indices), var, indices);
+	M[12] = dfa_concat_extrabit(M[12],
+			dfa_construct_string(" BORDER=0 ALT=\"", var, indices), var,
+			indices);
 	M[5] = M[12];
 
 	M[12] = dfa_construct_string("&nbsp;<A STYLE=COLOR:", var, indices);
 	M[12] = dfa_concat_extrabit(M[12], M[3], var, indices);
-	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string("; HREF=\"mailto:",
-			var, indices), var, indices);
+	M[12] = dfa_concat_extrabit(M[12],
+			dfa_construct_string("; HREF=\"mailto:", var, indices), var,
+			indices);
 	M[12] = dfa_concat_extrabit(M[12], M[11], var, indices);
-	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string("\"><IMG SRC=",
-			var, indices), var, indices);
+	M[12] = dfa_concat_extrabit(M[12],
+			dfa_construct_string("\"><IMG SRC=", var, indices), var, indices);
 	M[12] = dfa_concat_extrabit(M[12], M[1], var, indices);
-	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string(" BORDER=0 ALT=\"",
-			var, indices), var, indices);
+	M[12] = dfa_concat_extrabit(M[12],
+			dfa_construct_string(" BORDER=0 ALT=\"", var, indices), var,
+			indices);
 	M[6] = M[12];
 	M[6] = dfa_concat_extrabit(M[6], M[9], var, indices);
-	M[6] = dfa_concat_extrabit(M[6], dfa_construct_string("\"></A>&nbsp;", var,
-			indices), var, indices);
+	M[6] = dfa_concat_extrabit(M[6],
+			dfa_construct_string("\"></A>&nbsp;", var, indices), var, indices);
 
 	M[12] = dfa_construct_string(
 			"</TD><TD STYLE=TEXT-ALIGN:right;><FONT SIZE=1>", var, indices);
@@ -3099,8 +3090,9 @@ void dfa_test_vul3_saint(int var, int *indices) {
 	M[12] = dfa_concat_extrabit(M[12], M[5], var, indices);
 	i = check_intersection(M[5], tmpM, var, indices);
 
-	M[12] = dfa_concat_extrabit(M[12], dfa_construct_string(
-			"</FONT></TD></TR>", var, indices), var, indices);
+	M[12] = dfa_concat_extrabit(M[12],
+			dfa_construct_string("</FONT></TD></TR>", var, indices), var,
+			indices);
 	M[10] = M[12];
 	M[12] = tmpM;
 
@@ -3160,7 +3152,6 @@ void dfa_test_vul3_saint(int var, int *indices) {
  ********************************************************************************************************/
 
 //[Jj][Aa][Vv][Aa][Ss][Cc][Rr][Ii][Pp][Tt]
-
 DFA *dfaSpecial7(int var, int *indices) {
 
 	dfaSetup(12, var, indices);
@@ -3250,12 +3241,12 @@ void dfa_test_vul4(int var, int *indices) {
 	tmpM = dfa_concat_extrabit(
 			dfaAllStringASCIIExceptReserveWords(var, indices),
 			dfa_construct_string("<script ", var, indices), var, indices);
-	tmpM = dfa_concat_extrabit(tmpM, dfaAllStringASCIIExceptReserveWords(var,
-			indices), var, indices);
+	tmpM = dfa_concat_extrabit(tmpM,
+			dfaAllStringASCIIExceptReserveWords(var, indices), var, indices);
 	tmpM = dfa_concat_extrabit(tmpM, dfa_construct_string(">", var, indices),
 			var, indices);
-	tmpM = dfa_concat_extrabit(tmpM, dfaAllStringASCIIExceptReserveWords(var,
-			indices), var, indices);
+	tmpM = dfa_concat_extrabit(tmpM,
+			dfaAllStringASCIIExceptReserveWords(var, indices), var, indices);
 
 	//$data = replace("'", "", $data);
 	M[0] = dfaAllStringASCIIExceptReserveWords(var, indices);
@@ -3278,8 +3269,8 @@ void dfa_test_vul4(int var, int *indices) {
 	//echo "<p>Title:<br />" . $titlee . "</p>";
 	M[2] = dfa_construct_string("<p>Title:<br />", var, indices);
 	M[2] = dfa_concat_extrabit(M[1], M[0], var, indices);
-	M[2] = dfa_concat_extrabit(M[2],
-			dfa_construct_string("</p>", var, indices), var, indices);
+	M[2] = dfa_concat_extrabit(M[2], dfa_construct_string("</p>", var, indices),
+			var, indices);
 
 	//dfaPrintVitals(M[2]);
 
@@ -3353,12 +3344,12 @@ void dfa_test_vul4_saint(int var, int *indices) {
 	tmpM = dfa_concat_extrabit(
 			dfaAllStringASCIIExceptReserveWords(var, indices),
 			dfa_construct_string("<script ", var, indices), var, indices);
-	tmpM = dfa_concat_extrabit(tmpM, dfaAllStringASCIIExceptReserveWords(var,
-			indices), var, indices);
+	tmpM = dfa_concat_extrabit(tmpM,
+			dfaAllStringASCIIExceptReserveWords(var, indices), var, indices);
 	tmpM = dfa_concat_extrabit(tmpM, dfa_construct_string(">", var, indices),
 			var, indices);
-	tmpM = dfa_concat_extrabit(tmpM, dfaAllStringASCIIExceptReserveWords(var,
-			indices), var, indices);
+	tmpM = dfa_concat_extrabit(tmpM,
+			dfaAllStringASCIIExceptReserveWords(var, indices), var, indices);
 
 	//$data = replace("'", "", $data);
 	M[0] = dfaAllStringASCIIExceptReserveWords(var, indices);
@@ -3391,8 +3382,8 @@ void dfa_test_vul4_saint(int var, int *indices) {
 	//echo "<p>Title:<br />" . $titlee . "</p>";
 	M[2] = dfa_construct_string("<p>Title:<br />", var, indices);
 	M[2] = dfa_concat_extrabit(M[1], M[0], var, indices);
-	M[2] = dfa_concat_extrabit(M[2],
-			dfa_construct_string("</p>", var, indices), var, indices);
+	M[2] = dfa_concat_extrabit(M[2], dfa_construct_string("</p>", var, indices),
+			var, indices);
 
 	//dfaPrintVitals(M[2]);
 
@@ -3490,12 +3481,12 @@ void dfa_test_vul5(int var, int *indices) {
 	tmpM = dfa_concat_extrabit(
 			dfaAllStringASCIIExceptReserveWords(var, indices),
 			dfa_construct_string("<script ", var, indices), var, indices);
-	tmpM = dfa_concat_extrabit(tmpM, dfaAllStringASCIIExceptReserveWords(var,
-			indices), var, indices);
+	tmpM = dfa_concat_extrabit(tmpM,
+			dfaAllStringASCIIExceptReserveWords(var, indices), var, indices);
 	tmpM = dfa_concat_extrabit(tmpM, dfa_construct_string(">", var, indices),
 			var, indices);
-	tmpM = dfa_concat_extrabit(tmpM, dfaAllStringASCIIExceptReserveWords(var,
-			indices), var, indices);
+	tmpM = dfa_concat_extrabit(tmpM,
+			dfaAllStringASCIIExceptReserveWords(var, indices), var, indices);
 
 	//M[0] $row["title"] = addslashes($row["title"]);
 	M[0] = dfaAllStringASCIIExceptReserveWords(var, indices);
@@ -3557,11 +3548,13 @@ void dfa_test_vul5(int var, int *indices) {
 	//print("<tr>\n<td class=\"text\">{$row["date"]}</td>\n<td class=\"text\">{$row["title"]}</td>\n<td align=\"center\">\n");
 	M[4] = dfa_construct_string("<tr>\n<td class=\"text\">", var, indices);
 	M[4] = dfa_concat_extrabit(M[4], M[0], var, indices);
-	M[4] = dfa_concat_extrabit(M[4], dfa_construct_string(
-			"</td>\n<td class=\"text\">", var, indices), var, indices);
+	M[4] = dfa_concat_extrabit(M[4],
+			dfa_construct_string("</td>\n<td class=\"text\">", var, indices),
+			var, indices);
 	M[4] = dfa_concat_extrabit(M[4], M[2], var, indices);
-	M[4] = dfa_concat_extrabit(M[4], dfa_construct_string(
-			"</td>\n<td align=\"center\">\n", var, indices), var, indices);
+	M[4] = dfa_concat_extrabit(M[4],
+			dfa_construct_string("</td>\n<td align=\"center\">\n", var,
+					indices), var, indices);
 
 	//dfaPrintVitals(M[4]);
 	i = check_intersection(M[4], tmpM, var, indices);
@@ -3577,12 +3570,13 @@ void dfa_test_vul5(int var, int *indices) {
 	M[1] = dfa_construct_string("Show this entry to everybody", var, indices);
 	M[5] = dfa_construct_string("<a href=\"priv.php?id=", var, indices);
 	M[5] = dfa_concat_extrabit(M[5], M[3], var, indices);
-	M[5] = dfa_concat_extrabit(M[5], dfa_construct_string("\"><img alt=\"",
-			var, indices), var, indices);
+	M[5] = dfa_concat_extrabit(M[5],
+			dfa_construct_string("\"><img alt=\"", var, indices), var, indices);
 	M[5] = dfa_concat_extrabit(M[5], M[1], var, indices);
-	M[5] = dfa_concat_extrabit(M[5], dfa_construct_string(
-			"\" src=\"images/admin/private.gif\" border=\"0\"></a>", var,
-			indices), var, indices);
+	M[5] = dfa_concat_extrabit(M[5],
+			dfa_construct_string(
+					"\" src=\"images/admin/private.gif\" border=\"0\"></a>",
+					var, indices), var, indices);
 
 	//dfaPrintVitals(M[5]);
 	i = check_intersection(M[5], tmpM, var, indices);
@@ -3595,16 +3589,17 @@ void dfa_test_vul5(int var, int *indices) {
 
 	//print("<a href=\"priv.php?id={$row["id"]}\"><img alt=\"{    $cp9}\" src=\"images/admin/private.gif\" border=\"0\"></a>");
 	dfaFree(M[1]);
-	M[1] = dfa_construct_string("Show this entry only to registered users",
-			var, indices);
+	M[1] = dfa_construct_string("Show this entry only to registered users", var,
+			indices);
 	M[6] = dfa_construct_string("<a href=\"priv.php?id=", var, indices);
 	M[6] = dfa_concat_extrabit(M[6], M[3], var, indices);
-	M[6] = dfa_concat_extrabit(M[6], dfa_construct_string("\"><img alt=\"",
-			var, indices), var, indices);
+	M[6] = dfa_concat_extrabit(M[6],
+			dfa_construct_string("\"><img alt=\"", var, indices), var, indices);
 	M[6] = dfa_concat_extrabit(M[6], M[1], var, indices);
-	M[6] = dfa_concat_extrabit(M[6], dfa_construct_string(
-			"\" src=\"images/admin/private.gif\" border=\"0\"></a>", var,
-			indices), var, indices);
+	M[6] = dfa_concat_extrabit(M[6],
+			dfa_construct_string(
+					"\" src=\"images/admin/private.gif\" border=\"0\"></a>",
+					var, indices), var, indices);
 
 	//dfaPrintVitals(M[6]);
 	i = check_intersection(M[6], tmpM, var, indices);
@@ -3760,12 +3755,12 @@ void dfa_test_vul5_saint(int var, int *indices) {
 	tmpM = dfa_concat_extrabit(
 			dfaAllStringASCIIExceptReserveWords(var, indices),
 			dfa_construct_string("<script ", var, indices), var, indices);
-	tmpM = dfa_concat_extrabit(tmpM, dfaAllStringASCIIExceptReserveWords(var,
-			indices), var, indices);
+	tmpM = dfa_concat_extrabit(tmpM,
+			dfaAllStringASCIIExceptReserveWords(var, indices), var, indices);
 	tmpM = dfa_concat_extrabit(tmpM, dfa_construct_string(">", var, indices),
 			var, indices);
-	tmpM = dfa_concat_extrabit(tmpM, dfaAllStringASCIIExceptReserveWords(var,
-			indices), var, indices);
+	tmpM = dfa_concat_extrabit(tmpM,
+			dfaAllStringASCIIExceptReserveWords(var, indices), var, indices);
 
 	//M[0] $row["title"] = addslashes($row["title"]);
 	M[0] = dfaAllStringASCIIExceptReserveWords(var, indices);
@@ -3857,11 +3852,13 @@ void dfa_test_vul5_saint(int var, int *indices) {
 	//print("<tr>\n<td class=\"text\">{$row["date"]}</td>\n<td class=\"text\">{$row["title"]}</td>\n<td align=\"center\">\n");
 	M[4] = dfa_construct_string("<tr>\n<td class=\"text\">", var, indices);
 	M[4] = dfa_concat_extrabit(M[4], M[0], var, indices);
-	M[4] = dfa_concat_extrabit(M[4], dfa_construct_string(
-			"</td>\n<td class=\"text\">", var, indices), var, indices);
+	M[4] = dfa_concat_extrabit(M[4],
+			dfa_construct_string("</td>\n<td class=\"text\">", var, indices),
+			var, indices);
 	M[4] = dfa_concat_extrabit(M[4], M[2], var, indices);
-	M[4] = dfa_concat_extrabit(M[4], dfa_construct_string(
-			"</td>\n<td align=\"center\">\n", var, indices), var, indices);
+	M[4] = dfa_concat_extrabit(M[4],
+			dfa_construct_string("</td>\n<td align=\"center\">\n", var,
+					indices), var, indices);
 
 	//dfaPrintVitals(M[4]);
 	i = check_intersection(M[4], tmpM, var, indices);
@@ -3877,12 +3874,13 @@ void dfa_test_vul5_saint(int var, int *indices) {
 	M[1] = dfa_construct_string("Show this entry to everybody", var, indices);
 	M[5] = dfa_construct_string("<a href=\"priv.php?id=", var, indices);
 	M[5] = dfa_concat_extrabit(M[5], M[3], var, indices);
-	M[5] = dfa_concat_extrabit(M[5], dfa_construct_string("\"><img alt=\"",
-			var, indices), var, indices);
+	M[5] = dfa_concat_extrabit(M[5],
+			dfa_construct_string("\"><img alt=\"", var, indices), var, indices);
 	M[5] = dfa_concat_extrabit(M[5], M[1], var, indices);
-	M[5] = dfa_concat_extrabit(M[5], dfa_construct_string(
-			"\" src=\"images/admin/private.gif\" border=\"0\"></a>", var,
-			indices), var, indices);
+	M[5] = dfa_concat_extrabit(M[5],
+			dfa_construct_string(
+					"\" src=\"images/admin/private.gif\" border=\"0\"></a>",
+					var, indices), var, indices);
 
 	//dfaPrintVitals(M[5]);
 	i = check_intersection(M[5], tmpM, var, indices);
@@ -3895,16 +3893,17 @@ void dfa_test_vul5_saint(int var, int *indices) {
 
 	//print("<a href=\"priv.php?id={$row["id"]}\"><img alt=\"{    $cp9}\" src=\"images/admin/private.gif\" border=\"0\"></a>");
 	dfaFree(M[1]);
-	M[1] = dfa_construct_string("Show this entry only to registered users",
-			var, indices);
+	M[1] = dfa_construct_string("Show this entry only to registered users", var,
+			indices);
 	M[6] = dfa_construct_string("<a href=\"priv.php?id=", var, indices);
 	M[6] = dfa_concat_extrabit(M[6], M[3], var, indices);
-	M[6] = dfa_concat_extrabit(M[6], dfa_construct_string("\"><img alt=\"",
-			var, indices), var, indices);
+	M[6] = dfa_concat_extrabit(M[6],
+			dfa_construct_string("\"><img alt=\"", var, indices), var, indices);
 	M[6] = dfa_concat_extrabit(M[6], M[1], var, indices);
-	M[6] = dfa_concat_extrabit(M[6], dfa_construct_string(
-			"\" src=\"images/admin/private.gif\" border=\"0\"></a>", var,
-			indices), var, indices);
+	M[6] = dfa_concat_extrabit(M[6],
+			dfa_construct_string(
+					"\" src=\"images/admin/private.gif\" border=\"0\"></a>",
+					var, indices), var, indices);
 
 	//dfaPrintVitals(M[6]);
 	i = check_intersection(M[6], tmpM, var, indices);
@@ -4161,12 +4160,12 @@ void dfa_test_vul6(int var, int *indices) {
 	tmpM = dfa_concat_extrabit(
 			dfaAllStringASCIIExceptReserveWords(var, indices),
 			dfa_construct_string("<script ", var, indices), var, indices);
-	tmpM = dfa_concat_extrabit(tmpM, dfaAllStringASCIIExceptReserveWords(var,
-			indices), var, indices);
+	tmpM = dfa_concat_extrabit(tmpM,
+			dfaAllStringASCIIExceptReserveWords(var, indices), var, indices);
 	tmpM = dfa_concat_extrabit(tmpM, dfa_construct_string(">", var, indices),
 			var, indices);
-	tmpM = dfa_concat_extrabit(tmpM, dfaAllStringASCIIExceptReserveWords(var,
-			indices), var, indices);
+	tmpM = dfa_concat_extrabit(tmpM,
+			dfaAllStringASCIIExceptReserveWords(var, indices), var, indices);
 
 	//$id = 0;
 	C[0] = dfaChar('0', var, indices);
@@ -4194,8 +4193,8 @@ void dfa_test_vul6(int var, int *indices) {
 	dfaMinimize(M[1]);
 	dfaPrintVerbose(M[1]);
 	freeM = M[0];
-	M[0] = dfa_replace_extrabit(M[0], M[1], "<img src=\"images/eek.gif\">",
-			var, indices);
+	M[0] = dfa_replace_extrabit(M[0], M[1], "<img src=\"images/eek.gif\">", var,
+			indices);
 	dfaFree(freeM);
 	printf("\nEnd of Union\n");
 	//$message = str_replace (":-O", "<img src=\"images/eek.gif\">", $message);
@@ -4338,7 +4337,6 @@ void dfa_test_vul6(int var, int *indices) {
 	 */
 
 	//printf("\nEND of BLOCK 1\n\n");
-
 	//Block 2: if branch
 	//M[3] is $message
 	//$message = ereg_replace(">","&gt;",$message);
@@ -4366,11 +4364,12 @@ void dfa_test_vul6(int var, int *indices) {
 	M[1] = dfaSpecial6_2(var, indices); //$SCRIPT_NAME
 	M[4] = dfa_construct_string("ASCII | <A href=\"", var, indices);
 	M[4] = dfa_concat_extrabit(M[4], M[1], var, indices);
-	M[4] = dfa_concat_extrabit(M[4],
-			dfa_construct_string("?id=", var, indices), var, indices);
+	M[4] = dfa_concat_extrabit(M[4], dfa_construct_string("?id=", var, indices),
+			var, indices);
 	M[4] = dfa_concat_extrabit(M[4], C[0], var, indices);
-	M[4] = dfa_concat_extrabit(M[4], dfa_construct_string(
-			"&hardhtml=0\">HTML</a>", var, indices), var, indices);
+	M[4] = dfa_concat_extrabit(M[4],
+			dfa_construct_string("&hardhtml=0\">HTML</a>", var, indices), var,
+			indices);
 
 	//Block 3: else branch
 	//M[5] as $insert
@@ -4379,11 +4378,12 @@ void dfa_test_vul6(int var, int *indices) {
 	M[1] = dfaSpecial6_2(var, indices); //$SCRIPT_NAME
 	M[5] = dfa_construct_string("<a href=\"", var, indices);
 	M[5] = dfa_concat_extrabit(M[5], M[1], var, indices);
-	M[5] = dfa_concat_extrabit(M[5],
-			dfa_construct_string("?id=", var, indices), var, indices);
+	M[5] = dfa_concat_extrabit(M[5], dfa_construct_string("?id=", var, indices),
+			var, indices);
 	M[5] = dfa_concat_extrabit(M[5], C[0], var, indices);
-	M[5] = dfa_concat_extrabit(M[5], dfa_construct_string(
-			"&hardhtml=1\">ASCII</a> | HTML", var, indices), var, indices);
+	M[5] = dfa_concat_extrabit(M[5],
+			dfa_construct_string("&hardhtml=1\">ASCII</a> | HTML", var,
+					indices), var, indices);
 
 	//Block 4: Union both branches
 	//M[0] as $message
@@ -4455,24 +4455,25 @@ void dfa_test_vul6(int var, int *indices) {
 	 <br>$message<br>";
 	 */
 	dfaFree(M[2]);
-	M[2]
-			= dfa_construct_string(
+	M[2] =
+			dfa_construct_string(
 					"       <font face=\"Arial, Helvetica, Sans-serif\" size=2>\n       <div align=right><b>\n       <font face=\"Verdana, Helvetica, Sans-serif\" size=1>",
 					var, indices);
 
 	M[2] = dfa_concat_extrabit(M[2], M[4], var, indices); //M[4] is $insert
-	M[2] = dfa_concat_extrabit(M[2], dfa_construct_string(
-			"</font>\n       </b></div>\n       <b>", var, indices), var,
-			indices);
-	M[2] = dfa_concat_extrabit(M[2], C[1], var, indices); //C[1] is $strFrom
-	M[2] = dfa_concat_extrabit(M[2], dfa_construct_string(":</b> ", var,
-			indices), var, indices);
-	M[2] = dfa_concat_extrabit(M[2], M[5], var, indices); //M[5] is $from
-	M[2] = dfa_concat_extrabit(M[2], dfa_construct_string(
-			"<br><br>\n       <br>", var, indices), var, indices);
-	M[2] = dfa_concat_extrabit(M[2], M[0], var, indices); //M[0] is $message
 	M[2] = dfa_concat_extrabit(M[2],
-			dfa_construct_string("<br>", var, indices), var, indices);
+			dfa_construct_string("</font>\n       </b></div>\n       <b>", var,
+					indices), var, indices);
+	M[2] = dfa_concat_extrabit(M[2], C[1], var, indices); //C[1] is $strFrom
+	M[2] = dfa_concat_extrabit(M[2],
+			dfa_construct_string(":</b> ", var, indices), var, indices);
+	M[2] = dfa_concat_extrabit(M[2], M[5], var, indices); //M[5] is $from
+	M[2] = dfa_concat_extrabit(M[2],
+			dfa_construct_string("<br><br>\n       <br>", var, indices), var,
+			indices);
+	M[2] = dfa_concat_extrabit(M[2], M[0], var, indices); //M[0] is $message
+	M[2] = dfa_concat_extrabit(M[2], dfa_construct_string("<br>", var, indices),
+			var, indices);
 
 	//echo default_font($content);
 	/*
@@ -4497,14 +4498,14 @@ void dfa_test_vul6(int var, int *indices) {
 	dfaFree(M[3]);
 	M[3] = dfa_construct_string("<font face=\"", var, indices);
 	M[3] = dfa_concat_extrabit(M[3], M[0], var, indices); //M[0] is $default_font_face
-	M[3] = dfa_concat_extrabit(M[3], dfa_construct_string(" size=", var,
-			indices), var, indices);
+	M[3] = dfa_concat_extrabit(M[3],
+			dfa_construct_string(" size=", var, indices), var, indices);
 	M[3] = dfa_concat_extrabit(M[3], M[1], var, indices); //M[1] is $default_font_size
 	M[3] = dfa_concat_extrabit(M[3], dfa_construct_string(">", var, indices),
 			var, indices);
 	M[3] = dfa_concat_extrabit(M[3], M[2], var, indices); //M[2] is $texto
-	M[3] = dfa_concat_extrabit(M[3], dfa_construct_string("</font>", var,
-			indices), var, indices);
+	M[3] = dfa_concat_extrabit(M[3],
+			dfa_construct_string("</font>", var, indices), var, indices);
 
 	//dfaPrintVitals(M[3]);
 
@@ -4549,12 +4550,12 @@ void dfa_test_vul6_saint(int var, int *indices) {
 	tmpM = dfa_concat_extrabit(
 			dfaAllStringASCIIExceptReserveWords(var, indices),
 			dfa_construct_string("<script ", var, indices), var, indices);
-	tmpM = dfa_concat_extrabit(tmpM, dfaAllStringASCIIExceptReserveWords(var,
-			indices), var, indices);
+	tmpM = dfa_concat_extrabit(tmpM,
+			dfaAllStringASCIIExceptReserveWords(var, indices), var, indices);
 	tmpM = dfa_concat_extrabit(tmpM, dfa_construct_string(">", var, indices),
 			var, indices);
-	tmpM = dfa_concat_extrabit(tmpM, dfaAllStringASCIIExceptReserveWords(var,
-			indices), var, indices);
+	tmpM = dfa_concat_extrabit(tmpM,
+			dfaAllStringASCIIExceptReserveWords(var, indices), var, indices);
 
 	//$id = 0;
 	C[0] = dfaChar('0', var, indices);
@@ -4582,8 +4583,8 @@ void dfa_test_vul6_saint(int var, int *indices) {
 	dfaMinimize(M[1]);
 	dfaPrintVerbose(M[1]);
 	freeM = M[0];
-	M[0] = dfa_replace_extrabit(M[0], M[1], "<img src=\"images/eek.gif\">",
-			var, indices);
+	M[0] = dfa_replace_extrabit(M[0], M[1], "<img src=\"images/eek.gif\">", var,
+			indices);
 	dfaFree(freeM);
 	printf("\nEnd of Union\n");
 	//$message = str_replace (":-O", "<img src=\"images/eek.gif\">", $message);
@@ -4653,11 +4654,12 @@ void dfa_test_vul6_saint(int var, int *indices) {
 	M[1] = dfaSpecial6_2(var, indices); //$SCRIPT_NAME
 	M[4] = dfa_construct_string("ASCII | <A href=\"", var, indices);
 	M[4] = dfa_concat_extrabit(M[4], M[1], var, indices);
-	M[4] = dfa_concat_extrabit(M[4],
-			dfa_construct_string("?id=", var, indices), var, indices);
+	M[4] = dfa_concat_extrabit(M[4], dfa_construct_string("?id=", var, indices),
+			var, indices);
 	M[4] = dfa_concat_extrabit(M[4], C[0], var, indices);
-	M[4] = dfa_concat_extrabit(M[4], dfa_construct_string(
-			"&hardhtml=0\">HTML</a>", var, indices), var, indices);
+	M[4] = dfa_concat_extrabit(M[4],
+			dfa_construct_string("&hardhtml=0\">HTML</a>", var, indices), var,
+			indices);
 
 	//Block 3: else branch
 	//M[5] as $insert
@@ -4666,11 +4668,12 @@ void dfa_test_vul6_saint(int var, int *indices) {
 	M[1] = dfaSpecial6_2(var, indices); //$SCRIPT_NAME
 	M[5] = dfa_construct_string("<a href=\"", var, indices);
 	M[5] = dfa_concat_extrabit(M[5], M[1], var, indices);
-	M[5] = dfa_concat_extrabit(M[5],
-			dfa_construct_string("?id=", var, indices), var, indices);
+	M[5] = dfa_concat_extrabit(M[5], dfa_construct_string("?id=", var, indices),
+			var, indices);
 	M[5] = dfa_concat_extrabit(M[5], C[0], var, indices);
-	M[5] = dfa_concat_extrabit(M[5], dfa_construct_string(
-			"&hardhtml=1\">ASCII</a> | HTML", var, indices), var, indices);
+	M[5] = dfa_concat_extrabit(M[5],
+			dfa_construct_string("&hardhtml=1\">ASCII</a> | HTML", var,
+					indices), var, indices);
 
 	//Block 4: Union both branches
 	//M[0] as $message
@@ -4762,24 +4765,25 @@ void dfa_test_vul6_saint(int var, int *indices) {
 	 <br>$message<br>";
 	 */
 	dfaFree(M[2]);
-	M[2]
-			= dfa_construct_string(
+	M[2] =
+			dfa_construct_string(
 					"       <font face=\"Arial, Helvetica, Sans-serif\" size=2>\n       <div align=right><b>\n       <font face=\"Verdana, Helvetica, Sans-serif\" size=1>",
 					var, indices);
 
 	M[2] = dfa_concat_extrabit(M[2], M[4], var, indices); //M[4] is $insert
-	M[2] = dfa_concat_extrabit(M[2], dfa_construct_string(
-			"</font>\n       </b></div>\n       <b>", var, indices), var,
-			indices);
-	M[2] = dfa_concat_extrabit(M[2], C[1], var, indices); //C[1] is $strFrom
-	M[2] = dfa_concat_extrabit(M[2], dfa_construct_string(":</b> ", var,
-			indices), var, indices);
-	M[2] = dfa_concat_extrabit(M[2], M[5], var, indices); //M[5] is $from
-	M[2] = dfa_concat_extrabit(M[2], dfa_construct_string(
-			"<br><br>\n       <br>", var, indices), var, indices);
-	M[2] = dfa_concat_extrabit(M[2], M[0], var, indices); //M[0] is $message
 	M[2] = dfa_concat_extrabit(M[2],
-			dfa_construct_string("<br>", var, indices), var, indices);
+			dfa_construct_string("</font>\n       </b></div>\n       <b>", var,
+					indices), var, indices);
+	M[2] = dfa_concat_extrabit(M[2], C[1], var, indices); //C[1] is $strFrom
+	M[2] = dfa_concat_extrabit(M[2],
+			dfa_construct_string(":</b> ", var, indices), var, indices);
+	M[2] = dfa_concat_extrabit(M[2], M[5], var, indices); //M[5] is $from
+	M[2] = dfa_concat_extrabit(M[2],
+			dfa_construct_string("<br><br>\n       <br>", var, indices), var,
+			indices);
+	M[2] = dfa_concat_extrabit(M[2], M[0], var, indices); //M[0] is $message
+	M[2] = dfa_concat_extrabit(M[2], dfa_construct_string("<br>", var, indices),
+			var, indices);
 
 	//echo default_font($content);
 	/*
@@ -4804,14 +4808,14 @@ void dfa_test_vul6_saint(int var, int *indices) {
 	dfaFree(M[3]);
 	M[3] = dfa_construct_string("<font face=\"", var, indices);
 	M[3] = dfa_concat_extrabit(M[3], M[0], var, indices); //M[0] is $default_font_face
-	M[3] = dfa_concat_extrabit(M[3], dfa_construct_string(" size=", var,
-			indices), var, indices);
+	M[3] = dfa_concat_extrabit(M[3],
+			dfa_construct_string(" size=", var, indices), var, indices);
 	M[3] = dfa_concat_extrabit(M[3], M[1], var, indices); //M[1] is $default_font_size
 	M[3] = dfa_concat_extrabit(M[3], dfa_construct_string(">", var, indices),
 			var, indices);
 	M[3] = dfa_concat_extrabit(M[3], M[2], var, indices); //M[2] is $texto
-	M[3] = dfa_concat_extrabit(M[3], dfa_construct_string("</font>", var,
-			indices), var, indices);
+	M[3] = dfa_concat_extrabit(M[3],
+			dfa_construct_string("</font>", var, indices), var, indices);
 
 	//dfaPrintVitals(M[3]);
 
@@ -4839,202 +4843,224 @@ void dfa_test_vul6_saint(int var, int *indices) {
 }
 //end test
 
-void dfa_test_pre_image(int var, int *indices)
-{
-  DFA *tmp0 = NULL;
-  DFA *tmp1 = NULL;
-  DFA *tmp2 = NULL;
-  DFA *tmp3 = NULL;
-  DFA *tmp4 = NULL;
+void dfa_test_pre_image(int var, int *indices) {
+	DFA *tmp0 = NULL;
+	DFA *tmp1 = NULL;
+	DFA *tmp2 = NULL;
+	DFA *tmp3 = NULL;
+	DFA *tmp4 = NULL;
 
-  tmp1=dfa_closure_extrabit(dfa_construct_string("abcd", var, indices), var, indices);
-  //tmp1=dfa_construct_string("abcd", var, indices);
-  tmp2=dfa_union(dfa_construct_string("ab", var, indices), dfa_construct_string("cd", var, indices));
+	tmp1 = dfa_closure_extrabit(dfa_construct_string("abcd", var, indices), var,
+			indices);
+	//tmp1=dfa_construct_string("abcd", var, indices);
+	tmp2 = dfa_union(dfa_construct_string("ab", var, indices),
+			dfa_construct_string("cd", var, indices));
 
-  tmp3 = dfa_pre_concat_const(tmp1, "cd", 1, var, indices);
+	tmp3 = dfa_pre_concat_const(tmp1, "cd", 1, var, indices);
 
-  printf("\n1. PreImange: M_(abcd)+ = X.cd\n");
-  dfaPrintVerbose(tmp3);
-  dfaFree(tmp3);
-  tmp3 = dfa_pre_concat_const(tmp1, "ab", 2, var, indices);
-  printf("\n2. PreImage: M_(abcd)+ = ab.X\n");
-  dfaPrintVerbose(tmp3);
-  dfaFree(tmp3);
-  printf("\n3. PreImage: M_(abcd)+ = X.M_(ab|cd)\n");
-  tmp3 = dfa_pre_concat(tmp1, tmp2, 1, var, indices);
-  dfaPrintVerbose(tmp3);
-  dfaFree(tmp3);
-  printf("\n4. PreImage: M_(abcd)+ = M_(ab|cd).X\n");
-  if(_FANG_DFA_DEBUG) dfaPrintVerbose(tmp2);
-  tmp3 = dfa_pre_concat(tmp1, tmp2, 2, var, indices);
-  dfaPrintVerbose(tmp3);
-  dfaFree(tmp3);
+	printf("\n1. PreImange: M_(abcd)+ = X.cd\n");
+	dfaPrintVerbose(tmp3);
+	dfaFree(tmp3);
+	tmp3 = dfa_pre_concat_const(tmp1, "ab", 2, var, indices);
+	printf("\n2. PreImage: M_(abcd)+ = ab.X\n");
+	dfaPrintVerbose(tmp3);
+	dfaFree(tmp3);
+	printf("\n3. PreImage: M_(abcd)+ = X.M_(ab|cd)\n");
+	tmp3 = dfa_pre_concat(tmp1, tmp2, 1, var, indices);
+	dfaPrintVerbose(tmp3);
+	dfaFree(tmp3);
+	printf("\n4. PreImage: M_(abcd)+ = M_(ab|cd).X\n");
+	if (_FANG_DFA_DEBUG)
+		dfaPrintVerbose(tmp2);
+	tmp3 = dfa_pre_concat(tmp1, tmp2, 2, var, indices);
+	dfaPrintVerbose(tmp3);
+	dfaFree(tmp3);
 
-  printf("\n5. General replace M_(abcd)+, M_(ab|cd), ab\n");
-  tmp4=dfa_construct_string("ab", var, indices);
-  tmp3 = dfa_replace_extrabit(tmp1, tmp2, "ab", var, indices);
-  printf("\nString replace");
-  dfaPrintVerbose(tmp3);
-  dfaFree(tmp3);
-  printf("\nAutomata replace");
-  tmp3 = dfa_general_replace_extrabit(tmp1, tmp2, tmp4, var, indices);
-  tmp0 = tmp3;
-  dfaPrintVerbose(tmp0);
-  //dfaFree(tmp3);
+	printf("\n5. General replace M_(abcd)+, M_(ab|cd), ab\n");
+	tmp4 = dfa_construct_string("ab", var, indices);
+	tmp3 = dfa_replace_extrabit(tmp1, tmp2, "ab", var, indices);
+	printf("\nString replace");
+	dfaPrintVerbose(tmp3);
+	dfaFree(tmp3);
+	printf("\nAutomata replace");
+	tmp3 = dfa_general_replace_extrabit(tmp1, tmp2, tmp4, var, indices);
+	tmp0 = tmp3;
+	dfaPrintVerbose(tmp0);
+	//dfaFree(tmp3);
 
-  printf("\n6. PreImage of Replace M_(abcd)+, M_(ab|cd), M(ab)\n");
-  tmp3 = dfa_pre_replace(tmp0, tmp2, tmp4, var, indices);
-  dfaPrintVerbose(tmp3);
-  dfaFree(tmp3);
-  dfaFree(tmp0);
+	printf("\n6. PreImage of Replace M_(abcd)+, M_(ab|cd), M(ab)\n");
+	tmp3 = dfa_pre_replace(tmp0, tmp2, tmp4, var, indices);
+	dfaPrintVerbose(tmp3);
+	dfaFree(tmp3);
+	dfaFree(tmp0);
 
-
-  printf("\n7. PreImage of Replace M_(abcd)+, M_(cd), ""\n");
-  dfaFree(tmp4);
-  tmp4=dfa_construct_string("cd", var, indices);
-  tmp0 = dfa_replace_extrabit(tmp1, tmp4, "", var, indices);
-  printf("\n Replace result of Delete cd from (abcd)+:");
-  dfaPrintVerbose(tmp0);
-  tmp3 = dfa_pre_replace_str(tmp0, tmp4, "", var, indices);
-  printf("\n Pre image of replace deletion:");
-  dfaPrintVerbose(tmp3);
-  dfaFree(tmp3);
-  dfaFree(tmp0);
+	printf("\n7. PreImage of Replace M_(abcd)+, M_(cd), " "\n");
+	dfaFree(tmp4);
+	tmp4 = dfa_construct_string("cd", var, indices);
+	tmp0 = dfa_replace_extrabit(tmp1, tmp4, "", var, indices);
+	printf("\n Replace result of Delete cd from (abcd)+:");
+	dfaPrintVerbose(tmp0);
+	tmp3 = dfa_pre_replace_str(tmp0, tmp4, "", var, indices);
+	printf("\n Pre image of replace deletion:");
+	dfaPrintVerbose(tmp3);
+	dfaFree(tmp3);
+	dfaFree(tmp0);
 
 }
 
-void dfa_test_multi_signature(int var, int *indices)
-{
-  DFA *tmp0 = mdfaSignatureInput(0, 3, var, indices);
-  DFA *tmp1 = mdfaSignatureInput(1, 3, var, indices);
-  DFA *tmp2 = mdfaSignatureConstant(dfa_construct_string("ab", var, indices), 3, var, indices);
-  DFA *tmp = NULL;
-  int* mindices =allocateMultipleAscIIIndex(3, var);
-  int mvar = 3*var;
-  tmp = dfa_concat_extrabit(tmp0, tmp2, mvar, mindices);
-  tmp = dfa_concat_extrabit(tmp, tmp1, mvar, mindices);
-  dfaFree(tmp2);
-  tmp2 = mdfaOneToManyTrackNoLambda(dfa_construct_string("cababc", var, indices), 3, 2, var, indices);
-  tmp = dfa_intersect(tmp, tmp2);
- // dfaPrintVerbose(tmp);
-  dfaFree(tmp0);
-  tmp0 = dfaRemoveLastTrack(tmp, 3, var, indices);
-  //dfaPrintVerbose(tmp0);
-  mindices = allocateMultipleAscIIIndex(2, var);
-  dfaPrintGraphviz(tmp0, 2*var, mindices);
-  dfaFree(tmp0);
-  dfaFree(tmp1);
-  dfaFree(tmp2);
-  dfaFree(tmp);
+void dfa_test_multi_signature(int var, int *indices) {
+	DFA *tmp0 = mdfaSignatureInput(0, 3, var, indices);
+	DFA *tmp1 = mdfaSignatureInput(1, 3, var, indices);
+	DFA *tmp2 = mdfaSignatureConstant(dfa_construct_string("ab", var, indices),
+			3, var, indices);
+	DFA *tmp = NULL;
+	int* mindices = allocateMultipleAscIIIndex(3, var);
+	int mvar = 3 * var;
+	tmp = dfa_concat_extrabit(tmp0, tmp2, mvar, mindices);
+	tmp = dfa_concat_extrabit(tmp, tmp1, mvar, mindices);
+	dfaFree(tmp2);
+	tmp2 = mdfaOneToManyTrackNoLambda(
+			dfa_construct_string("cababc", var, indices), 3, 2, var, indices);
+	tmp = dfa_intersect(tmp, tmp2);
+	// dfaPrintVerbose(tmp);
+	dfaFree(tmp0);
+	tmp0 = dfaRemoveLastTrack(tmp, 3, var, indices);
+	//dfaPrintVerbose(tmp0);
+	mindices = allocateMultipleAscIIIndex(2, var);
+	dfaPrintGraphviz(tmp0, 2 * var, mindices);
+	dfaFree(tmp0);
+	dfaFree(tmp1);
+	dfaFree(tmp2);
+	dfaFree(tmp);
 }
 
+void dfa_test_multi_signature_vul05(int var, int *indices) {
+	DFA *i0 = mdfaSignatureInput(0, 3, var, indices);
+	DFA *i1 = mdfaSignatureInput(1, 3, var, indices);
+	DFA *c0 = mdfaSignatureConstant(
+			dfa_construct_string("<tr>\n<td class=\"text\">", var, indices), 3,
+			var, indices);
+	DFA *c1 = mdfaSignatureConstant(
+			dfa_construct_string("</td>\n<td class=\"text\">", var, indices), 3,
+			var, indices);
+	DFA *c2 = mdfaSignatureConstant(
+			dfa_construct_string("</td>\n<td align=\"center\">\n", var,
+					indices), 3, var, indices);
+	int* mindices = allocateMultipleAscIIIndex(3, var);
+	int mvar = 3 * var;
 
-void dfa_test_multi_signature_vul05(int var, int *indices)
-{
-  DFA *i0 = mdfaSignatureInput(0, 3, var, indices);
-  DFA *i1 = mdfaSignatureInput(1, 3, var, indices);
-  DFA *c0 = mdfaSignatureConstant(dfa_construct_string("<tr>\n<td class=\"text\">", var, indices), 3, var, indices);
-  DFA *c1 = mdfaSignatureConstant(dfa_construct_string("</td>\n<td class=\"text\">", var, indices), 3, var, indices);
-  DFA *c2 = mdfaSignatureConstant(dfa_construct_string("</td>\n<td align=\"center\">\n", var, indices), 3, var, indices);
-  int* mindices =allocateMultipleAscIIIndex(3, var);
-  int mvar = 3*var;
+	DFA *m1 = dfa_concat_extrabit(c0, i0, mvar, mindices);
+	DFA *m2 = dfa_concat_extrabit(m1, c1, mvar, mindices);
+	DFA *m3 = dfa_concat_extrabit(m2, i1, mvar, mindices);
+	DFA *m = dfa_concat_extrabit(m3, c2, mvar, mindices);
+	//added for
+	DFA *ma = NULL;
+	DFA *ma1 = dfa_union(dfa_construct_string("S", var, indices),
+			dfa_construct_string("s", var, indices));
+	ma1 = dfa_concat_extrabit(dfa_construct_string("<", var, indices), ma1, var,
+			indices);
+	ma = dfa_concat_extrabit(dfaAllStringASCIIExceptReserveWords(var, indices),
+			ma1, var, indices);
+	ma = dfa_concat_extrabit(ma,
+			dfaAllStringASCIIExceptReserveWords(var, indices), var, indices);
 
-  DFA *m1 = dfa_concat_extrabit(c0, i0, mvar, mindices);
-  DFA *m2 = dfa_concat_extrabit(m1, c1, mvar, mindices);
-  DFA *m3 = dfa_concat_extrabit(m2, i1, mvar, mindices);
-  DFA *m  = dfa_concat_extrabit(m3, c2, mvar, mindices);
-  //added for
-  DFA *ma = NULL;
-  DFA *ma1 = dfa_union(dfa_construct_string("S", var, indices), dfa_construct_string("s", var, indices));
-  ma1 = dfa_concat_extrabit(dfa_construct_string("<", var, indices), ma1, var, indices);
-  ma = dfa_concat_extrabit(dfaAllStringASCIIExceptReserveWords(var, indices), ma1, var, indices);
-  ma = dfa_concat_extrabit(ma, dfaAllStringASCIIExceptReserveWords(var, indices), var, indices);
-
-  //DFA *ma = dfa_concat_extrabit(dfaAllStringASCIIExceptReserveWords(var, indices), dfa_construct_string("<SCRIPT ", var, indices), var, indices);
-  //ma = dfa_concat_extrabit(ma, dfaAllStringASCIIExceptReserveWords(var, indices), var, indices);
+	//DFA *ma = dfa_concat_extrabit(dfaAllStringASCIIExceptReserveWords(var, indices), dfa_construct_string("<SCRIPT ", var, indices), var, indices);
+	//ma = dfa_concat_extrabit(ma, dfaAllStringASCIIExceptReserveWords(var, indices), var, indices);
 
 // ma is the attack pattern and we here extend the single track attack pattern automaton into multi track one using lambda
-  ma = mdfaOneToManyTrackNoLambda(ma, 3, 2, var, indices);
-  m = dfa_intersect(m, ma);
-  m = dfaRemoveLastTrack(m, 3, var, indices);
-  dfaPrintVitals(m);
-  //mindices = allocateMultipleAscIIIndex(2, var);
-  //m = dfaRemovePreLambda(m, getLambda(2*var), 2*var, mindices);
-  //dfaPrintVitals(m);
-  // m = dfaRemoveLambda(m, 2*var, mindices);
-  //dfaPrintVerbose(m);
-  mindices = allocateMultipleAscIIIndex(2, var);
-  // when printing to dot we need to give var and indices for the number of tracks (m) -1 cause we already removed the output track
-  dfaPrintGraphviz(m, 2*var, mindices);
-  printf("MONA memory:%d\n",mem_allocated());
-  dfaFree(i0);
- dfaFree(i1);
- dfaFree(c0); dfaFree(c1);
- dfaFree(c2);   dfaFree(m1);  dfaFree(m2);  dfaFree(m3);  dfaFree(m);
+	ma = mdfaOneToManyTrackNoLambda(ma, 3, 2, var, indices);
+	m = dfa_intersect(m, ma);
+	m = dfaRemoveLastTrack(m, 3, var, indices);
+	dfaPrintVitals(m);
+	//mindices = allocateMultipleAscIIIndex(2, var);
+	//m = dfaRemovePreLambda(m, getLambda(2*var), 2*var, mindices);
+	//dfaPrintVitals(m);
+	// m = dfaRemoveLambda(m, 2*var, mindices);
+	//dfaPrintVerbose(m);
+	mindices = allocateMultipleAscIIIndex(2, var);
+	// when printing to dot we need to give var and indices for the number of tracks (m) -1 cause we already removed the output track
+	dfaPrintGraphviz(m, 2 * var, mindices);
+	printf("MONA memory:%d\n", mem_allocated());
+	dfaFree(i0);
+	dfaFree(i1);
+	dfaFree(c0);
+	dfaFree(c1);
+	dfaFree(c2);
+	dfaFree(m1);
+	dfaFree(m2);
+	dfaFree(m3);
+	dfaFree(m);
 }
 
+void dfa_test_multi_signature_vul03(int var, int *indices) {
+	DFA *i0 = mdfaSignatureInput(0, 4, var, indices);
+	DFA *i1 = mdfaSignatureInput(1, 4, var, indices);
+	DFA *i2 = mdfaSignatureInput(2, 4, var, indices);
 
-void dfa_test_multi_signature_vul03(int var, int *indices)
-{
-  DFA *i0 = mdfaSignatureInput(0, 4, var, indices);
-  DFA *i1 = mdfaSignatureInput(1, 4, var, indices);
-  DFA *i2 = mdfaSignatureInput(2, 4, var, indices);
-
-  DFA *c0 = mdfaSignatureConstant(dfa_construct_string(" ", var, indices), 4, var, indices);
-  DFA *c1 = mdfaSignatureConstant(dfa_construct_string("<FONT SIZE=1>", var, indices), 4, var, indices);
-  DFA *c2 = mdfaSignatureConstant(dfa_construct_string("</FONT>", var, indices), 4, var, indices);
-  int* mindices =allocateMultipleAscIIIndex(4, var);
-  int mvar = 4*var;
+	DFA *c0 = mdfaSignatureConstant(dfa_construct_string(" ", var, indices), 4,
+			var, indices);
+	DFA *c1 = mdfaSignatureConstant(
+			dfa_construct_string("<FONT SIZE=1>", var, indices), 4, var,
+			indices);
+	DFA *c2 = mdfaSignatureConstant(
+			dfa_construct_string("</FONT>", var, indices), 4, var, indices);
+	int* mindices = allocateMultipleAscIIIndex(4, var);
+	int mvar = 4 * var;
 //dfaPrintVerbose(i0);
 //dfaPrintVerbose(c0);
 
-  DFA *m1 = dfa_concat_extrabit(i0, c0, mvar, mindices);
-  DFA *m2 = dfa_concat_extrabit(c1, m1, mvar, mindices);
-  DFA *m3 = dfa_concat_extrabit(i1, c0, mvar, mindices);
-  DFA *m4 = dfa_concat_extrabit(m2, m3, mvar, mindices);
-  DFA *m5 = dfa_concat_extrabit(i2, c0, mvar, mindices);
-  DFA *m6 = dfa_concat_extrabit(m4, m5, mvar, mindices);
+	DFA *m1 = dfa_concat_extrabit(i0, c0, mvar, mindices);
+	DFA *m2 = dfa_concat_extrabit(c1, m1, mvar, mindices);
+	DFA *m3 = dfa_concat_extrabit(i1, c0, mvar, mindices);
+	DFA *m4 = dfa_concat_extrabit(m2, m3, mvar, mindices);
+	DFA *m5 = dfa_concat_extrabit(i2, c0, mvar, mindices);
+	DFA *m6 = dfa_concat_extrabit(m4, m5, mvar, mindices);
 
-  DFA *m  = dfa_concat_extrabit(m6, c2, mvar, mindices);
-  DFA *ma = dfa_concat_extrabit(dfaAllStringASCIIExceptReserveWords(var, indices), dfa_construct_string("<SCRIPT ", var, indices), var, indices);
-  ma = dfa_concat_extrabit(ma, dfaAllStringASCIIExceptReserveWords(var, indices), var, indices);
+	DFA *m = dfa_concat_extrabit(m6, c2, mvar, mindices);
+	DFA *ma = dfa_concat_extrabit(
+			dfaAllStringASCIIExceptReserveWords(var, indices),
+			dfa_construct_string("<SCRIPT ", var, indices), var, indices);
+	ma = dfa_concat_extrabit(ma,
+			dfaAllStringASCIIExceptReserveWords(var, indices), var, indices);
 
-  //dfaPrintVerbose(m1);
+	//dfaPrintVerbose(m1);
 
 //  dfaPrintVitals(m4);
-  //dfaPrintVitals(m6);
-  //dfaPrintVerbose(m);
+	//dfaPrintVitals(m6);
+	//dfaPrintVerbose(m);
 
+	ma = mdfaOneToManyTrackNoLambda(ma, 4, 3, var, indices);
+	//dfaPrintVerbose(ma);
 
-  ma = mdfaOneToManyTrackNoLambda(ma, 4, 3, var, indices);
-  //dfaPrintVerbose(ma);
-
-
-  m = dfa_intersect(m, ma);
-  m = dfaRemoveLastTrack(m, 4, var, indices);
-  mindices =allocateMultipleAscIIIndex(3, var);
-  dfaPrintGraphviz(m, 3*var, mindices);
-  //  dfaPrintVitals(m);
-  //mindices = allocateMultipleAscIIIndex(2, var);
-  //m = dfaRemovePreLambda(m, getLambda(2*var), 2*var, mindices);
-  //dfaPrintVitals(m);
-  // m = dfaRemoveLambda(m, 2*var, mindices);
-  //dfaPrintVerbose(m);
-  printf("MONA memory:%d\n",mem_allocated());
-  dfaFree(i0);
- dfaFree(i1);
- dfaFree(c0); dfaFree(c1);
- dfaFree(c2);   dfaFree(m1);  dfaFree(m2);  dfaFree(m3);  dfaFree(m);
+	m = dfa_intersect(m, ma);
+	m = dfaRemoveLastTrack(m, 4, var, indices);
+	mindices = allocateMultipleAscIIIndex(3, var);
+	dfaPrintGraphviz(m, 3 * var, mindices);
+	//  dfaPrintVitals(m);
+	//mindices = allocateMultipleAscIIIndex(2, var);
+	//m = dfaRemovePreLambda(m, getLambda(2*var), 2*var, mindices);
+	//dfaPrintVitals(m);
+	// m = dfaRemoveLambda(m, 2*var, mindices);
+	//dfaPrintVerbose(m);
+	printf("MONA memory:%d\n", mem_allocated());
+	dfaFree(i0);
+	dfaFree(i1);
+	dfaFree(c0);
+	dfaFree(c1);
+	dfaFree(c2);
+	dfaFree(m1);
+	dfaFree(m2);
+	dfaFree(m3);
+	dfaFree(m);
 }
 
-
-void dfa_test_three_inputs_signature(int var, int *indices)
-{
+void dfa_test_three_inputs_signature(int var, int *indices) {
 	DFA *tmp0 = mdfaSignatureInput(0, 4, var, indices);
 	DFA *tmp1 = mdfaSignatureInput(1, 4, var, indices);
 	DFA *tmp2 = mdfaSignatureInput(2, 4, var, indices);
 
-	DFA *tmp3 = mdfaSignatureConstant(dfa_construct_string("aaa", var, indices), 4, var, indices);
+	DFA *tmp3 = mdfaSignatureConstant(dfa_construct_string("aaa", var, indices),
+			4, var, indices);
 	DFA *tmp = NULL;
 	int* mindices = allocateMultipleAscIIIndex(4, var);
 	int mvar = 4 * var;
@@ -5046,11 +5072,11 @@ void dfa_test_three_inputs_signature(int var, int *indices)
 	printf("before intersection\n");
 	dfaPrintVerbose(tmp);
 
-	DFA *ma = dfa_concat_extrabit(dfaAllStringASCIIExceptReserveWords(var,
-			indices), dfa_construct_string("<SCRIPT ", var, indices), var,
-			indices);
-	ma = dfa_concat_extrabit(ma, dfaAllStringASCIIExceptReserveWords(var,
-			indices), var, indices);
+	DFA *ma = dfa_concat_extrabit(
+			dfaAllStringASCIIExceptReserveWords(var, indices),
+			dfa_construct_string("<SCRIPT ", var, indices), var, indices);
+	ma = dfa_concat_extrabit(ma,
+			dfaAllStringASCIIExceptReserveWords(var, indices), var, indices);
 
 	ma = mdfaOneToManyTrackNoLambda(ma, 4, 3, var, indices);
 
@@ -5087,7 +5113,6 @@ void dfa_test_three_inputs_signature(int var, int *indices)
 
 	flush_output();
 
-
 }
 // for stranger option
 unsigned dfaOption = 0;
@@ -5095,1112 +5120,908 @@ unsigned dfaOption = 0;
 // for output file name
 FILE *out;
 
-int main_test(int argc, const char *argv[]) {
-
-	//Output verification result
-	FILE *fopen();
-	out = stdout;
-
-	//up to three DFAs as input
-	DFA *resultDFA = NULL;
-	DFA* M[3]; //up to three dfa used
-	char **freeVars[3]; //freeVars[Index of DFA][Index of Variable]: name for free variables
-	char *outputFileName = NULL;
-	int *orders[3]; //orders[Index of DFA][Index of VARIABLE]: 0 for boolean, 1 for int, 2 for int set
-	int fileCount, i, j;
-	int resultBool = -1; //unknown
-	int *offsets = NULL;
-	int* indices_main;
-
-	for (fileCount = 0, i = 1; i < argc; i++)
-		if (argv[i][0] != '-') {
-			if (!fileCount) {
-				outputFileName = argv[i]; //the first argument is the output file name
-				fileCount++;
-			} else { //the following arguments are the input DFA file names
-				assert(fileCount<=3); //replacement M0, M1, M2
-				M[fileCount - 1] = dfaImport(argv[i], &freeVars[fileCount - 1],
-						&orders[fileCount - 1]);
-				if (!M[fileCount-1]) {
-					printf(
-							"error: file %s  not found (run 'mona -xw xxx.mona > %s')\n",
-							argv[i], argv[i]);
-					exit(1);
-				} else {
-					printf("Import %s \n", argv[i]);
-					dfaPrintVerbose(M[fileCount - 1]);
-				}
-				fileCount++;
-
-			}
-		} else {
-			if (argv[i][1] == 'b') {
-				dfaOption |= MASK_CONSTRUCT;
-			} else if (argv[i][1] == 'u') {
-				dfaOption |= MASK_UNION;
-			} else if (argv[i][1] == 'i') {
-				dfaOption |= MASK_INTERSECT;
-			} else if (argv[i][1] == 'n') {
-				dfaOption |= MASK_NEGATE;
-			} else if (argv[i][1] == 'c') {
-				dfaOption |= MASK_CONCAT;
-			} else if (argv[i][1] == 'r') {
-				dfaOption |= MASK_REPLACE;
-			} else if (argv[i][1] == 't') {
-				dfaOption |= MASK_TEST;
-			} else if (argv[i][1] == 'v') {
-				offsets = (int *) malloc(sizeof(int) * NUMBEROFVARIABLES);
-				for (j = 0; j < NUMBEROFVARIABLES; j++)
-					offsets[j] = 0;
-				if (argv[i][2] == '1')
-					dfaOption |= MASK_EMPTYCHECK;
-				else if (argv[i][2] == '2')
-					dfaOption |= MASK_INTERCHECK;
-				else if (argv[i][2] == '3')
-					dfaOption |= MASK_EQUALCHECK;
-				else if (argv[i][2] == '4')
-					dfaOption |= MASK_INCLUDECHECK;
-			} else {
-				printf(" We intend to support the following DFA operations:");
-				printf(
-						"\n\t [-b OutputFileName InputFileName1]: output a DFA to OutputFileName from InputFileName1");
-				printf("\n\t [-t]: test");
-				printf(
-						"\n\t [-u OutputFileName InputFileName1 InputFileName2]: output UNION(InputFileName1, InputFileName2) to OutputFileName");
-				printf(
-						"\n\t [-i OutputFileName InputFileName1 InputFileName2]: output INTERSECT(InputFileName1, InputFileName2) to OutputFileName");
-				printf(
-						"\n\t [-n OutputFileName InputFileName1]: output NEGATE(InputFileName1) to OutputFileName");
-				printf(
-						"\n\t [-c OutputFileName InputFileName1 InputFileName2]: output CONCATENATE(InputFileName1, InputFileName2) to OutputFileName");
-				printf(
-						"\n\t [-r OutputFileName InputFileName1 InputFileName2 InputFileName3]: output REPLACE(InputFileName1, InputFileName2, InputFileName3) to OutputFileName");
-				printf(
-						"\n\n We also intend to support the following verification options:");
-				printf(
-						"\n\t [-v1 OutputFileName InputFileName1]: Check whether InputFileName1 is empty.");
-				printf(
-						"\n\t [-v2 OutputFileName InputFileName1 InputFileName2]: Check whether InputFileName1 and InputFileName2 are intersected.");
-				printf(
-						"\n\t [-v3 OutputFileName InputFileName1 InputFileName2]: Check whether InputFileName1 and InputFileName2 are equal.");
-				printf(
-						"\n\t [-v4 OutputFileName InputFileName1 InputFileName2]: Check whether InputFileName1 is included in InputFileName2.\n\n");
-				exit(1);
-			}
-		}
-
-
-	indices_main = allocateAscIIIndexWithExtraBit(NUM_ASCII_TRACKS);
-	switch (dfaOption) {
-	case MASK_CONSTRUCT:
-		//need to be implemented: reading a string from a file
-		resultDFA = dfa_construct_char('a', NUM_ASCII_TRACKS, indices_main);
-		break;
-	case MASK_TEST:
-		//dfa_test_pre_image(NUM_ASCII_TRACKS, indices_main);
-//		 	  dfa_test_strrchr(5); // WORKING :) - Reaching a fixed point! Assertion Proven!
-//		    dfa_test_gxine_ok();  // ERROR IN MONA - makebasic.c:41: failed invariant - please inform mona@brics.dk
-//
-//		    dfa_test_gxine();  // ERROR IN MONA - makebasic.c:41: failed invariant - please inform mona@brics.dk
-//
-//			  dfa_test_myez(); // ERROR IN MONA - makebasic.c:41: failed invariant - please inform mona@brics.dk
-//
-//		    dfa_test_samba(); // ERROR IN MONA - makebasic.c:41: failed invariant - please inform mona@brics.dk
-//
-//		    dfa_test_strlen(); // WORKING :) - Assertion Proven!
-//
-//		 	  dfa_test_length(8, indices_main); // NOW ==> WORKING :) - Previously ==> ERROR : strange: ../stranger_lib.c:3035: getSemilinerSetCoefficients: Assertion `sink > -1' failed.
-//
-//
-//		 dfa_test_arith(2); // WORKING :)
-//
-		dfa_test_basic(NUM_ASCII_TRACKS, indices_main); // WORKING :)
-		  dfa_test_vul1(NUM_ASCII_TRACKS, indices_main); // ERROR IN MONA - makebasic.c:41: failed invariant - please inform mona@brics.dk
-			dfa_test_vul1_saint(NUM_ASCII_TRACKS, indices_main); // ERROR IN MONA - makebasic.c:41: failed invariant - please inform mona@brics.dk
-		  dfa_test_vul2(NUM_ASCII_TRACKS, indices_main); // WORKING :)  (Vulnerable)
-		 	dfa_test_vul2_saint(NUM_ASCII_TRACKS, indices_main); // WORKING :)  (Secure)
-		  dfa_test_vul3(NUM_ASCII_TRACKS, indices_main); // WORKING :)  (Vulnerable)
-		  dfa_test_vul3_saint_fail(NUM_ASCII_TRACKS, indices_main); // WORKING :)  (Vulnerable)
-		 	dfa_test_vul3_saint(NUM_ASCII_TRACKS, indices_main); // WORKING :)  (Secure)
-				dfa_test_vul4(NUM_ASCII_TRACKS, indices_main); // WORKING :)  (Vulnerable)
-			 dfa_test_vul4_saint(NUM_ASCII_TRACKS, indices_main); // ERROR IN MONA - makebasic.c:201: failed invariant - please inform mona@brics.dk
-		 	dfa_test_vul5(NUM_ASCII_TRACKS, indices_main); // WORKING :) Result1: Vulnerable! - Result2: Vulnerable! - Result3: Vulnerable!
-		  	dfa_test_vul5_saint(NUM_ASCII_TRACKS, indices_main); // ERROR IN MONA - makebasic.c:201: failed invariant - please inform mona@brics.dk
-		 	dfa_test_vul6(NUM_ASCII_TRACKS, indices_main); // ERROR IN MONA - makebasic.c:201: failed invariant - please inform mona@brics.dk
-		  	dfa_test_vul6_saint(NUM_ASCII_TRACKS, indices_main); // ERROR IN MONA - makebasic.c:201: failed invariant - please inform mona@brics.dk
-		 	dfa_test_multi_signature(NUM_ASCII_TRACKS, indices_main); // WORKING :)
-		 	dfa_test_multi_signature_vul03(NUM_ASCII_TRACKS, indices_main);// WORKING :)
-		 	dfa_test_multi_signature_vul05(NUM_ASCII_TRACKS, indices_main);// WORKING :)
-//		 	dfa_test_three_inputs_signature(NUM_ASCII_TRACKS, indices_main);
-
-		test_dfa_construct_from_automaton(NUM_ASCII_TRACKS, indices_main);
-
-
-
-
-		break;
-	case MASK_UNION:
-		resultDFA = dfa_union(M[0], M[1]);
-		break;
-	case MASK_INTERSECT:
-		resultDFA = dfa_intersect(M[0], M[1]);
-		break;
-	case MASK_NEGATE:
-		resultDFA = dfa_negate(M[0], NUM_ASCII_TRACKS, indices_main);
-		break;
-	case MASK_CONCAT:
-		resultDFA = dfa_concat(M[0], M[1], NUM_ASCII_TRACKS, indices_main);
-		break;
-	case MASK_REPLACE:
-		resultDFA = dfa_replace(M[0], M[1], M[2],
-				NUM_ASCII_TRACKS, indices_main);
-		break;
-	case MASK_EMPTYCHECK:
-		resultBool = check_emptiness(M[0], NUMBEROFVARIABLES, orders[0]);
-		break;
-	case MASK_INTERCHECK:
-		resultBool = check_intersection(M[0], M[1],
-				NUMBEROFVARIABLES, orders[0]);
-		break;
-	case MASK_EQUALCHECK:
-		resultBool
-				= check_equivalence(M[0], M[1], NUMBEROFVARIABLES, orders[0]);
-		break;
-	case MASK_INCLUDECHECK:
-		resultBool = check_inclusion(M[0], M[1], NUMBEROFVARIABLES, orders[0]);
-		break;
-	}
-
-	if (dfaOption & (MASK_CONSTRUCT|MASK_UNION | MASK_INTERSECT | MASK_NEGATE
-			| MASK_CONCAT | MASK_REPLACE)) {
-		//if(dfaOption & (MASK_UNION|MASK_INTERSECT|MASK_NEGATE|MASK_CONCAT|MASK_REPLACE)){
-		dfaPrintVerbose(resultDFA);
-		resultBool = dfa_export(resultDFA, outputFileName,
-				NUMBEROFVARIABLES, freeVars[0], orders[0]);
-		dfaFree(resultDFA);
-	} else if (dfaOption & (MASK_EMPTYCHECK|MASK_INTERCHECK | MASK_EQUALCHECK
-			| MASK_INCLUDECHECK)) {
-		if (resultBool > 0)
-			printf("\n Verification Result: True\n");
-		else if (resultBool == 0)
-			printf("\n Verification Result: False\n");
-		else
-			printf("\n Verification Result: Unknown\n");
-	}
-
-	for (i = fileCount - 2; i >= 0; i--)
-		dfaFree(M[i]);
-	//if(resultDFA) dfaFree(resultDFA);
-	free(indices_main);
-	printf("\n\n\n==================================================================\n");
-	printf("Test passed :)\n");
-	printf("==================================================================\n");
-	return resultBool;
-}
-
 /*********************************************************************************************/
 /**********************************  test function models   **********************************/
 /*********************************************************************************************/
 
-void testPreRightTrim(){
-	int* indices_main = (int *) allocateAscIIIndexWithExtraBit(NUM_ASCII_TRACKS);
+void testPreRightTrim() {
+	int* indices_main = (int *) allocateAscIIIndexWithExtraBit(
+			NUM_ASCII_TRACKS);
 	int var = NUM_ASCII_TRACKS;
 	dfaSetup(5, var, indices_main);
-    
+
 	//s0
 	dfaAllocExceptions(1);
 	dfaStoreException(1, "XXXXXXXX");
 	dfaStoreState(4);
-    
+
 	//s1
 	dfaAllocExceptions(1);
-	dfaStoreException(2, "01100001");//'a'
+	dfaStoreException(2, "01100001"); //'a'
 	dfaStoreState(4);
-    
+
 	//s2
 	dfaAllocExceptions(1);
-	dfaStoreException(3, "01100001");//'a'
+	dfaStoreException(3, "01100001"); //'a'
 	dfaStoreState(4);
-    
+
 	//s3
 	dfaAllocExceptions(1);
-	dfaStoreException(2, "00100000");//' '
+	dfaStoreException(2, "00100000"); //' '
 	dfaStoreState(4);
-    
+
 	//s4 - sink
 	dfaAllocExceptions(0);
 	dfaStoreState(4);
-    
+
 	DFA* dfa = dfaBuild("000+-");
-    
+
 	printf("dfaSimpleBeforePreRightTrim:\n");
-    //	dfaPrintGraphviz(dfa, var, indices_main);
-    
+	//	dfaPrintGraphviz(dfa, var, indices_main);
+
 	DFA* trimmed = dfaPreRightTrim(dfa, ' ', var, indices_main);
 	printf("dfaSimpleAfterTrim:\n");
-    //	dfaPrintGraphviz(trimmed, var, indices_main);
-	dfaFree(dfa); dfa = NULL;
-	dfaFree(trimmed); trimmed = NULL;
-    
+	//	dfaPrintGraphviz(trimmed, var, indices_main);
+	dfaFree(dfa);
+	dfa = NULL;
+	dfaFree(trimmed);
+	trimmed = NULL;
+
 }
 
-void testRightTrim(){
-    /*
-     int* indices_main = (int *) allocateAscIIIndexWithExtraBit(NUM_ASCII_TRACKS);
-     int var = NUM_ASCII_TRACKS;
-     DFA* trimmedTest;
-     
-     dfaSetup(5, var, indices_main);
-     
-     //s0
-     dfaAllocExceptions(1);
-     dfaStoreException(1, "XXXXXXXX");
-     dfaStoreState(4);
-     
-     //s1
-     dfaAllocExceptions(1);
-     dfaStoreException(2, "01100001");
-     dfaStoreState(4);
-     
-     //s2
-     dfaAllocExceptions(1);
-     dfaStoreException(3, "00100000");
-     dfaStoreState(4);
-     
-     //s3
-     dfaAllocExceptions(0);
-     dfaStoreState(4);
-     
-     //s4 - sink
-     dfaAllocExceptions(0);
-     dfaStoreState(4);
-     
-     DFA* dfa = dfaBuild("---+-");
-     
-     printf("dfaSimpleBeforeTrim:\n");
-     dfaPrintGraphviz(dfa, var, indices_main);
-     
-     DFA* trimmed = dfaRightTrim(dfa, ' ', var, indices_main);
-     printf("dfaSimpleAfterTrim:\n");
-     dfaPrintGraphviz(trimmed, var, indices_main);
-     
-     dfaSetup(5, var, indices_main);
-     
-     //s0
-     dfaAllocExceptions(1);
-     dfaStoreException(1, "XXXXXXXX");
-     dfaStoreState(3);
-     
-     //s1
-     dfaAllocExceptions(1);
-     dfaStoreException(2, "01100001");
-     dfaStoreState(3);
-     
-     //s2
-     dfaAllocExceptions(0);
-     dfaStoreState(3);
-     
-     //s3 - sink
-     dfaAllocExceptions(0);
-     dfaStoreState(3);
-     
-     trimmedTest = dfaBuild("--+-");
-     
-     assert(check_equivalence(trimmed, trimmedTest, var, indices_main));
-     dfaFree(trimmedTest);
-     dfaFree(dfa);
-     dfaFree(trimmed);
-     
-     dfaSetup(1, var, indices_main);
-     dfaAllocExceptions(0);
-     dfaStoreState(0);
-     DFA* empty = dfaBuild("-");
-     printf("dfaBeforeTrim:\n");
-     dfaPrintGraphviz(empty, var, indices_main);
-     trimmed = dfaRightTrim(empty, ' ', var, indices_main);
-     printf("dfaAfterTrim:\n");
-     dfaPrintGraphviz(trimmed, var, indices_main);
-     assert(check_equivalence(trimmed, empty, var, indices_main));
-     free(empty);
-     free(trimmed);
-     //
-     DFA* aSpaceb = dfa_construct_string("a b", var, indices_main);
-     printf("dfa_aSpaceb_BeforeTrim:\n");
-     dfaPrintGraphviz(aSpaceb, var, indices_main);
-     trimmed = dfaRightTrim(aSpaceb, ' ', var, indices_main);
-     printf("dfa_aSpaceb_AfterTrim:\n");
-     dfaPrintGraphviz(trimmed, var, indices_main);
-     assert(check_equivalence(trimmed, aSpaceb, var, indices_main));
-     dfaFree(aSpaceb);
-     dfaFree(trimmed);
-     
-     DFA* abSpace = dfa_construct_string("ab ", var, indices_main);
-     printf("dfa_abSpace_BeforeTrim:\n");
-     dfaPrintGraphviz(abSpace, var, indices_main);
-     trimmed = dfaRightTrim(abSpace, ' ', var, indices_main);
-     printf("dfa_abSpace_AfterTrim:\n\n\n\n");
-     dfaPrintGraphviz(trimmed, var, indices_main);
-     DFA* ab = dfa_construct_string("ab", var, indices_main);
-     assert(check_equivalence(trimmed, ab, var, indices_main));
-     dfaFree(ab);
-     dfaFree(abSpace);
-     dfaFree(trimmed);
-     
-     char* ltrA = bintostr('A', var);
-     char* ltrB = bintostr('B', var);
-     char* ltra = bintostr('a', var);
-     char* ltrb = bintostr('b', var);
-     char* ltrz = bintostr('z', var);
-     char* ltrSpace = bintostr(' ', var);
-     
-     dfaSetup(9, var, indices_main);
-     
-     //s0
-     dfaAllocExceptions(5);
-     dfaStoreException(1, ltrA);
-     dfaStoreException(1, ltrb);
-     dfaStoreException(1, ltrz);
-     dfaStoreException(1, ltrSpace);
-     dfaStoreException(1, ltra);
-     dfaStoreState(8);
-     
-     //s1
-     dfaAllocExceptions(4);
-     dfaStoreException(2, ltrA);
-     dfaStoreException(2, ltrb);
-     dfaStoreException(2, ltrz);
-     dfaStoreException(2, ltra);
-     dfaStoreState(8);
-     
-     //s2
-     dfaAllocExceptions(5);
-     dfaStoreException(3, ltrA);
-     dfaStoreException(3, ltrb);
-     dfaStoreException(3, ltrz);
-     dfaStoreException(3, ltrSpace);
-     dfaStoreException(3, ltrB);
-     dfaStoreState(8);
-     
-     //s3
-     dfaAllocExceptions(3);
-     dfaStoreException(4, ltrA);
-     dfaStoreException(4, ltrSpace);
-     dfaStoreException(4, ltra);
-     dfaStoreState(8);
-     
-     //s4
-     dfaAllocExceptions(1);
-     dfaStoreException(5, ltrSpace);
-     dfaStoreState(8);
-     
-     //s5
-     dfaAllocExceptions(2);
-     dfaStoreException(6, ltrb);
-     dfaStoreException(6, ltrSpace);
-     dfaStoreState(8);
-     
-     //s6
-     dfaAllocExceptions(4);
-     dfaStoreException(7, ltrA);
-     dfaStoreException(7, ltrb);
-     dfaStoreException(7, ltrz);
-     dfaStoreException(7, ltrSpace);
-     dfaStoreState(8);
-     
-     //s7 -- accept
-     dfaAllocExceptions(0);
-     dfaStoreState(8);
-     
-     //s8 - sink
-     dfaAllocExceptions(0);
-     dfaStoreState(8);
-     
-     DFA* complex = dfaBuild("-------+-");
-     printf("dfa_Complex1_BeforeTrim:\n");
-     dfaPrintGraphviz(complex, var, indices_main);
-     trimmed = dfaRightTrim(complex, ' ', var, indices_main);
-     printf("dfa_Complex1_AfterTrim:\n\n\n\n");
-     dfaPrintGraphviz(trimmed, var, indices_main);
-     dfaFree(complex);
-     dfaFree(trimmed);
-     
-     dfaSetup(11, var, indices_main);
-     
-     //s0
-     dfaAllocExceptions(1);
-     dfaStoreException(1, ltra);
-     dfaStoreState(10);
-     
-     //s1
-     dfaAllocExceptions(2);
-     dfaStoreException(2, ltrb);
-     dfaStoreException(7, ltrSpace);
-     dfaStoreState(10);
-     
-     //s2
-     dfaAllocExceptions(3);
-     dfaStoreException(3, ltra);
-     dfaStoreException(3, ltrSpace);
-     dfaStoreException(6, ltrb);
-     dfaStoreState(10);
-     
-     //s3
-     dfaAllocExceptions(2);
-     dfaStoreException(4, ltra);
-     dfaStoreException(4, ltrSpace);
-     dfaStoreState(10);
-     
-     //s4
-     dfaAllocExceptions(2);
-     dfaStoreException(3, ltra);
-     dfaStoreException(5, ltrSpace);
-     dfaStoreState(10);
-     
-     //s5 - accept state 1
-     dfaAllocExceptions(0);
-     dfaStoreState(10);
-     
-     //s6
-     dfaAllocExceptions(2);
-     dfaStoreException(7, ltrb);
-     dfaStoreException(4, ltrSpace);
-     dfaStoreState(10);
-     
-     //s7
-     dfaAllocExceptions(2);
-     dfaStoreException(8, ltrSpace);
-     dfaStoreException(9, ltrb);
-     dfaStoreState(10);
-     
-     //s8 - accept state 2
-     dfaAllocExceptions(2);
-     dfaStoreException(7, ltrSpace);
-     dfaStoreException(7, ltrb);
-     dfaStoreState(10);
-     
-     //s9 - accept state 3
-     dfaAllocExceptions(0);
-     dfaStoreState(10);
-     
-     //s10 - sink
-     dfaAllocExceptions(0);
-     dfaStoreState(10);
-     
-     
-     complex = dfaBuild("00000+00++-");
-     printf("dfa_Complex2_BeforeTrim:\n");
-     dfaPrintGraphviz(complex, var, indices_main);
-     trimmed = dfaRightTrim(complex, ' ', var, indices_main);
-     printf("dfa_Complex2_AfterTrim:\n\n\n\n");
-     dfaPrintGraphviz(trimmed, var, indices_main);
-     dfaFree(complex);
-     dfaFree(trimmed);
-     
-     dfaSetup(15, var, indices_main);
-     
-     //s0
-     dfaAllocExceptions(3);
-     dfaStoreException(1, ltrb);
-     dfaStoreException(1, ltrSpace);
-     dfaStoreException(6, ltra);
-     dfaStoreState(14);
-     
-     //s1
-     dfaAllocExceptions(3);
-     dfaStoreException(2, ltrb);
-     dfaStoreException(2, ltrSpace);
-     dfaStoreException(3, ltra);
-     dfaStoreState(14);
-     
-     //s2
-     dfaAllocExceptions(2);
-     dfaStoreException(4, ltra);
-     dfaStoreException(4, ltrSpace);
-     dfaStoreState(14);
-     
-     //s3
-     dfaAllocExceptions(2);
-     dfaStoreException(4, ltra);
-     dfaStoreException(4, ltrSpace);
-     dfaStoreState(14);
-     
-     //s4
-     dfaAllocExceptions(2);
-     dfaStoreException(5, ltra);
-     dfaStoreException(5, ltrSpace);
-     dfaStoreState(14);
-     
-     //s5 - accept state 1
-     dfaAllocExceptions(2);
-     dfaStoreException(5, ltrSpace);
-     dfaStoreException(2, ltra);
-     dfaStoreState(14);
-     
-     //s6
-     dfaAllocExceptions(3);
-     dfaStoreException(11, ltrb);
-     dfaStoreException(7, ltrz);
-     dfaStoreException(9, ltra);
-     dfaStoreState(14);
-     
-     //s7
-     dfaAllocExceptions(2);
-     dfaStoreException(8, ltrSpace);
-     dfaStoreException(8, ltra);
-     dfaStoreState(14);
-     
-     //s8
-     dfaAllocExceptions(2);
-     dfaStoreException(5, ltrSpace);
-     dfaStoreException(5, ltra);
-     dfaStoreState(14);
-     
-     //s9
-     dfaAllocExceptions(2);
-     dfaStoreException(10, ltrSpace);
-     dfaStoreException(10, ltrb);
-     dfaStoreState(14);
-     
-     //s10
-     dfaAllocExceptions(2);
-     dfaStoreException(13, ltrSpace);
-     dfaStoreException(9, ltra);
-     dfaStoreState(14);
-     
-     //s11
-     dfaAllocExceptions(2);
-     dfaStoreException(9, ltra);
-     dfaStoreException(12, ltrb);
-     dfaStoreState(14);
-     
-     //s12
-     dfaAllocExceptions(2);
-     dfaStoreException(10, ltrSpace);
-     dfaStoreException(10, ltra);
-     dfaStoreState(14);
-     
-     //s13 - accept satate 2
-     dfaAllocExceptions(1);
-     dfaStoreException(5, ltrSpace);
-     dfaStoreState(14);
-     
-     //s14 - sink
-     dfaAllocExceptions(0);
-     dfaStoreState(14);
-     
-     
-     complex = dfaBuild("00000+0000000+-");
-     printf("dfa_Complex3_BeforeTrim:\n");
-     dfaPrintGraphviz(complex, var, indices_main);
-     trimmed = dfaRightTrim(complex, ' ', var, indices_main);
-     printf("dfa_Complex3_AfterTrim:\n\n\n\n");
-     dfaPrintGraphviz(trimmed, var, indices_main);
-     DFA* fourS = dfa_construct_string("    ", var, indices_main);
-     assert(!check_intersection(trimmed, fourS, var, indices_main));
-     DFA* bfourS = dfa_construct_string("b    ", var, indices_main);
-     assert(!check_intersection(trimmed, bfourS, var, indices_main));
-     DFA* azaS = dfa_construct_string("aza ", var, indices_main);
-     assert(!check_intersection(trimmed, azaS, var, indices_main));
-     DFA* a = dfa_construct_string("a", var, indices_main);
-     assert(!check_intersection(trimmed, a, var, indices_main));
-     ab = dfa_construct_string("ab", var, indices_main);
-     assert(!check_intersection(trimmed, ab, var, indices_main));
-     DFA* aa = dfa_construct_string("aa", var, indices_main);
-     assert(check_intersection(trimmed, aa, var, indices_main));
-     DFA* Sa = dfa_construct_string("   a", var, indices_main);
-     assert(check_intersection(trimmed, Sa, var, indices_main));
-     DFA* SaSa = dfa_construct_string(" a a", var, indices_main);
-     assert(check_intersection(trimmed, SaSa, var, indices_main));
-     DFA* abbSSSSSaaa = dfa_construct_string("abb     aaa", var, indices_main);
-     assert(check_intersection(trimmed, abbSSSSSaaa, var, indices_main));
-     dfaFree(bfourS);
-     dfaFree(azaS);
-     dfaFree(a);
-     dfaFree(ab);
-     dfaFree(aa);
-     dfaFree(Sa);
-     dfaFree(SaSa);
-     dfaFree(abbSSSSSaaa);
-     dfaFree(fourS);
-     dfaFree(complex);
-     dfaFree(trimmed);
-     
-     //we need more test
-     
-     
-     free(ltrA);
-     free(ltrB);
-     free(ltra);
-     free(ltrb);
-     free(ltrz);
-     free(ltrSpace);
-     */
+void testRightTrim() {
+	/*
+	 int* indices_main = (int *) allocateAscIIIndexWithExtraBit(NUM_ASCII_TRACKS);
+	 int var = NUM_ASCII_TRACKS;
+	 DFA* trimmedTest;
+
+	 dfaSetup(5, var, indices_main);
+
+	 //s0
+	 dfaAllocExceptions(1);
+	 dfaStoreException(1, "XXXXXXXX");
+	 dfaStoreState(4);
+
+	 //s1
+	 dfaAllocExceptions(1);
+	 dfaStoreException(2, "01100001");
+	 dfaStoreState(4);
+
+	 //s2
+	 dfaAllocExceptions(1);
+	 dfaStoreException(3, "00100000");
+	 dfaStoreState(4);
+
+	 //s3
+	 dfaAllocExceptions(0);
+	 dfaStoreState(4);
+
+	 //s4 - sink
+	 dfaAllocExceptions(0);
+	 dfaStoreState(4);
+
+	 DFA* dfa = dfaBuild("---+-");
+
+	 printf("dfaSimpleBeforeTrim:\n");
+	 dfaPrintGraphviz(dfa, var, indices_main);
+
+	 DFA* trimmed = dfaRightTrim(dfa, ' ', var, indices_main);
+	 printf("dfaSimpleAfterTrim:\n");
+	 dfaPrintGraphviz(trimmed, var, indices_main);
+
+	 dfaSetup(5, var, indices_main);
+
+	 //s0
+	 dfaAllocExceptions(1);
+	 dfaStoreException(1, "XXXXXXXX");
+	 dfaStoreState(3);
+
+	 //s1
+	 dfaAllocExceptions(1);
+	 dfaStoreException(2, "01100001");
+	 dfaStoreState(3);
+
+	 //s2
+	 dfaAllocExceptions(0);
+	 dfaStoreState(3);
+
+	 //s3 - sink
+	 dfaAllocExceptions(0);
+	 dfaStoreState(3);
+
+	 trimmedTest = dfaBuild("--+-");
+
+	 assert(check_equivalence(trimmed, trimmedTest, var, indices_main));
+	 dfaFree(trimmedTest);
+	 dfaFree(dfa);
+	 dfaFree(trimmed);
+
+	 dfaSetup(1, var, indices_main);
+	 dfaAllocExceptions(0);
+	 dfaStoreState(0);
+	 DFA* empty = dfaBuild("-");
+	 printf("dfaBeforeTrim:\n");
+	 dfaPrintGraphviz(empty, var, indices_main);
+	 trimmed = dfaRightTrim(empty, ' ', var, indices_main);
+	 printf("dfaAfterTrim:\n");
+	 dfaPrintGraphviz(trimmed, var, indices_main);
+	 assert(check_equivalence(trimmed, empty, var, indices_main));
+	 free(empty);
+	 free(trimmed);
+	 //
+	 DFA* aSpaceb = dfa_construct_string("a b", var, indices_main);
+	 printf("dfa_aSpaceb_BeforeTrim:\n");
+	 dfaPrintGraphviz(aSpaceb, var, indices_main);
+	 trimmed = dfaRightTrim(aSpaceb, ' ', var, indices_main);
+	 printf("dfa_aSpaceb_AfterTrim:\n");
+	 dfaPrintGraphviz(trimmed, var, indices_main);
+	 assert(check_equivalence(trimmed, aSpaceb, var, indices_main));
+	 dfaFree(aSpaceb);
+	 dfaFree(trimmed);
+
+	 DFA* abSpace = dfa_construct_string("ab ", var, indices_main);
+	 printf("dfa_abSpace_BeforeTrim:\n");
+	 dfaPrintGraphviz(abSpace, var, indices_main);
+	 trimmed = dfaRightTrim(abSpace, ' ', var, indices_main);
+	 printf("dfa_abSpace_AfterTrim:\n\n\n\n");
+	 dfaPrintGraphviz(trimmed, var, indices_main);
+	 DFA* ab = dfa_construct_string("ab", var, indices_main);
+	 assert(check_equivalence(trimmed, ab, var, indices_main));
+	 dfaFree(ab);
+	 dfaFree(abSpace);
+	 dfaFree(trimmed);
+
+	 char* ltrA = bintostr('A', var);
+	 char* ltrB = bintostr('B', var);
+	 char* ltra = bintostr('a', var);
+	 char* ltrb = bintostr('b', var);
+	 char* ltrz = bintostr('z', var);
+	 char* ltrSpace = bintostr(' ', var);
+
+	 dfaSetup(9, var, indices_main);
+
+	 //s0
+	 dfaAllocExceptions(5);
+	 dfaStoreException(1, ltrA);
+	 dfaStoreException(1, ltrb);
+	 dfaStoreException(1, ltrz);
+	 dfaStoreException(1, ltrSpace);
+	 dfaStoreException(1, ltra);
+	 dfaStoreState(8);
+
+	 //s1
+	 dfaAllocExceptions(4);
+	 dfaStoreException(2, ltrA);
+	 dfaStoreException(2, ltrb);
+	 dfaStoreException(2, ltrz);
+	 dfaStoreException(2, ltra);
+	 dfaStoreState(8);
+
+	 //s2
+	 dfaAllocExceptions(5);
+	 dfaStoreException(3, ltrA);
+	 dfaStoreException(3, ltrb);
+	 dfaStoreException(3, ltrz);
+	 dfaStoreException(3, ltrSpace);
+	 dfaStoreException(3, ltrB);
+	 dfaStoreState(8);
+
+	 //s3
+	 dfaAllocExceptions(3);
+	 dfaStoreException(4, ltrA);
+	 dfaStoreException(4, ltrSpace);
+	 dfaStoreException(4, ltra);
+	 dfaStoreState(8);
+
+	 //s4
+	 dfaAllocExceptions(1);
+	 dfaStoreException(5, ltrSpace);
+	 dfaStoreState(8);
+
+	 //s5
+	 dfaAllocExceptions(2);
+	 dfaStoreException(6, ltrb);
+	 dfaStoreException(6, ltrSpace);
+	 dfaStoreState(8);
+
+	 //s6
+	 dfaAllocExceptions(4);
+	 dfaStoreException(7, ltrA);
+	 dfaStoreException(7, ltrb);
+	 dfaStoreException(7, ltrz);
+	 dfaStoreException(7, ltrSpace);
+	 dfaStoreState(8);
+
+	 //s7 -- accept
+	 dfaAllocExceptions(0);
+	 dfaStoreState(8);
+
+	 //s8 - sink
+	 dfaAllocExceptions(0);
+	 dfaStoreState(8);
+
+	 DFA* complex = dfaBuild("-------+-");
+	 printf("dfa_Complex1_BeforeTrim:\n");
+	 dfaPrintGraphviz(complex, var, indices_main);
+	 trimmed = dfaRightTrim(complex, ' ', var, indices_main);
+	 printf("dfa_Complex1_AfterTrim:\n\n\n\n");
+	 dfaPrintGraphviz(trimmed, var, indices_main);
+	 dfaFree(complex);
+	 dfaFree(trimmed);
+
+	 dfaSetup(11, var, indices_main);
+
+	 //s0
+	 dfaAllocExceptions(1);
+	 dfaStoreException(1, ltra);
+	 dfaStoreState(10);
+
+	 //s1
+	 dfaAllocExceptions(2);
+	 dfaStoreException(2, ltrb);
+	 dfaStoreException(7, ltrSpace);
+	 dfaStoreState(10);
+
+	 //s2
+	 dfaAllocExceptions(3);
+	 dfaStoreException(3, ltra);
+	 dfaStoreException(3, ltrSpace);
+	 dfaStoreException(6, ltrb);
+	 dfaStoreState(10);
+
+	 //s3
+	 dfaAllocExceptions(2);
+	 dfaStoreException(4, ltra);
+	 dfaStoreException(4, ltrSpace);
+	 dfaStoreState(10);
+
+	 //s4
+	 dfaAllocExceptions(2);
+	 dfaStoreException(3, ltra);
+	 dfaStoreException(5, ltrSpace);
+	 dfaStoreState(10);
+
+	 //s5 - accept state 1
+	 dfaAllocExceptions(0);
+	 dfaStoreState(10);
+
+	 //s6
+	 dfaAllocExceptions(2);
+	 dfaStoreException(7, ltrb);
+	 dfaStoreException(4, ltrSpace);
+	 dfaStoreState(10);
+
+	 //s7
+	 dfaAllocExceptions(2);
+	 dfaStoreException(8, ltrSpace);
+	 dfaStoreException(9, ltrb);
+	 dfaStoreState(10);
+
+	 //s8 - accept state 2
+	 dfaAllocExceptions(2);
+	 dfaStoreException(7, ltrSpace);
+	 dfaStoreException(7, ltrb);
+	 dfaStoreState(10);
+
+	 //s9 - accept state 3
+	 dfaAllocExceptions(0);
+	 dfaStoreState(10);
+
+	 //s10 - sink
+	 dfaAllocExceptions(0);
+	 dfaStoreState(10);
+
+
+	 complex = dfaBuild("00000+00++-");
+	 printf("dfa_Complex2_BeforeTrim:\n");
+	 dfaPrintGraphviz(complex, var, indices_main);
+	 trimmed = dfaRightTrim(complex, ' ', var, indices_main);
+	 printf("dfa_Complex2_AfterTrim:\n\n\n\n");
+	 dfaPrintGraphviz(trimmed, var, indices_main);
+	 dfaFree(complex);
+	 dfaFree(trimmed);
+
+	 dfaSetup(15, var, indices_main);
+
+	 //s0
+	 dfaAllocExceptions(3);
+	 dfaStoreException(1, ltrb);
+	 dfaStoreException(1, ltrSpace);
+	 dfaStoreException(6, ltra);
+	 dfaStoreState(14);
+
+	 //s1
+	 dfaAllocExceptions(3);
+	 dfaStoreException(2, ltrb);
+	 dfaStoreException(2, ltrSpace);
+	 dfaStoreException(3, ltra);
+	 dfaStoreState(14);
+
+	 //s2
+	 dfaAllocExceptions(2);
+	 dfaStoreException(4, ltra);
+	 dfaStoreException(4, ltrSpace);
+	 dfaStoreState(14);
+
+	 //s3
+	 dfaAllocExceptions(2);
+	 dfaStoreException(4, ltra);
+	 dfaStoreException(4, ltrSpace);
+	 dfaStoreState(14);
+
+	 //s4
+	 dfaAllocExceptions(2);
+	 dfaStoreException(5, ltra);
+	 dfaStoreException(5, ltrSpace);
+	 dfaStoreState(14);
+
+	 //s5 - accept state 1
+	 dfaAllocExceptions(2);
+	 dfaStoreException(5, ltrSpace);
+	 dfaStoreException(2, ltra);
+	 dfaStoreState(14);
+
+	 //s6
+	 dfaAllocExceptions(3);
+	 dfaStoreException(11, ltrb);
+	 dfaStoreException(7, ltrz);
+	 dfaStoreException(9, ltra);
+	 dfaStoreState(14);
+
+	 //s7
+	 dfaAllocExceptions(2);
+	 dfaStoreException(8, ltrSpace);
+	 dfaStoreException(8, ltra);
+	 dfaStoreState(14);
+
+	 //s8
+	 dfaAllocExceptions(2);
+	 dfaStoreException(5, ltrSpace);
+	 dfaStoreException(5, ltra);
+	 dfaStoreState(14);
+
+	 //s9
+	 dfaAllocExceptions(2);
+	 dfaStoreException(10, ltrSpace);
+	 dfaStoreException(10, ltrb);
+	 dfaStoreState(14);
+
+	 //s10
+	 dfaAllocExceptions(2);
+	 dfaStoreException(13, ltrSpace);
+	 dfaStoreException(9, ltra);
+	 dfaStoreState(14);
+
+	 //s11
+	 dfaAllocExceptions(2);
+	 dfaStoreException(9, ltra);
+	 dfaStoreException(12, ltrb);
+	 dfaStoreState(14);
+
+	 //s12
+	 dfaAllocExceptions(2);
+	 dfaStoreException(10, ltrSpace);
+	 dfaStoreException(10, ltra);
+	 dfaStoreState(14);
+
+	 //s13 - accept satate 2
+	 dfaAllocExceptions(1);
+	 dfaStoreException(5, ltrSpace);
+	 dfaStoreState(14);
+
+	 //s14 - sink
+	 dfaAllocExceptions(0);
+	 dfaStoreState(14);
+
+
+	 complex = dfaBuild("00000+0000000+-");
+	 printf("dfa_Complex3_BeforeTrim:\n");
+	 dfaPrintGraphviz(complex, var, indices_main);
+	 trimmed = dfaRightTrim(complex, ' ', var, indices_main);
+	 printf("dfa_Complex3_AfterTrim:\n\n\n\n");
+	 dfaPrintGraphviz(trimmed, var, indices_main);
+	 DFA* fourS = dfa_construct_string("    ", var, indices_main);
+	 assert(!check_intersection(trimmed, fourS, var, indices_main));
+	 DFA* bfourS = dfa_construct_string("b    ", var, indices_main);
+	 assert(!check_intersection(trimmed, bfourS, var, indices_main));
+	 DFA* azaS = dfa_construct_string("aza ", var, indices_main);
+	 assert(!check_intersection(trimmed, azaS, var, indices_main));
+	 DFA* a = dfa_construct_string("a", var, indices_main);
+	 assert(!check_intersection(trimmed, a, var, indices_main));
+	 ab = dfa_construct_string("ab", var, indices_main);
+	 assert(!check_intersection(trimmed, ab, var, indices_main));
+	 DFA* aa = dfa_construct_string("aa", var, indices_main);
+	 assert(check_intersection(trimmed, aa, var, indices_main));
+	 DFA* Sa = dfa_construct_string("   a", var, indices_main);
+	 assert(check_intersection(trimmed, Sa, var, indices_main));
+	 DFA* SaSa = dfa_construct_string(" a a", var, indices_main);
+	 assert(check_intersection(trimmed, SaSa, var, indices_main));
+	 DFA* abbSSSSSaaa = dfa_construct_string("abb     aaa", var, indices_main);
+	 assert(check_intersection(trimmed, abbSSSSSaaa, var, indices_main));
+	 dfaFree(bfourS);
+	 dfaFree(azaS);
+	 dfaFree(a);
+	 dfaFree(ab);
+	 dfaFree(aa);
+	 dfaFree(Sa);
+	 dfaFree(SaSa);
+	 dfaFree(abbSSSSSaaa);
+	 dfaFree(fourS);
+	 dfaFree(complex);
+	 dfaFree(trimmed);
+
+	 //we need more test
+
+
+	 free(ltrA);
+	 free(ltrB);
+	 free(ltra);
+	 free(ltrb);
+	 free(ltrz);
+	 free(ltrSpace);
+	 */
 }
 
-void testToLowerUpperCaseHelper(boolean lowerCase){
-    /*
-     int var = NUM_ASCII_TRACKS;
-     int* indices = (int *) allocateAscIIIndexWithExtraBit(NUM_ASCII_TRACKS);
-     int i;
-     char* symbol;
-     DFA* dfa, *dfa2, *result, *tmp;
-     
-     printf("test dfaToLowerUpperCase();\n\n\n");
-     
-     //	// test empty language
-     //	dfa = dfaASCIINonString(var, indices);
-     //	result = dfaToLowerCase(dfa, var, indices);
-     //	dfaPrintGraphviz(result, var, indices);
-     //	assert(check_equivalence(dfa, result, var, indices));
-     //	dfaFree(dfa); dfa = NULL;
-     //	dfaFree(result); result = NULL;
-     //
-     //	printf("1st passed\n\n\n");
-     //
-     //	// test language with empty string only
-     //	dfa = dfaASCIIOnlyNullString(var, indices);
-     //	result = dfaToLowerCase(dfa, var, indices);
-     //	dfaPrintGraphviz(dfa, var, indices);
-     //	dfaPrintGraphviz(result, var, indices);
-     //	assert(check_equivalence(dfa, result, var, indices));
-     //	dfaFree(dfa); dfa = NULL;
-     //	dfaFree(result); result = NULL;
-     //
-     //	printf("2nd passed\n\n\n");
-     
-     // accepts a length of one charachter
-     dfaSetup(3, var, indices);
-     //s0
-     dfaAllocExceptions(0);
-     dfaStoreState(1);
-     //s1
-     dfaAllocExceptions(0);
-     dfaStoreState(2);
-     //s2
-     dfaAllocExceptions(0);
-     dfaStoreState(2);
-     dfa = dfaBuild("0+-");
-     dfaPrintGraphviz(dfa, var, indices);
-     
-     // accepts a length of one charachter that is not capital letter
-     dfaSetup(3, var, indices);
-     //s0
-     dfaAllocExceptions(230);
-     int first, last;
-     if (lowerCase){
-     first = 65;last = 90;
-     }
-     else{
-     first = 97; last = 122;
-     }
-     for (i = 0; i < 256; i++){
-     
-     if (i < first || i > last){
-     symbol = bintostr(i, var);
-     dfaStoreException(1, symbol);
-     free(symbol); symbol = NULL;
-     }
-     }
-     dfaStoreState(2);
-     //s1
-     dfaAllocExceptions(0);
-     dfaStoreState(2);
-     //s2
-     dfaAllocExceptions(0);
-     dfaStoreState(2);
-     tmp = dfaBuild("0+-");
-     dfaPrintGraphviz(tmp, var, indices);
-     
-     result = lowerCase? dfaToLowerCase(dfa, var, indices): dfaToUpperCase(dfa, var, indices);;
-     dfaPrintGraphviz(result, var, indices);
-     assert(check_equivalence(tmp, result, var, indices));
-     dfaFree(dfa); dfa = NULL;
-     dfaFree(result); result = NULL;
-     dfaFree(tmp); tmp = NULL;
-     printf("3rd passed\n\n\n");
-     
-     
-     
-     dfa = lowerCase? dfa_construct_string("?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`a", var, indices): dfa_construct_string("_`abcdefghijklmnopqrstuvwxyz{}|~A", var, indices);;
-     dfaPrintGraphviz(dfa, var, indices);
-     result = lowerCase? dfaToLowerCase(dfa, var, indices) : dfaToUpperCase(dfa, var, indices);
-     dfaFree(dfa); dfa = NULL;
-     dfa = lowerCase? dfa_construct_string("?@abcdefghijklmnopqrstuvwxyz[\\]^_`a", var, indices) : dfa_construct_string("_`ABCDEFGHIJKLMNOPQRSTUVWXYZ{}|~A", var, indices);
-     dfaPrintGraphviz(dfa, var, indices);
-     dfaPrintGraphviz(result, var, indices);
-     assert(check_equivalence(dfa, result, var, indices));
-     dfaFree(dfa); dfa = NULL;
-     dfaFree(result); result = NULL;
-     printf("4th passed\n\n\n");
-     
-     
-     char* alphaC = lowerCase? "?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`a": "_`abcdefghijklmnopqrstuvwxyz{}|~A";
-     char* alphaS = lowerCase? "?@abcdefghijklmnopqrstuvwxyz[\\]^_`a": "_`ABCDEFGHIJKLMNOPQRSTUVWXYZ{}|~A";
-     char** set = (char**) malloc((strlen(alphaC)) * sizeof(char*));
-     for(i = 0; i < strlen(alphaC); i++){
-     set[i] = (char*) malloc(2 * sizeof(char));
-     set[i][0] = alphaC[i]; set[i][1] = '\0';
-     printf("%s, ", set[i]);
-     }
-     printf("\n");
-     char** set2 = (char**) malloc((strlen(alphaS)) * sizeof(char*));
-     for(i = 0; i < strlen(alphaS); i++){
-     set2[i] = (char*) malloc(2 * sizeof(char));
-     set2[i][0] = alphaS[i]; set2[i][1] = '\0';
-     printf("%s, ", set2[i]);
-     }
-     printf("\n");
-     dfa = dfa_construct_set_of_strings(set, strlen(alphaC), var, indices);
-     dfaPrintGraphviz(dfa, var, indices);
-     dfa2 = dfa_construct_set_of_strings(set2, strlen(alphaS), var, indices);
-     dfaPrintGraphviz(dfa2, var, indices);
-     result = lowerCase? dfaToLowerCase(dfa, var, indices) : dfaToUpperCase(dfa, var, indices);
-     dfaPrintGraphviz(result, var, indices);
-     assert(check_equivalence(dfa2, result, var, indices));
-     dfaFree(dfa);dfa = NULL;
-     dfaFree(dfa2);dfa2 = NULL;
-     dfaFree(result);result = NULL;
-     for (i = 0; i < strlen(alphaC); i++)
-     free(set[i]);
-     free(set);set = NULL;
-     for (i = 0; i < strlen(alphaS); i++)
-     free(set2[i]);
-     free(set2); set2 = NULL;
-     printf("5th passed\n\n\n");
-     
-     
-     alphaC = lowerCase? "()*+01,-./?@ABDEFHIJKLMNOPQRSTUVWXYZ[\\]^_`a" : "()*+01,-./?@abdefhijklmnopqrstuvwxyz{}|~A";
-     alphaS = lowerCase? "()*+01,-./?@abdefhijklmnopqrstuvwxyz[\\]^_`a" : "()*+01,-./?@ABDEFHIJKLMNOPQRSTUVWXYZ{}|~A";
-     set = (char**) malloc((strlen(alphaC)) * sizeof(char*));
-     for(i = 0; i < strlen(alphaC); i++){
-     set[i] = (char*) malloc(2 * sizeof(char));
-     set[i][0] = alphaC[i]; set[i][1] = '\0';
-     printf("%s, ", set[i]);
-     }
-     printf("\n");
-     set2 = (char**) malloc((strlen(alphaS)) * sizeof(char*));
-     for(i = 0; i < strlen(alphaS); i++){
-     set2[i] = (char*) malloc(2 * sizeof(char));
-     set2[i][0] = alphaS[i]; set2[i][1] = '\0';
-     printf("%s, ", set2[i]);
-     }
-     printf("\n");
-     dfa = dfa_construct_set_of_strings(set, strlen(alphaC), var, indices);
-     dfaPrintGraphviz(dfa, var, indices);
-     dfa2 = dfa_construct_set_of_strings(set2, strlen(alphaS), var, indices);
-     dfaPrintGraphviz(dfa2, var, indices);
-     result = lowerCase? dfaToLowerCase(dfa, var, indices) : dfaToUpperCase(dfa, var, indices);
-     dfaPrintGraphviz(result, var, indices);
-     assert(check_equivalence(dfa2, result, var, indices));
-     dfaFree(dfa);dfa = NULL;
-     dfaFree(dfa2);dfa2 = NULL;
-     dfaFree(result);result = NULL;
-     for (i = 0; i < strlen(alphaC); i++)
-     free(set[i]);
-     free(set);set = NULL;
-     for (i = 0; i < strlen(alphaS); i++)
-     free(set2[i]);
-     free(set2); set2 = NULL;
-     printf("6th passed\n\n\n");
-     
-     
-     alphaC = lowerCase? " 0@P!1AQ" : " 0\"2`pbr";
-     alphaS = lowerCase? " 0@p!1aq" : " 0\"2`PBR";
-     set = (char**) malloc((strlen(alphaC)) * sizeof(char*));
-     for(i = 0; i < strlen(alphaC); i++){
-     set[i] = (char*) malloc(2 * sizeof(char));
-     set[i][0] = alphaC[i]; set[i][1] = '\0';
-     printf("%s, ", set[i]);
-     }
-     printf("\n");
-     set2 = (char**) malloc((strlen(alphaS)) * sizeof(char*));
-     for(i = 0; i < strlen(alphaS); i++){
-     set2[i] = (char*) malloc(2 * sizeof(char));
-     set2[i][0] = alphaS[i]; set2[i][1] = '\0';
-     printf("%s, ", set2[i]);
-     }
-     printf("\n");
-     dfa = dfa_construct_set_of_strings(set, strlen(alphaC), var, indices);
-     dfaPrintGraphviz(dfa, var, indices);
-     dfa2 = dfa_construct_set_of_strings(set2, strlen(alphaS), var, indices);
-     dfaPrintGraphviz(dfa2, var, indices);
-     result = lowerCase? dfaToLowerCase(dfa, var, indices) : dfaToUpperCase(dfa, var, indices);
-     dfaPrintGraphviz(result, var, indices);
-     assert(check_equivalence(dfa2, result, var, indices));
-     dfaFree(dfa);dfa = NULL;
-     dfaFree(dfa2);dfa2 = NULL;
-     dfaFree(result);result = NULL;
-     for (i = 0; i < strlen(alphaC); i++)
-     free(set[i]);
-     free(set);set = NULL;
-     for (i = 0; i < strlen(alphaS); i++)
-     free(set2[i]);
-     free(set2); set2 = NULL;
-     printf("7th passed\n\n\n");
-     */
+void testToLowerUpperCaseHelper(boolean lowerCase) {
+	/*
+	 int var = NUM_ASCII_TRACKS;
+	 int* indices = (int *) allocateAscIIIndexWithExtraBit(NUM_ASCII_TRACKS);
+	 int i;
+	 char* symbol;
+	 DFA* dfa, *dfa2, *result, *tmp;
+
+	 printf("test dfaToLowerUpperCase();\n\n\n");
+
+	 //	// test empty language
+	 //	dfa = dfaASCIINonString(var, indices);
+	 //	result = dfaToLowerCase(dfa, var, indices);
+	 //	dfaPrintGraphviz(result, var, indices);
+	 //	assert(check_equivalence(dfa, result, var, indices));
+	 //	dfaFree(dfa); dfa = NULL;
+	 //	dfaFree(result); result = NULL;
+	 //
+	 //	printf("1st passed\n\n\n");
+	 //
+	 //	// test language with empty string only
+	 //	dfa = dfaASCIIOnlyNullString(var, indices);
+	 //	result = dfaToLowerCase(dfa, var, indices);
+	 //	dfaPrintGraphviz(dfa, var, indices);
+	 //	dfaPrintGraphviz(result, var, indices);
+	 //	assert(check_equivalence(dfa, result, var, indices));
+	 //	dfaFree(dfa); dfa = NULL;
+	 //	dfaFree(result); result = NULL;
+	 //
+	 //	printf("2nd passed\n\n\n");
+
+	 // accepts a length of one charachter
+	 dfaSetup(3, var, indices);
+	 //s0
+	 dfaAllocExceptions(0);
+	 dfaStoreState(1);
+	 //s1
+	 dfaAllocExceptions(0);
+	 dfaStoreState(2);
+	 //s2
+	 dfaAllocExceptions(0);
+	 dfaStoreState(2);
+	 dfa = dfaBuild("0+-");
+	 dfaPrintGraphviz(dfa, var, indices);
+
+	 // accepts a length of one charachter that is not capital letter
+	 dfaSetup(3, var, indices);
+	 //s0
+	 dfaAllocExceptions(230);
+	 int first, last;
+	 if (lowerCase){
+	 first = 65;last = 90;
+	 }
+	 else{
+	 first = 97; last = 122;
+	 }
+	 for (i = 0; i < 256; i++){
+
+	 if (i < first || i > last){
+	 symbol = bintostr(i, var);
+	 dfaStoreException(1, symbol);
+	 free(symbol); symbol = NULL;
+	 }
+	 }
+	 dfaStoreState(2);
+	 //s1
+	 dfaAllocExceptions(0);
+	 dfaStoreState(2);
+	 //s2
+	 dfaAllocExceptions(0);
+	 dfaStoreState(2);
+	 tmp = dfaBuild("0+-");
+	 dfaPrintGraphviz(tmp, var, indices);
+
+	 result = lowerCase? dfaToLowerCase(dfa, var, indices): dfaToUpperCase(dfa, var, indices);;
+	 dfaPrintGraphviz(result, var, indices);
+	 assert(check_equivalence(tmp, result, var, indices));
+	 dfaFree(dfa); dfa = NULL;
+	 dfaFree(result); result = NULL;
+	 dfaFree(tmp); tmp = NULL;
+	 printf("3rd passed\n\n\n");
+
+
+
+	 dfa = lowerCase? dfa_construct_string("?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`a", var, indices): dfa_construct_string("_`abcdefghijklmnopqrstuvwxyz{}|~A", var, indices);;
+	 dfaPrintGraphviz(dfa, var, indices);
+	 result = lowerCase? dfaToLowerCase(dfa, var, indices) : dfaToUpperCase(dfa, var, indices);
+	 dfaFree(dfa); dfa = NULL;
+	 dfa = lowerCase? dfa_construct_string("?@abcdefghijklmnopqrstuvwxyz[\\]^_`a", var, indices) : dfa_construct_string("_`ABCDEFGHIJKLMNOPQRSTUVWXYZ{}|~A", var, indices);
+	 dfaPrintGraphviz(dfa, var, indices);
+	 dfaPrintGraphviz(result, var, indices);
+	 assert(check_equivalence(dfa, result, var, indices));
+	 dfaFree(dfa); dfa = NULL;
+	 dfaFree(result); result = NULL;
+	 printf("4th passed\n\n\n");
+
+
+	 char* alphaC = lowerCase? "?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`a": "_`abcdefghijklmnopqrstuvwxyz{}|~A";
+	 char* alphaS = lowerCase? "?@abcdefghijklmnopqrstuvwxyz[\\]^_`a": "_`ABCDEFGHIJKLMNOPQRSTUVWXYZ{}|~A";
+	 char** set = (char**) malloc((strlen(alphaC)) * sizeof(char*));
+	 for(i = 0; i < strlen(alphaC); i++){
+	 set[i] = (char*) malloc(2 * sizeof(char));
+	 set[i][0] = alphaC[i]; set[i][1] = '\0';
+	 printf("%s, ", set[i]);
+	 }
+	 printf("\n");
+	 char** set2 = (char**) malloc((strlen(alphaS)) * sizeof(char*));
+	 for(i = 0; i < strlen(alphaS); i++){
+	 set2[i] = (char*) malloc(2 * sizeof(char));
+	 set2[i][0] = alphaS[i]; set2[i][1] = '\0';
+	 printf("%s, ", set2[i]);
+	 }
+	 printf("\n");
+	 dfa = dfa_construct_set_of_strings(set, strlen(alphaC), var, indices);
+	 dfaPrintGraphviz(dfa, var, indices);
+	 dfa2 = dfa_construct_set_of_strings(set2, strlen(alphaS), var, indices);
+	 dfaPrintGraphviz(dfa2, var, indices);
+	 result = lowerCase? dfaToLowerCase(dfa, var, indices) : dfaToUpperCase(dfa, var, indices);
+	 dfaPrintGraphviz(result, var, indices);
+	 assert(check_equivalence(dfa2, result, var, indices));
+	 dfaFree(dfa);dfa = NULL;
+	 dfaFree(dfa2);dfa2 = NULL;
+	 dfaFree(result);result = NULL;
+	 for (i = 0; i < strlen(alphaC); i++)
+	 free(set[i]);
+	 free(set);set = NULL;
+	 for (i = 0; i < strlen(alphaS); i++)
+	 free(set2[i]);
+	 free(set2); set2 = NULL;
+	 printf("5th passed\n\n\n");
+
+
+	 alphaC = lowerCase? "()*+01,-./?@ABDEFHIJKLMNOPQRSTUVWXYZ[\\]^_`a" : "()*+01,-./?@abdefhijklmnopqrstuvwxyz{}|~A";
+	 alphaS = lowerCase? "()*+01,-./?@abdefhijklmnopqrstuvwxyz[\\]^_`a" : "()*+01,-./?@ABDEFHIJKLMNOPQRSTUVWXYZ{}|~A";
+	 set = (char**) malloc((strlen(alphaC)) * sizeof(char*));
+	 for(i = 0; i < strlen(alphaC); i++){
+	 set[i] = (char*) malloc(2 * sizeof(char));
+	 set[i][0] = alphaC[i]; set[i][1] = '\0';
+	 printf("%s, ", set[i]);
+	 }
+	 printf("\n");
+	 set2 = (char**) malloc((strlen(alphaS)) * sizeof(char*));
+	 for(i = 0; i < strlen(alphaS); i++){
+	 set2[i] = (char*) malloc(2 * sizeof(char));
+	 set2[i][0] = alphaS[i]; set2[i][1] = '\0';
+	 printf("%s, ", set2[i]);
+	 }
+	 printf("\n");
+	 dfa = dfa_construct_set_of_strings(set, strlen(alphaC), var, indices);
+	 dfaPrintGraphviz(dfa, var, indices);
+	 dfa2 = dfa_construct_set_of_strings(set2, strlen(alphaS), var, indices);
+	 dfaPrintGraphviz(dfa2, var, indices);
+	 result = lowerCase? dfaToLowerCase(dfa, var, indices) : dfaToUpperCase(dfa, var, indices);
+	 dfaPrintGraphviz(result, var, indices);
+	 assert(check_equivalence(dfa2, result, var, indices));
+	 dfaFree(dfa);dfa = NULL;
+	 dfaFree(dfa2);dfa2 = NULL;
+	 dfaFree(result);result = NULL;
+	 for (i = 0; i < strlen(alphaC); i++)
+	 free(set[i]);
+	 free(set);set = NULL;
+	 for (i = 0; i < strlen(alphaS); i++)
+	 free(set2[i]);
+	 free(set2); set2 = NULL;
+	 printf("6th passed\n\n\n");
+
+
+	 alphaC = lowerCase? " 0@P!1AQ" : " 0\"2`pbr";
+	 alphaS = lowerCase? " 0@p!1aq" : " 0\"2`PBR";
+	 set = (char**) malloc((strlen(alphaC)) * sizeof(char*));
+	 for(i = 0; i < strlen(alphaC); i++){
+	 set[i] = (char*) malloc(2 * sizeof(char));
+	 set[i][0] = alphaC[i]; set[i][1] = '\0';
+	 printf("%s, ", set[i]);
+	 }
+	 printf("\n");
+	 set2 = (char**) malloc((strlen(alphaS)) * sizeof(char*));
+	 for(i = 0; i < strlen(alphaS); i++){
+	 set2[i] = (char*) malloc(2 * sizeof(char));
+	 set2[i][0] = alphaS[i]; set2[i][1] = '\0';
+	 printf("%s, ", set2[i]);
+	 }
+	 printf("\n");
+	 dfa = dfa_construct_set_of_strings(set, strlen(alphaC), var, indices);
+	 dfaPrintGraphviz(dfa, var, indices);
+	 dfa2 = dfa_construct_set_of_strings(set2, strlen(alphaS), var, indices);
+	 dfaPrintGraphviz(dfa2, var, indices);
+	 result = lowerCase? dfaToLowerCase(dfa, var, indices) : dfaToUpperCase(dfa, var, indices);
+	 dfaPrintGraphviz(result, var, indices);
+	 assert(check_equivalence(dfa2, result, var, indices));
+	 dfaFree(dfa);dfa = NULL;
+	 dfaFree(dfa2);dfa2 = NULL;
+	 dfaFree(result);result = NULL;
+	 for (i = 0; i < strlen(alphaC); i++)
+	 free(set[i]);
+	 free(set);set = NULL;
+	 for (i = 0; i < strlen(alphaS); i++)
+	 free(set2[i]);
+	 free(set2); set2 = NULL;
+	 printf("7th passed\n\n\n");
+	 */
 }
 
-void testToLowerUpperCase(){
+void testToLowerUpperCase() {
 	testToLowerUpperCaseHelper(TRUE);
 	testToLowerUpperCaseHelper(FALSE);
 }
 
+void testLeftTrim() {
+	/*
+	 int* indices_main = (int *) allocateAscIIIndexWithExtraBit(NUM_ASCII_TRACKS);
+	 int var = NUM_ASCII_TRACKS;
+	 int i, j, k;
+	 char* trimmeds;
+	 DFA* trimmed, *dfaString;
 
-void testLeftTrim(){
-    /*
-     int* indices_main = (int *) allocateAscIIIndexWithExtraBit(NUM_ASCII_TRACKS);
-     int var = NUM_ASCII_TRACKS;
-     int i, j, k;
-     char* trimmeds;
-     DFA* trimmed, *dfaString;
-     
-     
-     printf("running testLeftTrim()\n\n");
-     
-     dfaSetup(5, var, indices_main);
-     
-     //s0
-     dfaAllocExceptions(1);
-     dfaStoreException(1, "XXXXXXXX");
-     dfaStoreState(4);
-     
-     //s1
-     dfaAllocExceptions(1);
-     dfaStoreException(2, "00100000");
-     dfaStoreState(4);
-     
-     //s2
-     dfaAllocExceptions(1);
-     dfaStoreException(3, "01100001");
-     dfaStoreState(4);
-     
-     //s3
-     dfaAllocExceptions(0);
-     dfaStoreState(4);
-     
-     //s4 - sink
-     dfaAllocExceptions(0);
-     dfaStoreState(4);
-     
-     DFA* dfa = dfaBuild("000+-");
-     
-     printf("dfaBeforeTrim:\n");
-     dfaPrintGraphviz(dfa, var, indices_main);
-     
-     trimmed = dfaLeftTrim(dfa, ' ', var, indices_main);
-     printf("dfaAfterTrim:\n");
-     dfaPrintGraphviz(trimmed, var, indices_main);
-     dfaFree(dfa);
-     dfaFree(trimmed);
-     
-     printf("test1 passed\n\n\n");
-     
-     dfaSetup(1, var, indices_main);
-     dfaAllocExceptions(0);
-     dfaStoreState(0);
-     DFA* empty = dfaBuild("-");
-     printf("dfaBeforeTrim:\n");
-     dfaPrintGraphviz(empty, var, indices_main);
-     trimmed = dfaLeftTrim(empty, ' ', var, indices_main);
-     printf("dfaAfterTrim:\n");
-     dfaPrintGraphviz(trimmed, var, indices_main);
-     dfaFree(empty);
-     dfaFree(trimmed);
-     
-     printf("test2 passed\n\n\n");
-     
-     
-     DFA* aSpaceb = dfa_construct_string("a b", var, indices_main);
-     printf("dfaBeforeTrim:\n");
-     dfaPrintGraphviz(aSpaceb, var, indices_main);
-     trimmed = dfaLeftTrim(aSpaceb, "00100000", var, indices_main);
-     printf("dfaAfterTrim:\n");
-     dfaPrintGraphviz(trimmed, var, indices_main);
-     assert(check_equivalence(aSpaceb, trimmed, var, indices_main));
-     dfaFree(aSpaceb);
-     dfaFree(trimmed);
-     
-     printf("test3 passed\n\n\n");
-     
-     
-     char** chars = (char**)malloc(256 * sizeof(char*));
-     for (i = 0; i < 256; i++){
-     chars[i] = bintostr((char)i, var);
-     }
-     
-     dfaSetup(9, var, indices_main);
-     
-     //s0
-     dfaAllocExceptions(2);
-     dfaStoreException(1, "X0X0X0X0");
-     dfaStoreException(6, chars['a']);
-     dfaStoreState(8);
-     
-     //s1
-     dfaAllocExceptions(2);
-     dfaStoreException(2, "XX10XX00");
-     dfaStoreException(0, chars['a']);
-     dfaStoreState(8);
-     
-     //s2
-     dfaAllocExceptions(2);
-     dfaStoreException(3, "XXX0XXX0");
-     dfaStoreException(1, chars['A']);
-     dfaStoreState(8);
-     
-     //s3
-     dfaAllocExceptions(3);
-     dfaStoreException(1, chars['A']);
-     dfaStoreException(0, "0010XXXX");
-     dfaStoreException(4, chars['a']);
-     dfaStoreState(8);
-     
-     //s4
-     dfaAllocExceptions(1);
-     dfaStoreException(5, chars['b']);
-     dfaStoreState(8);
-     
-     //s5
-     dfaAllocExceptions(1);
-     dfaStoreException(0, chars['b']);
-     dfaStoreState(8);
-     
-     //s6
-     dfaAllocExceptions(2);
-     dfaStoreException(7, chars['b']);
-     dfaStoreException(7, chars[' ']);
-     dfaStoreState(8);
-     
-     //s7
-     dfaAllocExceptions(1);
-     dfaStoreException(0, chars['z']);
-     dfaStoreState(8);
-     
-     //s8 - sink
-     dfaAllocExceptions(0);
-     dfaStoreState(8);
-     
-     DFA* complex = dfaBuild("-----+---");
-     printf("dfaBeforeTrim:\n");
-     dfaPrintGraphviz(complex, var, indices_main);
-     
-     char* testStringsBase[] = {"*,J#   ab", "(lb+   ab", "\"d@    ab", "* n-   ab", "* n    ab", "(  %   ab", "(      ab", "*l     ab", "*l )   ab",
-     "*,J#*  ab", "(lb+ l ab", "\"d@   @ab", "* n-   ab", "* n    ab", "(  %   ab", "(      ab", "*l     ab", "*l )   ab",
-     "*lJab"    , "(lbab"    , "\"d@ab"    , "* nab"    ,              "(  ab"    , "(  ab"    , "*l ab"                  };
-     int size = 25;
-     for (i = 0; i < size; i++){
-     printf("%s\n", testStringsBase[i]);
-     flush_output();
-     dfaString = dfa_construct_string(testStringsBase[i], var, indices_main);
-     assert(check_inclusion(dfaString, complex, var, indices_main));
-     dfaFree(dfaString);
-     assert(checkMembership(complex, testStringsBase[i], var, indices_main));
-     }
-     printf("\n");
-     
-     char** testStrings1 = (char**) malloc(size * sizeof(char*));
-     for (j = 0; j < 3; j++ ){
-     printf("\n\nnumber of spaces is %d\n\n", (j+1));
-     for (i = 0; i < size; i++){
-     testStrings1[i] = (char*) malloc( ( strlen( testStringsBase[i] ) + 1) * sizeof(char));
-     strcpy(testStrings1[i], testStringsBase[i]);
-     for(k = 0; k <= j; k++)
-     testStrings1[i][k] = ' ';
-     printf("%s\n", testStrings1[i]);
-     flush_output();
-     dfaString = dfa_construct_string(testStrings1[i], var, indices_main);
-     assert(check_inclusion(dfaString, complex, var, indices_main));
-     dfaFree(dfaString);
-     assert(checkMembership(complex, testStrings1[i], var, indices_main));
-     free(testStrings1[i]);
-     }
-     }
-     free(testStrings1);
-     
-     
-     trimmed = dfaLeftTrim(complex, ' ', var, indices_main);
-     printf("dfaAfterTrim:\n");
-     dfaPrintGraphviz(trimmed, var, indices_main);
-     
-     for (i = 0; i < size; i++){
-     printf("%s\n", testStringsBase[i]);
-     flush_output();
-     dfaString = dfa_construct_string(testStringsBase[i], var, indices_main);
-     assert(check_inclusion(dfaString, trimmed, var, indices_main));
-     dfaFree(dfa_construct_string(testStringsBase[i], var, indices_main));
-     assert(checkMembership(trimmed, testStringsBase[i], var, indices_main));
-     }
-     printf("\n");
-     
-     testStrings1 = (char**) malloc(size * sizeof(char*));
-     for (j = 0; j < 3; j++ ){
-     printf("\n\nnumber of spaces is %d\n\n", (j+1));
-     for (i = 0; i < size; i++){
-     testStrings1[i] = (char*) malloc( ( strlen( testStringsBase[i] ) + 1) * sizeof(char));
-     strcpy(testStrings1[i], testStringsBase[i]);
-     for(k = 0; k <= j; k++)
-     testStrings1[i][k] = ' ';
-     printf("%s\t\t--\t\t", testStrings1[i]);
-     flush_output();
-     dfaString = dfa_construct_string(testStrings1[i], var, indices_main);
-     assert(!check_inclusion(dfaString, trimmed, var, indices_main));
-     dfaFree(dfaString);
-     assert(!checkMembership(trimmed, testStrings1[i], var, indices_main));
-     trimmeds = (char*) malloc( (strlen(testStrings1[i]) + 1) * sizeof(char) );
-     trimwhitespace(trimmeds, strlen(testStrings1[i])+1, testStrings1[i]);
-     printf("%s\n", trimmeds);
-     flush_output();
-     dfaString = dfa_construct_string(trimmeds, var, indices_main);
-     assert(check_inclusion(dfaString, trimmed, var, indices_main));
-     dfaFree(dfaString);
-     assert(checkMembership(trimmed, trimmeds, var, indices_main));
-     free(trimmeds);
-     free(testStrings1[i]);
-     }
-     }
-     free(testStrings1);
-     
-     dfaFree(complex);
-     dfaFree(trimmed);
-     
-     for (i = 0; i < 256; i++)
-     free(chars[i]);
-     free(chars);
-     */
-    
+
+	 printf("running testLeftTrim()\n\n");
+
+	 dfaSetup(5, var, indices_main);
+
+	 //s0
+	 dfaAllocExceptions(1);
+	 dfaStoreException(1, "XXXXXXXX");
+	 dfaStoreState(4);
+
+	 //s1
+	 dfaAllocExceptions(1);
+	 dfaStoreException(2, "00100000");
+	 dfaStoreState(4);
+
+	 //s2
+	 dfaAllocExceptions(1);
+	 dfaStoreException(3, "01100001");
+	 dfaStoreState(4);
+
+	 //s3
+	 dfaAllocExceptions(0);
+	 dfaStoreState(4);
+
+	 //s4 - sink
+	 dfaAllocExceptions(0);
+	 dfaStoreState(4);
+
+	 DFA* dfa = dfaBuild("000+-");
+
+	 printf("dfaBeforeTrim:\n");
+	 dfaPrintGraphviz(dfa, var, indices_main);
+
+	 trimmed = dfaLeftTrim(dfa, ' ', var, indices_main);
+	 printf("dfaAfterTrim:\n");
+	 dfaPrintGraphviz(trimmed, var, indices_main);
+	 dfaFree(dfa);
+	 dfaFree(trimmed);
+
+	 printf("test1 passed\n\n\n");
+
+	 dfaSetup(1, var, indices_main);
+	 dfaAllocExceptions(0);
+	 dfaStoreState(0);
+	 DFA* empty = dfaBuild("-");
+	 printf("dfaBeforeTrim:\n");
+	 dfaPrintGraphviz(empty, var, indices_main);
+	 trimmed = dfaLeftTrim(empty, ' ', var, indices_main);
+	 printf("dfaAfterTrim:\n");
+	 dfaPrintGraphviz(trimmed, var, indices_main);
+	 dfaFree(empty);
+	 dfaFree(trimmed);
+
+	 printf("test2 passed\n\n\n");
+
+
+	 DFA* aSpaceb = dfa_construct_string("a b", var, indices_main);
+	 printf("dfaBeforeTrim:\n");
+	 dfaPrintGraphviz(aSpaceb, var, indices_main);
+	 trimmed = dfaLeftTrim(aSpaceb, "00100000", var, indices_main);
+	 printf("dfaAfterTrim:\n");
+	 dfaPrintGraphviz(trimmed, var, indices_main);
+	 assert(check_equivalence(aSpaceb, trimmed, var, indices_main));
+	 dfaFree(aSpaceb);
+	 dfaFree(trimmed);
+
+	 printf("test3 passed\n\n\n");
+
+
+	 char** chars = (char**)malloc(256 * sizeof(char*));
+	 for (i = 0; i < 256; i++){
+	 chars[i] = bintostr((char)i, var);
+	 }
+
+	 dfaSetup(9, var, indices_main);
+
+	 //s0
+	 dfaAllocExceptions(2);
+	 dfaStoreException(1, "X0X0X0X0");
+	 dfaStoreException(6, chars['a']);
+	 dfaStoreState(8);
+
+	 //s1
+	 dfaAllocExceptions(2);
+	 dfaStoreException(2, "XX10XX00");
+	 dfaStoreException(0, chars['a']);
+	 dfaStoreState(8);
+
+	 //s2
+	 dfaAllocExceptions(2);
+	 dfaStoreException(3, "XXX0XXX0");
+	 dfaStoreException(1, chars['A']);
+	 dfaStoreState(8);
+
+	 //s3
+	 dfaAllocExceptions(3);
+	 dfaStoreException(1, chars['A']);
+	 dfaStoreException(0, "0010XXXX");
+	 dfaStoreException(4, chars['a']);
+	 dfaStoreState(8);
+
+	 //s4
+	 dfaAllocExceptions(1);
+	 dfaStoreException(5, chars['b']);
+	 dfaStoreState(8);
+
+	 //s5
+	 dfaAllocExceptions(1);
+	 dfaStoreException(0, chars['b']);
+	 dfaStoreState(8);
+
+	 //s6
+	 dfaAllocExceptions(2);
+	 dfaStoreException(7, chars['b']);
+	 dfaStoreException(7, chars[' ']);
+	 dfaStoreState(8);
+
+	 //s7
+	 dfaAllocExceptions(1);
+	 dfaStoreException(0, chars['z']);
+	 dfaStoreState(8);
+
+	 //s8 - sink
+	 dfaAllocExceptions(0);
+	 dfaStoreState(8);
+
+	 DFA* complex = dfaBuild("-----+---");
+	 printf("dfaBeforeTrim:\n");
+	 dfaPrintGraphviz(complex, var, indices_main);
+
+	 char* testStringsBase[] = {"*,J#   ab", "(lb+   ab", "\"d@    ab", "* n-   ab", "* n    ab", "(  %   ab", "(      ab", "*l     ab", "*l )   ab",
+	 "*,J#*  ab", "(lb+ l ab", "\"d@   @ab", "* n-   ab", "* n    ab", "(  %   ab", "(      ab", "*l     ab", "*l )   ab",
+	 "*lJab"    , "(lbab"    , "\"d@ab"    , "* nab"    ,              "(  ab"    , "(  ab"    , "*l ab"                  };
+	 int size = 25;
+	 for (i = 0; i < size; i++){
+	 printf("%s\n", testStringsBase[i]);
+	 flush_output();
+	 dfaString = dfa_construct_string(testStringsBase[i], var, indices_main);
+	 assert(check_inclusion(dfaString, complex, var, indices_main));
+	 dfaFree(dfaString);
+	 assert(checkMembership(complex, testStringsBase[i], var, indices_main));
+	 }
+	 printf("\n");
+
+	 char** testStrings1 = (char**) malloc(size * sizeof(char*));
+	 for (j = 0; j < 3; j++ ){
+	 printf("\n\nnumber of spaces is %d\n\n", (j+1));
+	 for (i = 0; i < size; i++){
+	 testStrings1[i] = (char*) malloc( ( strlen( testStringsBase[i] ) + 1) * sizeof(char));
+	 strcpy(testStrings1[i], testStringsBase[i]);
+	 for(k = 0; k <= j; k++)
+	 testStrings1[i][k] = ' ';
+	 printf("%s\n", testStrings1[i]);
+	 flush_output();
+	 dfaString = dfa_construct_string(testStrings1[i], var, indices_main);
+	 assert(check_inclusion(dfaString, complex, var, indices_main));
+	 dfaFree(dfaString);
+	 assert(checkMembership(complex, testStrings1[i], var, indices_main));
+	 free(testStrings1[i]);
+	 }
+	 }
+	 free(testStrings1);
+
+
+	 trimmed = dfaLeftTrim(complex, ' ', var, indices_main);
+	 printf("dfaAfterTrim:\n");
+	 dfaPrintGraphviz(trimmed, var, indices_main);
+
+	 for (i = 0; i < size; i++){
+	 printf("%s\n", testStringsBase[i]);
+	 flush_output();
+	 dfaString = dfa_construct_string(testStringsBase[i], var, indices_main);
+	 assert(check_inclusion(dfaString, trimmed, var, indices_main));
+	 dfaFree(dfa_construct_string(testStringsBase[i], var, indices_main));
+	 assert(checkMembership(trimmed, testStringsBase[i], var, indices_main));
+	 }
+	 printf("\n");
+
+	 testStrings1 = (char**) malloc(size * sizeof(char*));
+	 for (j = 0; j < 3; j++ ){
+	 printf("\n\nnumber of spaces is %d\n\n", (j+1));
+	 for (i = 0; i < size; i++){
+	 testStrings1[i] = (char*) malloc( ( strlen( testStringsBase[i] ) + 1) * sizeof(char));
+	 strcpy(testStrings1[i], testStringsBase[i]);
+	 for(k = 0; k <= j; k++)
+	 testStrings1[i][k] = ' ';
+	 printf("%s\t\t--\t\t", testStrings1[i]);
+	 flush_output();
+	 dfaString = dfa_construct_string(testStrings1[i], var, indices_main);
+	 assert(!check_inclusion(dfaString, trimmed, var, indices_main));
+	 dfaFree(dfaString);
+	 assert(!checkMembership(trimmed, testStrings1[i], var, indices_main));
+	 trimmeds = (char*) malloc( (strlen(testStrings1[i]) + 1) * sizeof(char) );
+	 trimwhitespace(trimmeds, strlen(testStrings1[i])+1, testStrings1[i]);
+	 printf("%s\n", trimmeds);
+	 flush_output();
+	 dfaString = dfa_construct_string(trimmeds, var, indices_main);
+	 assert(check_inclusion(dfaString, trimmed, var, indices_main));
+	 dfaFree(dfaString);
+	 assert(checkMembership(trimmed, trimmeds, var, indices_main));
+	 free(trimmeds);
+	 free(testStrings1[i]);
+	 }
+	 }
+	 free(testStrings1);
+
+	 dfaFree(complex);
+	 dfaFree(trimmed);
+
+	 for (i = 0; i < 256; i++)
+	 free(chars[i]);
+	 free(chars);
+	 */
+
 }
 
-
-
-
-DFA *test_project(DFA *M, int var, int *oldindices, int len, int fast){
-    DFA *result = NULL;
+DFA *test_project(DFA *M, int var, int *oldindices, int len, int fast) {
+	DFA *result = NULL;
 	paths state_paths, pp;
 	trace_descr tp;
-    
+
 	int i, j, k;
-    
+
 	char *exeps;
 	int *to_states;
 	long max_exeps;
 	char *statuces;
 	int sink;
-    
+
 	char *symbol;
-    
-  	int *indices = allocateArbitraryIndex(len); //indices is updated if you need to add auxiliary bits
-    
+
+	int *indices = allocateArbitraryIndex(len); //indices is updated if you need to add auxiliary bits
+
 	symbol = (char *) malloc((var + 1) * sizeof(char));
-    
+
 	max_exeps = 1 << len; //maybe exponential
 	sink = find_sink(M);
 	assert(sink > -1);
-    
+
 	dfaSetup(M->ns, len, indices); //add one new accept state
 	exeps = (char *) malloc(max_exeps * (len + 1) * sizeof(char)); //plus 1 for \0 end of the string
 	to_states = (int *) malloc(max_exeps * sizeof(int));
 	statuces = (char *) malloc((M->ns + 1) * sizeof(char)); //plus 2, one for the new accept state and one for \0 end of the string
-    
+
 	// for each original state
 	for (i = 0; i < M->ns; i++) {
 		state_paths = pp = make_paths(M->bddm, M->q[i]);
@@ -6211,9 +6032,9 @@ DFA *test_project(DFA *M, int var, int *oldindices, int len, int fast){
 				for (j = 0; j < var; j++) {
 					//the following for loop can be avoided if the indices are in order
 					for (tp = pp->trace; tp && (tp->index != indices[j]); tp =
-                         tp->next)
+							tp->next)
 						;
-                    
+
 					if (tp) {
 						if (tp->value)
 							symbol[j] = '1';
@@ -6223,86 +6044,325 @@ DFA *test_project(DFA *M, int var, int *oldindices, int len, int fast){
 						symbol[j] = 'X';
 				}
 				symbol[var] = '\0';
-                
-                to_states[k] = pp->to; // destination new accept state
-                for (j = 0; j < var; j++)
-                    exeps[k * (len + 1) + j] = symbol[j];
-                for (j = var; j < len; j++)
-                    exeps[k * (len + 1) + j] = '0';
-                exeps[k * (len + 1) + len] = '\0';
-                k++;
-                
-                if (fast){
-                    int i1, i2, i3, i4, i5, i6, i7, i8;
-                    for (i1 = 0; i1 < 2; i1++)
-                        for (i2 = 0; i2 < 2; i2++)
-                            for (i3 = 0; i3 < 2; i3++)
-                                for (i4 = 0; i4 < 2; i4++)
-                                    for (i5 = 0; i5 < 2; i5++)
-                                        for (i6 = 0; i6 < 2; i6++)
-                                            for (i7 = 0; i7 < 2; i7++)
-                                                for (i8 = 0; i8 < 2; i8++){
-                                                    to_states[k] = pp->to; // destination new accept state
-                                                    for (j = 0; j < var; j++)
-                                                        exeps[k * (len + 1) + j] = symbol[j];
-                                                    if (i1 == 0) exeps[k * (len + 1) + var] = '0';
-                                                    else exeps[k * (len + 1) + var] = '1';
-                                                    if (i2 == 0) exeps[k * (len + 1) + var+1] = '0';
-                                                    else exeps[k * (len + 1) + var+1] = '1';
-                                                    if (i3 == 0) exeps[k * (len + 1) + var+2] = '0';
-                                                    else exeps[k * (len + 1) + var+2] = '1';
-                                                    if (i4 == 0) exeps[k * (len + 1) + var+3] = '0';
-                                                    else exeps[k * (len + 1) + var+3] = '1';
-                                                    if (i5 == 0) exeps[k * (len + 1) + var+4] = '0';
-                                                    else exeps[k * (len + 1) + var+4] = '1';
-                                                    if (i6 == 0) exeps[k * (len + 1) + var+5] = '0';
-                                                    else exeps[k * (len + 1) + var+5] = '1';
-                                                    if (i7 == 0) exeps[k * (len + 1) + var+6] = '0';
-                                                    else exeps[k * (len + 1) + var+6] = '1';
-                                                    if (i8 == 0) exeps[k * (len + 1) + var+7] = '0';
-                                                    else exeps[k * (len + 1) + var+7] = '1';
-                                                    exeps[k * (len + 1) + len] = '\0';
-                                                    k++;
-                                                }
-                }
-            }
+
+				to_states[k] = pp->to; // destination new accept state
+				for (j = 0; j < var; j++)
+					exeps[k * (len + 1) + j] = symbol[j];
+				for (j = var; j < len; j++)
+					exeps[k * (len + 1) + j] = '0';
+				exeps[k * (len + 1) + len] = '\0';
+				k++;
+
+				if (fast) {
+					int i1, i2, i3, i4, i5, i6, i7, i8;
+					for (i1 = 0; i1 < 2; i1++)
+						for (i2 = 0; i2 < 2; i2++)
+							for (i3 = 0; i3 < 2; i3++)
+								for (i4 = 0; i4 < 2; i4++)
+									for (i5 = 0; i5 < 2; i5++)
+										for (i6 = 0; i6 < 2; i6++)
+											for (i7 = 0; i7 < 2; i7++)
+												for (i8 = 0; i8 < 2; i8++) {
+													to_states[k] = pp->to; // destination new accept state
+													for (j = 0; j < var; j++)
+														exeps[k * (len + 1) + j] =
+																symbol[j];
+													if (i1 == 0)
+														exeps[k * (len + 1)
+																+ var] = '0';
+													else
+														exeps[k * (len + 1)
+																+ var] = '1';
+													if (i2 == 0)
+														exeps[k * (len + 1)
+																+ var + 1] =
+																'0';
+													else
+														exeps[k * (len + 1)
+																+ var + 1] =
+																'1';
+													if (i3 == 0)
+														exeps[k * (len + 1)
+																+ var + 2] =
+																'0';
+													else
+														exeps[k * (len + 1)
+																+ var + 2] =
+																'1';
+													if (i4 == 0)
+														exeps[k * (len + 1)
+																+ var + 3] =
+																'0';
+													else
+														exeps[k * (len + 1)
+																+ var + 3] =
+																'1';
+													if (i5 == 0)
+														exeps[k * (len + 1)
+																+ var + 4] =
+																'0';
+													else
+														exeps[k * (len + 1)
+																+ var + 4] =
+																'1';
+													if (i6 == 0)
+														exeps[k * (len + 1)
+																+ var + 5] =
+																'0';
+													else
+														exeps[k * (len + 1)
+																+ var + 5] =
+																'1';
+													if (i7 == 0)
+														exeps[k * (len + 1)
+																+ var + 6] =
+																'0';
+													else
+														exeps[k * (len + 1)
+																+ var + 6] =
+																'1';
+													if (i8 == 0)
+														exeps[k * (len + 1)
+																+ var + 7] =
+																'0';
+													else
+														exeps[k * (len + 1)
+																+ var + 7] =
+																'1';
+													exeps[k * (len + 1) + len] =
+															'\0';
+													k++;
+												}
+				}
+			}
 			pp = pp->next;
 		} //end while
-        
+
 		dfaAllocExceptions(k);
 		for (k--; k >= 0; k--)
 			dfaStoreException(to_states[k], exeps + k * (len + 1));
 		dfaStoreState(sink);
-        if (M->f[i] == 1)
-            statuces[i] = '+';
-        else
-            statuces[i] = '-';
-        
+		if (M->f[i] == 1)
+			statuces[i] = '+';
+		else
+			statuces[i] = '-';
+
 		kill_paths(state_paths);
 	} // end for each original state
-    //    assert(new_state_counter == (num_new_states - 1));
-    statuces[M->ns] = '\0';
+	  //    assert(new_state_counter == (num_new_states - 1));
+	statuces[M->ns] = '\0';
 	result = dfaBuild(statuces);
-    
-    for (j = var; j < len; j++){
-        DFA *tmp = dfaProject(result, j);
-        dfaFree(result);
-        result = dfaMinimize(tmp);
-        dfaFree(tmp);
-    }
-    //	printf("dfaAfterRightTrimBeforeMinimize\n");
-    //	dfaPrintGraphviz(result, len, indices);
+
+	for (j = var; j < len; j++) {
+		DFA *tmp = dfaProject(result, j);
+		dfaFree(result);
+		result = dfaMinimize(tmp);
+		dfaFree(tmp);
+	}
+	//	printf("dfaAfterRightTrimBeforeMinimize\n");
+	//	dfaPrintGraphviz(result, len, indices);
 	free(exeps);
 	//printf("FREE ToState\n");
 	free(to_states);
 	//printf("FREE STATUCES\n");
 	free(statuces);
-    free(indices);
-    
+	free(indices);
+
 	return result;
-    
+
 }
 
+int main(int argc, const char *argv[]) {
 
+	//Output verification result
+	FILE *fopen();
+	out = stdout;
 
+	//up to three DFAs as input
+	DFA *resultDFA = NULL;
+	DFA* M[3]; //up to three dfa used
+	int i, j;
+	int resultBool = -1; //unknown
+	int *offsets = NULL;
+	int* indices_main;
+    i = 1;
+	if (argv[i][1] == 'b') {
+		dfaOption |= MASK_CONSTRUCT;
+	} else if (argv[i][1] == 'u') {
+		dfaOption |= MASK_UNION;
+	} else if (argv[i][1] == 'i') {
+		dfaOption |= MASK_INTERSECT;
+	} else if (argv[i][1] == 'n') {
+		dfaOption |= MASK_NEGATE;
+	} else if (argv[i][1] == 'c') {
+		dfaOption |= MASK_CONCAT;
+	} else if (argv[i][1] == 'r') {
+		dfaOption |= MASK_REPLACE;
+	} else if (argv[i][1] == 't') {
+		dfaOption |= MASK_TEST;
+	} else if (argv[i][1] == 'v') {
+		offsets = (int *) malloc(sizeof(int) * NUMBEROFVARIABLES);
+		for (j = 0; j < NUMBEROFVARIABLES; j++)
+			offsets[j] = 0;
+		if (argv[i][2] == '1')
+			dfaOption |= MASK_EMPTYCHECK;
+		else if (argv[i][2] == '2')
+			dfaOption |= MASK_INTERCHECK;
+		else if (argv[i][2] == '3')
+			dfaOption |= MASK_EQUALCHECK;
+		else if (argv[i][2] == '4')
+			dfaOption |= MASK_INCLUDECHECK;
+	} else {
+		printf(" We intend to support the following DFA operations:");
+		printf(
+				"\n\t [-b OutputFileName InputFileName1]: output a DFA to OutputFileName from InputFileName1");
+		printf("\n\t [-t]: test");
+		printf(
+				"\n\t [-u OutputFileName InputFileName1 InputFileName2]: output UNION(InputFileName1, InputFileName2) to OutputFileName");
+		printf(
+				"\n\t [-i OutputFileName InputFileName1 InputFileName2]: output INTERSECT(InputFileName1, InputFileName2) to OutputFileName");
+		printf(
+				"\n\t [-n OutputFileName InputFileName1]: output NEGATE(InputFileName1) to OutputFileName");
+		printf(
+				"\n\t [-c OutputFileName InputFileName1 InputFileName2]: output CONCATENATE(InputFileName1, InputFileName2) to OutputFileName");
+		printf(
+				"\n\t [-r OutputFileName InputFileName1 InputFileName2 InputFileName3]: output REPLACE(InputFileName1, InputFileName2, InputFileName3) to OutputFileName");
+		printf(
+				"\n\n We also intend to support the following verification options:");
+		printf(
+				"\n\t [-v1 OutputFileName InputFileName1]: Check whether InputFileName1 is empty.");
+		printf(
+				"\n\t [-v2 OutputFileName InputFileName1 InputFileName2]: Check whether InputFileName1 and InputFileName2 are intersected.");
+		printf(
+				"\n\t [-v3 OutputFileName InputFileName1 InputFileName2]: Check whether InputFileName1 and InputFileName2 are equal.");
+		printf(
+				"\n\t [-v4 OutputFileName InputFileName1 InputFileName2]: Check whether InputFileName1 is included in InputFileName2.\n\n");
+		exit(1);
+	}
+
+	indices_main = allocateAscIIIndexWithExtraBit(NUM_ASCII_TRACKS);
+	switch (dfaOption) {
+	case MASK_CONSTRUCT:
+		//need to be implemented: reading a string from a file
+		resultDFA = dfa_construct_char('a', NUM_ASCII_TRACKS, indices_main);
+		break;
+	case MASK_TEST:
+		//dfa_test_pre_image(NUM_ASCII_TRACKS, indices_main);
+		dfa_test_strrchr(5); // WORKING :) - Reaching a fixed point! Assertion Proven!
+		dfa_test_gxine_ok(); // ERROR IN MONA - makebasic.c:41: failed invariant - please inform mona@brics.dk
+
+		dfa_test_gxine(); // ERROR IN MONA - makebasic.c:41: failed invariant - please inform mona@brics.dk
+
+		dfa_test_myez(); // ERROR IN MONA - makebasic.c:41: failed invariant - please inform mona@brics.dk
+
+		dfa_test_samba(); // ERROR IN MONA - makebasic.c:41: failed invariant - please inform mona@brics.dk
+
+		dfa_test_strlen(); // WORKING :) - Assertion Proven!
+
+		dfa_test_length(8, indices_main); // NOW ==> WORKING :) - Previously ==> ERROR : strange: ../stranger_lib.c:3035: getSemilinerSetCoefficients: Assertion `sink > -1' failed.
+
+		dfa_test_arith(2); // WORKING :)
+
+		dfa_test_basic(NUM_ASCII_TRACKS, indices_main); // WORKING :)
+		dfa_test_vul1(NUM_ASCII_TRACKS, indices_main); // ERROR IN MONA - makebasic.c:41: failed invariant - please inform mona@brics.dk
+		dfa_test_vul1_saint(NUM_ASCII_TRACKS, indices_main); // ERROR IN MONA - makebasic.c:41: failed invariant - please inform mona@brics.dk
+		dfa_test_vul2(NUM_ASCII_TRACKS, indices_main); // WORKING :)  (Vulnerable)
+		dfa_test_vul2_saint(NUM_ASCII_TRACKS, indices_main); // WORKING :)  (Secure)
+		dfa_test_vul3(NUM_ASCII_TRACKS, indices_main); // WORKING :)  (Vulnerable)
+		dfa_test_vul3_saint_fail(NUM_ASCII_TRACKS, indices_main); // WORKING :)  (Vulnerable)
+		dfa_test_vul3_saint(NUM_ASCII_TRACKS, indices_main); // WORKING :)  (Secure)
+		dfa_test_vul4(NUM_ASCII_TRACKS, indices_main); // WORKING :)  (Vulnerable)
+		dfa_test_vul4_saint(NUM_ASCII_TRACKS, indices_main); // ERROR IN MONA - makebasic.c:201: failed invariant - please inform mona@brics.dk
+		dfa_test_vul5(NUM_ASCII_TRACKS, indices_main); // WORKING :) Result1: Vulnerable! - Result2: Vulnerable! - Result3: Vulnerable!
+		dfa_test_vul5_saint(NUM_ASCII_TRACKS, indices_main); // ERROR IN MONA - makebasic.c:201: failed invariant - please inform mona@brics.dk
+		dfa_test_vul6(NUM_ASCII_TRACKS, indices_main); // ERROR IN MONA - makebasic.c:201: failed invariant - please inform mona@brics.dk
+		dfa_test_vul6_saint(NUM_ASCII_TRACKS, indices_main); // ERROR IN MONA - makebasic.c:201: failed invariant - please inform mona@brics.dk
+		dfa_test_multi_signature(NUM_ASCII_TRACKS, indices_main); // WORKING :)
+		dfa_test_multi_signature_vul03(NUM_ASCII_TRACKS, indices_main); // WORKING :)
+		dfa_test_multi_signature_vul05(NUM_ASCII_TRACKS, indices_main); // WORKING :)
+//		 	dfa_test_three_inputs_signature(NUM_ASCII_TRACKS, indices_main);
+
+		test_dfa_construct_from_automaton(NUM_ASCII_TRACKS, indices_main);
+
+		break;
+	case MASK_UNION:
+		M[0] = dfa_construct_string("foo", NUM_ASCII_TRACKS, indices_main);
+		M[1] = dfa_construct_string("bar", NUM_ASCII_TRACKS, indices_main);
+		resultDFA = dfa_union(M[0], M[1]);
+		break;
+	case MASK_INTERSECT:
+		M[0] = dfa_construct_string("foo", NUM_ASCII_TRACKS, indices_main);
+		M[1] = dfa_construct_string("bar", NUM_ASCII_TRACKS, indices_main);
+		resultDFA = dfa_intersect(M[0], M[1]);
+		break;
+	case MASK_NEGATE:
+		M[0] = dfa_construct_string("foo", NUM_ASCII_TRACKS, indices_main);
+		resultDFA = dfa_negate(M[0], NUM_ASCII_TRACKS, indices_main);
+		break;
+	case MASK_CONCAT:
+		M[0] = dfa_construct_string("foo", NUM_ASCII_TRACKS, indices_main);
+		M[1] = dfa_construct_string("bar", NUM_ASCII_TRACKS, indices_main);
+		resultDFA = dfa_concat(M[0], M[1], NUM_ASCII_TRACKS, indices_main);
+		break;
+	case MASK_REPLACE:
+		M[0] = dfa_construct_string("foo", NUM_ASCII_TRACKS, indices_main);
+		M[1] = dfa_construct_string("bar", NUM_ASCII_TRACKS, indices_main);
+		M[2] = dfa_construct_string("foobar", NUM_ASCII_TRACKS, indices_main);
+		resultDFA = dfa_replace(M[0], M[1], M[2],
+		NUM_ASCII_TRACKS, indices_main);
+		break;
+	case MASK_EMPTYCHECK:
+		M[0] = dfaASCIINonString(NUM_ASCII_TRACKS, indices_main);
+		resultBool = check_emptiness(M[0], NUM_ASCII_TRACKS, indices_main);
+		break;
+	case MASK_INTERCHECK:
+		M[0] = dfa_construct_string("foo", NUM_ASCII_TRACKS, indices_main);
+		char *foobar[2];
+		foobar[0]= "foo";
+		foobar[1]= "bar";
+		M[1] = dfa_construct_set_of_strings(foobar,2, NUM_ASCII_TRACKS, indices_main);
+		resultBool = check_intersection(M[0], M[1],
+				NUM_ASCII_TRACKS, indices_main);
+		break;
+	case MASK_EQUALCHECK:
+		M[0] = dfa_construct_string("foo", NUM_ASCII_TRACKS, indices_main);
+		M[1] = dfa_construct_string("foo", NUM_ASCII_TRACKS, indices_main);
+		resultBool = check_equivalence(M[0], M[1], NUM_ASCII_TRACKS,
+				indices_main);
+		break;
+	case MASK_INCLUDECHECK:
+
+		M[0] = dfa_construct_string("foo", NUM_ASCII_TRACKS, indices_main);
+		char *foobar2[2];
+		foobar2[0]= "foo";
+		foobar2[1]= "bar";
+		M[1] = dfa_construct_set_of_strings(foobar2,2, NUM_ASCII_TRACKS, indices_main);
+		resultBool = check_inclusion(M[0], M[1], NUM_ASCII_TRACKS, indices_main);
+		break;
+	}
+
+	if (dfaOption
+			& (MASK_CONSTRUCT | MASK_UNION | MASK_INTERSECT | MASK_NEGATE
+					| MASK_CONCAT | MASK_REPLACE)) {
+		dfaPrintVerbose(resultDFA);
+		dfaFree(resultDFA);
+	} else if (dfaOption
+			& (MASK_EMPTYCHECK | MASK_INTERCHECK | MASK_EQUALCHECK
+					| MASK_INCLUDECHECK)) {
+		if (resultBool > 0)
+			printf("\n Verification Result: True\n");
+		else if (resultBool == 0)
+			printf("\n Verification Result: False\n");
+		else
+			printf("\n Verification Result: Unknown\n");
+	}
+	//if(resultDFA) dfaFree(resultDFA);
+	free(indices_main);
+	printf(
+			"\n\n\n==================================================================\n");
+	printf("Test passed :)\n");
+	printf(
+			"==================================================================\n");
+	return resultBool;
+}
 

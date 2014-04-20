@@ -4,7 +4,8 @@
  *  Created on: Feb 13, 2014
  *      Author: muath
  */
-#include "stranger/stranger.h"
+#include <stranger/stranger.h>
+#include <stranger/stranger_lib_internal.h>
 /***********************************************************************************************
  /
  //This is the test prorgram for the following PHP codes
@@ -23,6 +24,25 @@
  ?>
 
  ********************************************************************************************************/
+void dfa_init_indices_map_coeffs(int* indices, int* map, int* coeffs,
+		int numVars) {
+	int i;
+
+	for (i = 0; i < numVars; i++) {
+		indices[i] = i;
+		indices[i + numVars] = i + numVars;
+		map[2 * i] = 2 * i + 1;
+		map[2 * i + 1] = 2 * i;
+		coeffs[2 * i] = 0;
+		coeffs[2 * i + 1] = 0;
+	}
+}
+
+void reset_coeffs(int* coeffs, int var) {
+	int i;
+	for (i = 0; i < 2 * var; i++)
+		coeffs[i] = 0;
+}
 
 //[^A-Za-z0-9 .-@:/]
 DFA *dfaSpecial2(int var, int *indices) {
@@ -116,7 +136,7 @@ DFA* construct_limit(DFA* M, int svar, int* sindices) {
 	return a;
 }
 
-void main(int argc, char**argv) {
+int main(int argc, char**argv) {
 	int var = 2; //0: attack.length, 2: limit
 	DFA* a; //an arithmetic automaton
 
@@ -207,4 +227,7 @@ void main(int argc, char**argv) {
 	dfaFree(stmp);
 	dfaFree(uL);
 	dfaFree(a);
+
+	return 0;
 }
+
