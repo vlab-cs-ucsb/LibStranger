@@ -133,7 +133,7 @@ the following two lines (27, 28) in mona source file DFA/makebasic.c and recompi
 // These two constants are used to allocate some static buffers. 
 // So they affect memory performance.
 #define MAX_EXCEPTION 50   /* change this to 2000. You can use a number as large as 2^MAX_VARIABLES */
-#define MAX_VARIABLES 10   /* change this to 30 for test_stranger.c to run. You can use any number you want. */
+#define MAX_VARIABLES 10   /* change this to 40 for test.c to run. You can use any number you want. */
 ```
 
 Read documentation in [stranger.h](src/stranger.h) to get an idea of LibStranger 
