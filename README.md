@@ -108,16 +108,25 @@ to get more involved with LibStranger you may need to include
 
 Test & Usage
 ============
-You can compile & run the simple test program [test_stranger.c](testprogram/test_stranger.c) 
+You can compile & run the test file [test.c](testprogram/test.c) 
 that comes with LibStranger to test stranger library. Here is how to compile and 
+run this program (see below to fix **invariant violation**):
+```bash
+$> cd testprogram
+$> gcc test.c -o test -l monabdd -l monadfa -l monamem -l stranger
+$> sudo ldconfig
+$> ./test -t
+```
+You can compile & run the simple test program [sample_analysis.c](testprogram/sample_analysis.c) 
+that comes with LibStranger to see how to use stranger library to analyze programs. Here is how to compile and 
 run this program (see next to fix **invariant violation**):
 ```bash
 $> cd testprogram
-$> gcc test_stranger.c -o test_stranger -l monabdd -l monadfa -l monamem -l stranger
+$> gcc sample_analysis.c -o sample_analysis -l monabdd -l monadfa -l monamem -l stranger
 $> sudo ldconfig
-$> ./test_stranger
+$> ./sample_analysis
 ```
-You may get a MONA invariant violation error message in make\_basic.c with provided [test_stranger.c](testprogram/test_stranger.c).
+You may get a MONA invariant violation error message in make\_basic.c with provided [sample_analysis.c](testprogram/sample_analysis.c).
 This is the result of not having enough number of BDD variables. To fix this edit 
 the following two lines (27, 28) in mona source file DFA/makebasic.c and recompile mona:
 ```c
@@ -129,5 +138,5 @@ the following two lines (27, 28) in mona source file DFA/makebasic.c and recompi
 
 Read documentation in [stranger.h](src/stranger.h) to get an idea of LibStranger 
 library interface and the different functions that can be called. You can look at 
-[test_stranger.c](testprogram/test_stranger.c) for examples on how to use LibStranger 
+[sample_analysis.c](testprogram/sample_analysis.c) for examples on how to use LibStranger 
 to analyze C and PHP programs.
