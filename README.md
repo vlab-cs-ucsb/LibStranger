@@ -19,7 +19,7 @@ to it. This guide will assume that you have a c compiler installed on your machi
 as gcc or clang. LibStranger also needs autotools to build it. To install these under
 Ubuntu Linux run the following:
 ```bash
-sudo apt-get install build-essential autoconf automake
+sudo apt-get install build-essential autoconf automake libtool
 ```
 LibStranger has been also tested under Mac OS X Mountain Lion and Mavericks.
 
