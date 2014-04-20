@@ -130,6 +130,7 @@ DFA *dfa_replace_delete(DFA *M, int var, int *oldindices)
 	      for (j = var; j < len; j++) { //set to xxxxxxxx100
 		exeps[k*(len+1)+j]=auxbit[len-j-1];
 	      }
+              exeps[k*(len+1)+len]='\0';
 	      k++;
 	    }
 	  }
