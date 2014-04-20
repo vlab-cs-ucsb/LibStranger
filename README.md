@@ -110,7 +110,7 @@ Test & Usage
 ============
 You can compile & run the simple test program [test_stranger.c](testprogram/test_stranger.c) 
 that comes with LibStranger to test stranger library. Here is how to compile and 
-run this program:
+run this program (see next if you get **buffer overflow**):
 ```bash
 $> cd testprogram
 $> gcc test_stranger.c -o test_stranger -l monabdd -l monadfa -l monamem -l stranger
