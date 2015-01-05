@@ -197,6 +197,8 @@ extern "C" {
     
     DFA *dfa_construct_range(char a, char b, int var, int *indices);
     
+
+    DFA* dfa_length_to_automaton(int length, int var, int* indices);
     /**
      Constructs and automaton that accepts any string s where |s| is in the
      set "lengths".
