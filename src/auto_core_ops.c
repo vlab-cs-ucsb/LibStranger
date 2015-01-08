@@ -835,48 +835,6 @@ DFA *dfa_construct_string_closure_extrabit(char *reg, int var, int *indices) {
 }
 
 /**
- * Returns a dfa that represents the length constraints
- */
-DFA* dfa_length_to_automaton(int length, int var, int* indices) {
-	int i, num_of_states;
-	char *statuces;
-	DFA *result = NULL;
-
-	if (length < 0) {
-		return dfaASCIINonString(var, indices);
-	} else if (length == 0) {
-		return dfaASCIIOnlyNullString(var, indices);
-	}
-
-	num_of_states = length + 2;
-	statuces=(char *)malloc((num_of_states+1)*sizeof(char));
-	dfaSetup(num_of_states, var, indices);
-
-	for (i = 0; i < length; i++) {
-        dfaAllocExceptions(0);
-        dfaStoreState(i+1);
-        statuces[i]='-';
-	}
-	// add accepting state
-	dfaAllocExceptions(0);
-	dfaStoreState(i+1);
-	statuces[i] = '+';
-
-	i++;
-	// add sink state
-    dfaAllocExceptions(0);
-    dfaStoreState(i);
-    statuces[i]='-';
-    statuces[num_of_states]='\0';
-
-    result=dfaBuild(statuces);
-    //dfaPrintVerbose(result);
-    free(statuces);
-    DFA *tmp = dfaMinimize(result);
-    dfaFree(result);
-    return tmp;
-}
-/**
  Constructs and automaton that accepts any string s where |s| is in the 
  set "lengths".
  Lengths must be a set of integers with at least one element.
@@ -4627,7 +4585,7 @@ DFA *dfa_restrict_by_unaryDFA(DFA *M, DFA* uL, int var, int *indices){
 	}
 	statuces[i] = '\0';
 	length = dfaBuild(statuces);
-	printf("\n\nlength auto:\n");
+//	printf("\n\nlength auto:\n");
 //	dfaPrintGraphvizAsciiRange(length, var, indices, 0);
 //	dfaPrintGraphviz(length, var, indices);
 	result = dfa_intersect(M, length);
