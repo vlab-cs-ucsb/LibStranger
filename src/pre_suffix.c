@@ -53,12 +53,16 @@ Fang 06/30/2008
 // A DFA that accepts everything within the length from c1 to c2
 //c2 = -1, indicates unbounded upperbound
 //c1 = -1, indicates unbounded lowerbound
-
+// baki: if c1 = -1 and c2 = -1 return phi
 DFA *dfaSigmaC1toC2(int c1, int c2, int var, int* indices){
 
   int i, n;
   char *statuces;
   DFA *result=NULL;
+
+  if (c1 <= -1 && c2 <= -1) {
+	  return dfaASCIINonString(var, indices);
+  }
 
   if(c2<=-1){ //accept everything after c1 steps
 
@@ -94,8 +98,7 @@ DFA *dfaSigmaC1toC2(int c1, int c2, int var, int* indices){
     statuces[i]='-'; //i==c2
     statuces[n]='\0'; //n==c1+1
 
-
-  }else {
+  } else {
 
     assert(c2>=c1);
     n=c2+2; //add one sink state
@@ -180,7 +183,7 @@ struct int_list_type *reachable_states_bounded_steps(DFA *M, int c1, int c2){
     nextlist = NULL;
   }
 
-  print_ilt(finallist);
+  //print_ilt(finallist);
   return finallist;
 }
 
@@ -322,7 +325,6 @@ DFA *dfa_Suffix(DFA *M, int c1, int c2, int var, int *oldindices)
 
 
   //	char *apath =bintostr(a, var);
-
   states = reachable_states_bounded_steps(M, c1, c2);
   maxCount = states->count;
 
