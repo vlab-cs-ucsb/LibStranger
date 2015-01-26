@@ -95,7 +95,6 @@ Backward Analysis
 //pos == 1, return the preimage of X for XL := X. XR
 //pos == 2. return the preimage of X for XL := XR. X
 DFA* dfa_pre_concat_const(DFA* ML, char* str, int pos, int var, int* indices){
-
   assert(1==pos || pos==2); //Computing pre-image for concatenation of two arguments
   DFA* Mtrans;
   DFA* result;
@@ -112,7 +111,6 @@ DFA* dfa_pre_concat_const(DFA* ML, char* str, int pos, int var, int* indices){
     if(_FANG_DFA_DEBUG) dfaPrintVerbose(result);
     dfaFree(pre);
 	 //return dfa_pre_concat(ML, dfa_construct_string(str, var, indices), pos, var, indices);
-
   }else if(pos==2){ //Approximation: Using LRR construction
     suf = dfa_concat_extrabit(dfa_construct_string(str, var, indices), Ma, var, indices);
     Mtrans = dfa_intersect(ML, suf);

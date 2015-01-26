@@ -477,8 +477,9 @@ bool dfa_to_graph(DFA *M)
     j=0;
     for (i=1; i<numOfEdges; i++)
         if (edgeTab[j].tail==edgeTab[i].tail
-            && edgeTab[j].head==edgeTab[i].head)
-            ;
+            && edgeTab[j].head==edgeTab[i].head) {
+
+        }
         else
         {
             j++;
