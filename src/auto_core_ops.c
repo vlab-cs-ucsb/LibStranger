@@ -696,7 +696,7 @@ DFA *dfa_construct_char_extrabit(char a, int var, int *indices) {
 	free(binChar);
 	return dfaBuild("-+-");
 }
-
+//TODO baki finals is not terminated check for problems
 DFA *dfa_construct_string(char *reg, int var, int *indices) {
 	int i;
 	char *finals;
@@ -716,11 +716,12 @@ DFA *dfa_construct_string(char *reg, int var, int *indices) {
 	dfaAllocExceptions(0);
 	dfaStoreState(len + 1);
 	finals[len] = '+';
-	assert(len==i);
+	assert(len == i);
 	//sink state
 	dfaAllocExceptions(0);
 	dfaStoreState(len + 1);
 	finals[len + 1] = '-';
+
 	result = dfaBuild(finals);
 	free(finals);
 	return result;
@@ -1444,6 +1445,9 @@ DFA *dfa_concat_extrabit(M1, M2, var, indices)
 
 
 	//Considering empty string for concat
+	/**
+	 * Baki: added only empty string checks, watch for efficiency
+	 */
 	DFA *dfa_concat(M1, M2, var, indices)
 	     DFA *M1;
 	     DFA *M2;
@@ -1452,6 +1456,14 @@ DFA *dfa_concat_extrabit(M1, M2, var, indices)
 	{
 	  DFA *tmp0 = NULL;
 	  DFA *tmp1 = NULL;
+
+	  if (checkOnlyEmptyString(M1, var, indices)) {
+		  return dfaCopy(M2);
+	  }
+
+	  if (checkOnlyEmptyString(M2, var, indices)) {
+		  return dfaCopy(M1);
+	  }
 
 	  if(checkEmptyString(M2)){
 	    if(state_reachable(M2, M2->s, var, indices)){
@@ -1465,7 +1477,6 @@ DFA *dfa_concat_extrabit(M1, M2, var, indices)
 	    tmp1 = dfa_union(tmp0, M1);
 	    dfaFree(tmp0);
 	  }else{
-
 	    tmp1 = dfa_concat_extrabit(M1, M2, var, indices);
 	  }
 	  return tmp1;
@@ -4420,6 +4431,107 @@ int get_number_of_sharp1_state(struct int_list_type **pairs, int size) {
 //	return dfaMinimize(result);
 //}
 
+/**
+ * Baki
+ */
+DFA *dfaStringAutomatonL1toL2(int start, int end, int var, int* indices) {
+
+	int i, number_of_states;
+	char *statuces;
+	DFA *result=NULL;
+	char* sharp1 = NULL;
+	char* sharp0 = NULL;
+
+	if (start <= -1 && end <= -1) {
+	  return dfaASCIINonString(var, indices);
+	}
+
+	if ( start <= -1 ) {
+		start = 0; // -1 means no lower bound, zero is the minimum lower bound
+	}
+
+	if(end <= -1) { //accept everything after l1 steps
+
+		number_of_states = start + 2; // add one sink state
+		statuces=(char *)malloc( (number_of_states + 1)*sizeof(char) );
+		dfaSetup(number_of_states, var, indices);
+
+		//the 0 to start - 1 states(unaccepted)
+		for( i = 0; i < start; i++){
+			dfaAllocExceptions(2);
+			//char 255; //reserve word for sharp1
+			sharp1 = getSharp1(var);
+			dfaStoreException(number_of_states - 1, sharp1); // sink state is the number_of_states - 1
+			free(sharp1); sharp1 = NULL;
+			//char 254;
+			sharp0 = getSharp0(var);
+			dfaStoreException(number_of_states - 1, sharp0); // sink state is the number_of_states - 1
+			free(sharp0); sharp0 = NULL;
+
+			dfaStoreState(i + 1);
+			statuces[i] = '-';
+
+
+		}
+		// the start state
+		dfaAllocExceptions(2);
+		//char 255; //reserve word for sharp1
+		sharp1 = getSharp1(var);
+		dfaStoreException(number_of_states - 1, sharp1); // sink state is the number_of_states - 1
+		free(sharp1); sharp1 = NULL;
+		//char 254;
+		sharp0 = getSharp0(var);
+		dfaStoreException(number_of_states - 1, sharp0); // sink state is the number_of_states - 1
+		free(sharp0); sharp0 = NULL;
+
+		dfaStoreState(i); 		// i == start
+		statuces[i] = '+';		// i == start
+		i++;
+
+	} else {
+		assert( end >= start);
+
+		number_of_states = end + 2; // add one sink state
+		statuces=(char *)malloc( (number_of_states + 1)*sizeof(char) );
+		dfaSetup(number_of_states, var, indices);
+
+		//the start to end states(accepted)
+		for( i = 0; i <= end; i++){
+			dfaAllocExceptions(2);
+			//char 255; //reserve word for sharp1
+			sharp1 = getSharp1(var);
+			dfaStoreException(number_of_states - 1, sharp1); // sink state is the number_of_states - 1
+			free(sharp1); sharp1 = NULL;
+			//char 254;
+			sharp0 = getSharp0(var);
+			dfaStoreException(number_of_states - 1, sharp0); // sink state is the number_of_states - 1
+			free(sharp0); sharp0 = NULL;
+
+			dfaStoreState(i + 1);
+			if(i >= start) {
+				statuces[i] = '+';
+			} else {
+				statuces[i] = '-';
+			}
+		}
+	}
+
+	//the sink state
+	dfaAllocExceptions(0);
+	dfaStoreState(number_of_states - 1); 	// sink state
+	statuces[number_of_states - 1] = '-'; 	// i == end + 1 == number_of_states - 1
+	statuces[number_of_states] = '\0'; 		// number_of_states == end + 2
+
+	result=dfaBuild(statuces);
+	//dfaPrintVerbose(result);
+	free(statuces);
+	if(start == 0) result->f[result->s] = 1;
+	DFA *tmp = dfaMinimize(result);
+	dfaFree(result);
+	return tmp;
+}
+
+
 /************************************
 
  Composite Functions:
@@ -4665,7 +4777,7 @@ struct semilinear_type* getSemilinerSetCoefficients(DFA *M) {
 	nr = 0;
 	nc = 0;
 
-	//there is no cycle: construct {c1, c2, ..., c_n}
+	//there is no cycle: construct {l2, c2, ..., c_n}
 	if (flag == 0) {
 		if (M->f[i] == 1) {
 			tc[nc] = C;
@@ -4794,7 +4906,6 @@ int isLengthFinite(DFA* M, int var, int* indices){
 	free(s);
 	return result;
 }
-
 
 
 

@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Suite 500, Boston, MA 02110-1335,
  * USA.
  *
- * Authors: Fang Yu, Muath Alkhalaf
+ * Authors: Fang Yu, Muath Alkhalaf, Abdulbaki Aydin, Lucas Bang
  */
 
 #ifdef __cplusplus
@@ -317,6 +317,14 @@ extern "C" {
     int checkMembership(DFA* M, char* string, int var, int* indices);
     
     /**
+     * A string automaton that accepts anything between start and end
+     * start = -1 , no lower bound
+     * end = -1, no upper bound
+     * start = end = -1, non accepting automaton
+     * Baki
+     */
+    DFA *dfaStringAutomatonL1toL2(int start, int end, int var, int* indices);
+    /**
      * returns true (1) if {|w| < n: w elementOf L(M) && n elementOf Integers}
      * In other words length of all strings in the language is bounded by a value n
      */
@@ -343,7 +351,7 @@ extern "C" {
      * check if dfa accepts only empty string
      */
     int checkOnlyEmptyString(DFA *M, int var, int* indices);
-    
+
     // generating an example i.e. an element of L(M)
     // Could return null in case solution is empty string or there
     // is no solution
