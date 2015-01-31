@@ -363,6 +363,8 @@ extern "C" {
     void dfaPrintGraphvizAsciiRange(DFA *a, int no_free_vars, int *offsets, int printSink);
     void dfaPrintGraphvizAsciiRangeFile(DFA *a, const char *filename, int no_free_vars, int *offsets, int printSink);
     void dfaPrintGraphvizFile(DFA *a, const char *filename, int no_free_vars, unsigned *offsets);
+    void dfaExportBddTable(DFA *a, char *file_name, int var);
+    DFA *dfaImportBddTable(char* file_name, int var) ;
 
     // Outputs M` that represents the length of automaton M
     //Output M, so that L(M)={|w|| w \in L(M1)}

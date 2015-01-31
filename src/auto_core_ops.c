@@ -3855,6 +3855,38 @@ int get_number_of_sharp1_state(struct int_list_type **pairs, int size) {
 	return result;
 }
 
+/**
+ * Import Export functions
+ *
+ */
+
+void dfaExportBddTable(DFA *a, char *file_name, int var) {
+	  // order 0 for boolean variables
+	  char *orders = (char *) mem_alloc(sizeof(char) * var);
+	  // we dont care about variable names but they are used in
+	  // MONA DFA file format with dfaExport()
+	  char **varnames = (char **) mem_alloc(sizeof(char *) * var);
+	  // use dummy variable name for MONA file format
+	  char* dummy = "var";
+	  int i = 0;
+
+	  // order is 0 for boolean variables
+	  // variable names are dummy value "var"
+	  for(i = 0; i < var; i++){
+	    orders[i] = 0;
+	    varnames[i] = dummy;
+	  }
+	  // dfaExport returns 1 for save success 0 for save fail
+	  dfaExport(a, file_name, var, varnames, orders);
+}
+
+DFA *dfaImportBddTable(char* file_name, int var) {
+	char **varnames = (char **) mem_alloc(sizeof(char *) * var);
+	char ***varnames_ptr = &varnames;
+	int ** orders_ptr = (int **) mem_alloc(sizeof(int *) * var);
+	return dfaImport(file_name, varnames_ptr, orders_ptr);
+}
+
 //
 ///***************************************************
 //
