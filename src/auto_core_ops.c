@@ -2790,8 +2790,8 @@ DFA *M1;int var;int *indices; {
     
 	char *satisfyingexample = NULL;
 	int i;
-	unsigned *uindices = (unsigned *) malloc((var+1) * sizeof(unsigned));
-    
+//	unsigned *uindices = (unsigned *) malloc((var+1) * sizeof(unsigned));
+	unsigned *uindices = (unsigned *) calloc((var+1), sizeof(unsigned));
 	//conver int to unsigned
 	for (i = 0; i < var; i++)
 		uindices[i] = (indices[i] <= 0 ? 0 : indices[i]);

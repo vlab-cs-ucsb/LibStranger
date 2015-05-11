@@ -1039,7 +1039,7 @@ DFA *dfaWiden(DFA *a, DFA *d) {
 
 	//printf("# of b nodes after merge: %d\n",bdd_size(b->bddm));
 	//printf("# of c nodes after merge: %d\n",bdd_size(c->bddm));
-	//printf("MONA memory:%d\n",mem_allocated());
+//	printf("MONA memory:%d\n",mem_allocated());
 
 	for (i = 0; i < numClasses; i++) {
 		c->f[i] = -1;
