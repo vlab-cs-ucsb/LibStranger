@@ -444,6 +444,7 @@ extern "C" {
     void setPreciseWiden();
     void setCoarseWiden();
     void flush_output();
+    int get_bdd_size(DFA* M);
     DFA *test_project(DFA *M, int var, int *oldindices, int len, int fast);
     
     

@@ -2963,6 +2963,10 @@ int checkEmptyString(DFA *M){
   return ((M->f[M->s])==1) ? 1 : 0;
 }
 
+int get_bdd_size(DFA* M) {
+	return (int)bdd_size(M->bddm);
+}
+
 /*
  * check if dfa accepts only empty string
  */
