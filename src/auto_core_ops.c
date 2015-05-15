@@ -2875,8 +2875,9 @@ unsigned char strtobin(char* binChar, int var){
  * end Muath documentation
  */
 char *isSingleton(DFA *M, int var, int* indices){
+	flush_output();
     if (check_emptiness(M, var, indices))
-        return NULL;
+        return "__VLAB__NULL__";
     if (checkOnlyEmptyString(M, var, indices))
         return "";
 	paths state_paths, pp;
@@ -2886,6 +2887,7 @@ char *isSingleton(DFA *M, int var, int* indices){
 	char *result = (char*) calloc(M->ns, sizeof(char));
 //	char *symbol = (char*) malloc((var + 1) * sizeof(char));
 	char *symbol = (char*) calloc((var + 1), sizeof(char));
+//	char *NULL_STR = (char*) calloc(15, sizeof(char));
 	int sink = find_sink(M);
 	struct int_list_type *visited=NULL;
 	for (i = 0, current = 0, singleTransOut = TRUE; singleTransOut == TRUE && current != -1; current = next, i++){
@@ -2941,6 +2943,7 @@ char *isSingleton(DFA *M, int var, int* indices){
     if (visited != NULL)
         free_ilt(visited);
     free(symbol);
+
     if (singleTransOut == TRUE){
         assert(i < M->ns);
         result[i] = '\0';
@@ -2948,7 +2951,7 @@ char *isSingleton(DFA *M, int var, int* indices){
     }
     else{
         free(result);
-        return NULL;
+        return "__VLAB__NULL__";
     }
 }
 
