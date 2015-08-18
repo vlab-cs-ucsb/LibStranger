@@ -1157,8 +1157,14 @@ DFA *dfa_concat_extrabit(M1, M2, var, indices)
 		  if(pp->to!=sink2){
 
 			  added_to_states[k]=pp->to+shift;
-			  if(sink2>=0 && ((pp->to) > sink2)) added_to_states[k]--; //to new state, sink state will be eliminated and hence need -1
-			  if(initflag == 0 && ((pp->to)> M2->s)) added_to_states[k]--; // to new state, init state will be eliminated if init is not reachable
+			  if ( M2->s == pp->to) {
+			    // BAKI: avoid self loop bug
+			    // example (concat "a" /b*c/)
+			    added_to_states[k] -= 2;
+			  } else {
+			    if(sink2>=0 && ((pp->to) > sink2)) added_to_states[k]--; //to new state, sink state will be eliminated and hence need -1
+			    if(initflag == 0 && ((pp->to)> M2->s)) added_to_states[k]--; // to new state, init state will be eliminated if init is not reachable
+			  }
 
 
 			  for (j = 0; j < var; j++) {
@@ -1214,17 +1220,18 @@ DFA *dfa_concat_extrabit(M1, M2, var, indices)
 	      for(ka--;ka>=0;ka--)
 		dfaStoreException(added_to_states[ka],addedexeps+ka*(len+1));
 	      dfaStoreState(sink1);
-	      statuces[i]='-';
-	    }
-	    else{
+	      // BAKI: empty string acceptance on the right hand side
+        if ( M2->f[0] == 1 ) {
+          statuces[i] = '+';
+        } else {
+          statuces[i] = '-';
+        }
+	    } else{
 	      dfaAllocExceptions(k);
 	      for(k--;k>=0;k--)
 		dfaStoreException(to_states[k],exeps+k*(len+1));
 	      dfaStoreState(sink1);
-	      if(M1->f[i]==1 && M2->f[0]==1)
-		statuces[i]='+';
-	      else
-		statuces[i]='-';
+	      statuces[i]='-';
 	    }
 	    kill_paths(state_paths);
 	  }

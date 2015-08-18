@@ -245,6 +245,8 @@ extern "C" {
     // DO NOT USE THIS CONCAT. INSTEAD use dfa_concat. That one considers the empty string first then calls this one
     DFA *dfa_concat_extrabit(DFA *M1, DFA *M2, int var, int *indices);
     
+    DFA *dfa_shift_empty_M(DFA *M, int var, int *indices);
+
     //M1: subject automaton that replace will occur on
     //M2: search automaton representing the pattern that we will match against
     //str: the replace string
