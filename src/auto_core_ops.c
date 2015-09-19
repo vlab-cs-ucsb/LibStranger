@@ -3894,6 +3894,10 @@ DFA *dfaImportBddTable(char* file_name, int var) {
 	return dfaImport(file_name, varnames_ptr, orders_ptr);
 }
 
+void __export(bdd_manager *bddm, unsigned p, Table *table) {
+  export(bddm, p, table);
+}
+
 //
 ///***************************************************
 //

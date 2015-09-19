@@ -368,6 +368,8 @@ extern "C" {
     void dfaExportBddTable(DFA *a, char *file_name, int var);
     DFA *dfaImportBddTable(char* file_name, int var) ;
 
+    void __export(bdd_manager *bddm, unsigned p, Table *table);
+
     // Outputs M` that represents the length of automaton M
     //Output M, so that L(M)={|w|| w \in L(M1)}
     //Need to use extra bit to model NFA to DFA
@@ -451,6 +453,9 @@ extern "C" {
     
     int main_test (int argc, const char *argv[]);
     
+    // BAKI DEBUG
+    struct int_list_type *reachable_closure(DFA *M, int start, int var, int *indices);
+
 #endif
     
 #ifdef __cplusplus
