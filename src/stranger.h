@@ -262,6 +262,8 @@ extern "C" {
      */
     DFA *dfa_general_replace_extrabit(DFA* M1, DFA* M2, DFA* M3, int var, int* indices);
 
+    DFA *dfa_replace_step3_general_replace(DFA *M, DFA* Mr, int var, int *indices);
+
     DFA *dfa_closure_extrabit(DFA *M1,int var,int *indices); // added by Muath to be used by java StrangerLibrary
     
     DFA *dfaWiden(DFA *a, DFA *d); // added by Muath to be used by java StrangerLibrary
