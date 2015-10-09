@@ -9,7 +9,7 @@ libstranger_la_SOURCES = src/arithmetic.c src/auto_core_ops.c src/backward.c \
 libstranger_la_LDFLAGS = -version-info 0:1:0
 libstranger_la_LIBADD = $(MONADFALIB) $(MONABDDLIB) $(MONAMEMLIB) $(MLIB)
 libstranger_ladir = $(includedir)/stranger
-libstranger_la_HEADERS = src/stranger.h
+libstranger_la_HEADERS = src/stranger.h src/stranger_lib_internal.h
 
 MAINTAINERCLEANFILES = configure stamp-h.in makefile makefile.in aclocal.m4 \
 	  config.h.in config.log config.status build-aux/missing configure.lineno \
