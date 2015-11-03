@@ -394,6 +394,7 @@ extern "C" {
     // To get semilinear set for an auto M1 first get M = dfa_string_to_unaryDFA(M1) and then
     // pass the result M here
     struct semilinear_type* getSemilinerSetCoefficients(DFA *M);
+    DFA* dfa_semiliner_to_binaryDFA(struct semilinear_type *S);
     
     void print_semilinear_coefficients(struct semilinear_type* S);
     
